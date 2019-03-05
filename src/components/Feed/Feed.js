@@ -6,11 +6,11 @@ const Feed = (props) => {
 
     return (
 
-<Aux>
-        <Event/>
-        <Event/>
-        <Event/>
-</Aux>
+        <Aux>
+            <Event/>
+            <Event/>
+            <Event/>
+        </Aux>
 
     );
 };

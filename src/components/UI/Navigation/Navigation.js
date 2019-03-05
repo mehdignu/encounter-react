@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -10,12 +10,14 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import {fade} from '@material-ui/core/styles/colorManipulator';
 import {withStyles} from '@material-ui/core/styles';
-import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
+import NavMenu from './NavMenu/NavMenu';
+
+const drawerWidth = 240;
 
 const styles = theme => ({
     root: {
@@ -23,6 +25,12 @@ const styles = theme => ({
     },
     grow: {
         flexGrow: 1,
+    },
+    appBar: {
+        marginLeft: drawerWidth,
+        [theme.breakpoints.up('sm')]: {
+            width: `calc(100% - ${drawerWidth}px)`,
+        },
     },
     menuButton: {
         marginLeft: -12,
@@ -34,6 +42,7 @@ const styles = theme => ({
             display: 'block',
         },
     },
+
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
@@ -41,11 +50,10 @@ const styles = theme => ({
         '&:hover': {
             backgroundColor: fade(theme.palette.common.white, 0.25),
         },
-        marginRight: theme.spacing.unit * 2,
         marginLeft: 0,
         width: '100%',
         [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit * 3,
+            marginLeft: theme.spacing.unit,
             width: 'auto',
         },
     },
@@ -69,8 +77,11 @@ const styles = theme => ({
         paddingLeft: theme.spacing.unit * 10,
         transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: 200,
+        [theme.breakpoints.up('sm')]: {
+            width: 190,
+            '&:focus': {
+                width: 250,
+            },
         },
     },
     sectionDesktop: {
@@ -87,7 +98,7 @@ const styles = theme => ({
     },
 });
 
-class Navigation extends React.Component {
+class Navigation extends Component {
     state = {
         anchorEl: null,
         mobileMoreAnchorEl: null,
@@ -124,6 +135,7 @@ class Navigation extends React.Component {
                 open={isMenuOpen}
                 onClose={this.handleMenuClose}
             >
+
                 <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
                 <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
             </Menu>
@@ -164,17 +176,23 @@ class Navigation extends React.Component {
 
         return (
             <div className={classes.root}>
-                <AppBar position="static">
+
+                <AppBar position="fixed">
+
+
+
+
                     <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
-                            <MenuIcon/>
-                        </IconButton>
+
+                        <NavMenu/>
+
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                             Encounter
                         </Typography>
+                        <div className={classes.grow} />
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
-                                <SearchIcon/>
+                                <SearchIcon />
                             </div>
                             <InputBase
                                 placeholder="Search…"
