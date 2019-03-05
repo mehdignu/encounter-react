@@ -1,0 +1,18 @@
+import React from 'react';
+import Aux from '../../hoc/Aux';
+import Navigation from '../Navigation/Navigation';
+import classes from './Layout.scss';
+
+const layout = (props) => (
+
+    <Aux>
+
+        <Navigation/>
+
+        <main className={classes.Content}>
+            {props.children}
+        </main>
+    </Aux>
+);
+
+export default layout;
