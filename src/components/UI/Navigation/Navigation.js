@@ -180,8 +180,6 @@ class Navigation extends Component {
                 <AppBar position="fixed">
 
 
-
-
                     <Toolbar>
 
                         <NavMenu/>
@@ -189,10 +187,10 @@ class Navigation extends Component {
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap>
                             Encounter
                         </Typography>
-                        <div className={classes.grow} />
+                        <div className={classes.grow}/>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
-                                <SearchIcon />
+                                <SearchIcon/>
                             </div>
                             <InputBase
                                 placeholder="Search…"

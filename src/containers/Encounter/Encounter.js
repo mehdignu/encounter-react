@@ -26,7 +26,7 @@ function Encounter(props) {
 
                     <Grid item xs>
 
-                        Upcoming events
+
 
                     </Grid>
                 </Hidden>

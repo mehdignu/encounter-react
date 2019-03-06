@@ -10,6 +10,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
+import AddCircle from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
 const drawerWidth = 240;
@@ -61,6 +62,13 @@ class NavMenu extends React.Component {
             <div>
                 <Divider/>
                 <List>
+
+
+                    <ListItem button key={'create'}>
+                        <ListItemIcon><AddCircle/></ListItemIcon>
+                        <ListItemText primary={'create'}/>
+                    </ListItem>
+
                     {['Upcoming events', 'sent requests'].map((text, index) => (
                         <ListItem button key={text}>
                             <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>

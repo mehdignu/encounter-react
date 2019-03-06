@@ -17,7 +17,9 @@ import ShareIcon from '@material-ui/icons/Share';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
+import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
+import cls from './Event.scss';
 
 const styles = theme => ({
     card: {
@@ -57,6 +59,7 @@ const styles = theme => ({
     input: {
         display: 'none',
     },
+
 });
 
 class Event extends Component {
@@ -72,6 +75,10 @@ class Event extends Component {
         return (
 
             <Aux>
+                <Typography variant="h5" className={cls.eventDate}>
+                    13th February 2019
+                </Typography>
+                <hr align="left" />
 
                 <Card className={classes.card}>
                     <CardHeader
@@ -94,6 +101,10 @@ class Event extends Component {
                         title="Paella dish"
                     />
                     <CardContent>
+
+                        <Typography variant="h6" gutterBottom>
+                            Some cool event
+                        </Typography>
                         <Typography component="p">
                             This impressive paella is a perfect party dish and a fun meal to cook together with your
                             guests. Add 1 cup of frozen peas along with the mussels, if you like.
