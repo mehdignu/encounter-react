@@ -185,7 +185,8 @@ class Navigation extends Component {
 
                         <NavMenu/>
 
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap button component="a" href="/">
+                        <Typography className={classes.title} variant="h6" color="inherit" noWrap component="a"
+                                    href="/">
                             Encounter
                         </Typography>
 
