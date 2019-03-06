@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import {withStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
+import {Route, Switch} from "react-router-dom";
+import Create from "../../components/Create/Create";
+import Event from "../../components/Event/Event";
 
 const styles = theme => ({
     root: {
@@ -27,12 +30,16 @@ function Encounter(props) {
                     <Grid item xs>
 
 
-
                     </Grid>
                 </Hidden>
                 <Grid item xs>
 
-                    <Feed/>
+
+                    <Switch>
+                        <Route path="/event" component={Event}/>
+                        <Route path="/create" component={Create}/>
+                        <Route path="/" exact component={Feed}/>
+                    </Switch>
 
                 </Grid>
                 <Hidden smDown>

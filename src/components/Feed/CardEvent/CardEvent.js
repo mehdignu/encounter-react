@@ -19,7 +19,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import Button from '@material-ui/core/Button';
 import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
-import cls from './Event.scss';
+import cls from './CardEvent.scss';
 
 const styles = theme => ({
     card: {
@@ -62,7 +62,7 @@ const styles = theme => ({
 
 });
 
-class Event extends Component {
+class CardEvent extends Component {
     state = {expanded: false};
 
     handleExpandClick = () => {
@@ -78,7 +78,7 @@ class Event extends Component {
                 <Typography variant="h5" className={cls.eventDate}>
                     13th February 2019
                 </Typography>
-                <hr align="left" />
+                <hr align="left"/>
 
                 <Card className={classes.card}>
                     <CardHeader
@@ -130,9 +130,11 @@ class Event extends Component {
                         </IconButton>
 
                     </CardActions>
-                    <Button variant="contained" color="primary" className={classes.button}>
+
+                    <Button variant="contained" color="primary" className={classes.button} href="/event">
                         Join Event
                     </Button>
+
                     <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
                         <CardContent>
                             <Typography paragraph>Method:</Typography>
@@ -167,8 +169,8 @@ class Event extends Component {
     }
 }
 
-Event.propTypes = {
+CardEvent.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Event);
+export default withStyles(styles)(CardEvent);

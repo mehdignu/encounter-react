@@ -1,5 +1,5 @@
 import React from 'react';
-import Event from './Event/Event';
+import CardEvent from './CardEvent/CardEvent';
 import Aux from '../../hoc/Aux';
 
 const Feed = (props) => {
@@ -7,9 +7,9 @@ const Feed = (props) => {
     return (
 
         <Aux>
-            <Event/>
-            <Event/>
-            <Event/>
+            <CardEvent/>
+            <CardEvent/>
+            <CardEvent/>
         </Aux>
 
     );

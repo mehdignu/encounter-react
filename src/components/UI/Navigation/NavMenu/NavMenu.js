@@ -64,7 +64,7 @@ class NavMenu extends React.Component {
                 <List>
 
 
-                    <ListItem button key={'create'}>
+                    <ListItem button component="a" href="/create" key={'create'}>
                         <ListItemIcon><AddCircle/></ListItemIcon>
                         <ListItemText primary={'create'}/>
                     </ListItem>

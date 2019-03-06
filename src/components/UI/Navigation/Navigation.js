@@ -38,6 +38,7 @@ const styles = theme => ({
     },
     title: {
         display: 'none',
+        textDecoration: 'none',
         [theme.breakpoints.up('sm')]: {
             display: 'block',
         },
@@ -184,9 +185,10 @@ class Navigation extends Component {
 
                         <NavMenu/>
 
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                        <Typography className={classes.title} variant="h6" color="inherit" noWrap button component="a" href="/">
                             Encounter
                         </Typography>
+
                         <div className={classes.grow}/>
                         <div className={classes.search}>
                             <div className={classes.searchIcon}>
