@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
-import { withStyles } from '@material-ui/core/styles';
-import MenuItem from '@material-ui/core/MenuItem';
+import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Paper from "@material-ui/core/Paper";
 
 const styles = theme => ({
     container: {
@@ -13,7 +13,7 @@ const styles = theme => ({
     textField: {
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
-        width: 200,
+        width: '100%',
     },
     dense: {
         marginTop: 19,
@@ -21,26 +21,14 @@ const styles = theme => ({
     menu: {
         width: 200,
     },
+    root: {
+        padding: '2px 4px',
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+    },
 });
 
-const currencies = [
-    {
-        value: 'USD',
-        label: '$',
-    },
-    {
-        value: 'EUR',
-        label: '€',
-    },
-    {
-        value: 'BTC',
-        label: '฿',
-    },
-    {
-        value: 'JPY',
-        label: '¥',
-    },
-];
 
 class Create extends React.Component {
     state = {
@@ -51,44 +39,52 @@ class Create extends React.Component {
     };
 
     handleChange = name => event => {
-        this.setState({ [name]: event.target.value });
+        this.setState({[name]: event.target.value});
     };
 
     render() {
-        const { classes } = this.props;
+        const {classes} = this.props;
 
         return (
-            <form className={classes.container} noValidate autoComplete="off">
-
-                <TextField
-                    id="standard-name"
-                    label="Encounter title"
-                    className={classes.textField}
-                    value={this.state.name}
-                    onChange={this.handleChange('name')}
-                    margin="normal"
-                />
 
 
-                <TextField
-                    id="standard-name"
-                    label="Description"
-                    className={classes.textField}
-                    value={this.state.description}
-                    onChange={this.handleChange('description')}
-                    margin="normal"
-                />
+            <Paper className={classes.root} elevation={1}>
+                <form className={classes.container} noValidate autoComplete="off">
 
-                <TextField
-                    id="standard-name"
-                    label="Location"
-                    className={classes.textField}
-                    value={this.state.location}
-                    onChange={this.handleChange('location')}
-                    margin="normal"
-                />
+                    <TextField
+                        id="standard-name"
+                        label="Encounter title"
+                        className={classes.textField}
+                        value={this.state.name}
+                        onChange={this.handleChange('name')}
+                        margin="normal"
+                    />
 
-            </form>
+
+                    <TextField
+                        id="standard-name"
+                        label="Description"
+                        className={classes.textField}
+                        value={this.state.description}
+                        onChange={this.handleChange('description')}
+                        margin="normal"
+                    />
+
+                    <TextField
+                        id="standard-name"
+                        label="Location"
+                        className={classes.textField}
+                        value={this.state.location}
+                        onChange={this.handleChange('location')}
+                        margin="normal"
+                    />
+
+
+
+                </form>
+
+            </Paper>
+
         );
     }
 }
