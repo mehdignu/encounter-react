@@ -4,6 +4,10 @@ import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from "@material-ui/core/Paper";
+import Button from '@material-ui/core/Button';
+import MenuItem from "@material-ui/core/MenuItem";
+import Typography from '@material-ui/core/Typography';
+import cls from "../Feed/CardEvent/CardEvent.scss";
 
 const styles = theme => ({
     container: {
@@ -11,8 +15,9 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     textField: {
-        marginLeft: theme.spacing.unit,
+        marginLeft: theme.spacing.unit ,
         marginRight: theme.spacing.unit,
+        padding: theme.spacing.unit,
         width: '100%',
     },
     dense: {
@@ -27,20 +32,68 @@ const styles = theme => ({
         alignItems: 'center',
         width: '100%',
     },
+
+    button: {
+        margin: theme.spacing.unit,
+        width: '100%'
+    },
+    input: {
+        display: 'none',
+    },
+    headerNew: {
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%'
+
+    }
 });
 
+const ranges = [
+    {
+        value: '0-20',
+        label: '0 to 20',
+    },
+    {
+        value: '21-50',
+        label: '21 to 50',
+    },
+    {
+        value: '51-100',
+        label: '51 to 100',
+    },
+];
+
+const tags = [
+    {
+        value: 'Social',
+        label: 'social',
+    },
+    {
+        value: 'Sport',
+        label: 'Sport',
+    },
+    {
+        value: 'Hobby',
+        label: 'Hobby',
+    },
+];
 
 class Create extends React.Component {
     state = {
-        name: '',
-        age: '',
-        multiline: 'Controlled',
-        currency: 'EUR',
+        title: '',
+        description: '',
+        introduction: '',
+        maxim: '',
+        tag: '',
+        selectedDate:'2019-05-24T10:30',
+
     };
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
     };
+
+
 
     render() {
         const {classes} = this.props;
@@ -49,7 +102,14 @@ class Create extends React.Component {
 
 
             <Paper className={classes.root} elevation={1}>
+
+
+
                 <form className={classes.container} noValidate autoComplete="off">
+
+                    <Typography variant="h4" className={cls.headerNew}>
+                        Create new Encounter
+                    </Typography>
 
                     <TextField
                         id="standard-name"
@@ -60,6 +120,15 @@ class Create extends React.Component {
                         margin="normal"
                     />
 
+
+                    <TextField
+                        id="standard-name"
+                        label="Introduction"
+                        className={classes.textField}
+                        value={this.state.introduction}
+                        onChange={this.handleChange('introduction')}
+                        margin="normal"
+                    />
 
                     <TextField
                         id="standard-name"
@@ -79,7 +148,56 @@ class Create extends React.Component {
                         margin="normal"
                     />
 
+                    <TextField
+                        id="datetime-local"
+                        label="Date"
+                        type="datetime-local"
+                        defaultValue={this.state.selectedDate}
+                        className={classes.textField}
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
 
+                    <TextField
+                        select
+                        label="Number of people"
+                        className={classNames(classes.margin, classes.textField)}
+                        value={this.state.maxim}
+                        onChange={this.handleChange('maxim')}
+
+                    >
+                        {ranges.map(option => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+
+
+                    <TextField
+                        select
+                        label="Topic"
+                        className={classNames(classes.margin, classes.textField)}
+                        value={this.state.tag}
+                        onChange={this.handleChange('tag')}
+
+                    >
+                        {tags.map(option => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+
+
+                    <Button variant="contained" color="primary" className={classes.button}>
+                        Create
+                    </Button>
+
+                    <Button href="/" variant="outlined" color="primary" className={classes.button}>
+                        Back
+                    </Button>
 
                 </form>
 
