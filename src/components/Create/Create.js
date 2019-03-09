@@ -15,7 +15,7 @@ const styles = theme => ({
         flexWrap: 'wrap',
     },
     textField: {
-        marginLeft: theme.spacing.unit ,
+        marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         padding: theme.spacing.unit,
         width: '100%',
@@ -31,6 +31,7 @@ const styles = theme => ({
         display: 'flex',
         alignItems: 'center',
         width: '100%',
+        justifyContent: 'center',
     },
 
     button: {
@@ -85,14 +86,13 @@ class Create extends React.Component {
         introduction: '',
         maxim: '',
         tag: '',
-        selectedDate:'2019-05-24T10:30',
+        selectedDate: '2019-05-24T10:30',
 
     };
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
     };
-
 
 
     render() {
@@ -102,7 +102,6 @@ class Create extends React.Component {
 
 
             <Paper className={classes.root} elevation={1}>
-
 
 
                 <form className={classes.container} noValidate autoComplete="off">
@@ -118,6 +117,7 @@ class Create extends React.Component {
                         value={this.state.name}
                         onChange={this.handleChange('name')}
                         margin="normal"
+                        required={true}
                     />
 
 
@@ -128,6 +128,7 @@ class Create extends React.Component {
                         value={this.state.introduction}
                         onChange={this.handleChange('introduction')}
                         margin="normal"
+                        required
                     />
 
                     <TextField
@@ -146,6 +147,7 @@ class Create extends React.Component {
                         value={this.state.location}
                         onChange={this.handleChange('location')}
                         margin="normal"
+                        required
                     />
 
                     <TextField
@@ -157,6 +159,7 @@ class Create extends React.Component {
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        required
                     />
 
                     <TextField
@@ -165,6 +168,7 @@ class Create extends React.Component {
                         className={classNames(classes.margin, classes.textField)}
                         value={this.state.maxim}
                         onChange={this.handleChange('maxim')}
+                        required
 
                     >
                         {ranges.map(option => (
@@ -181,7 +185,7 @@ class Create extends React.Component {
                         className={classNames(classes.margin, classes.textField)}
                         value={this.state.tag}
                         onChange={this.handleChange('tag')}
-
+                        required
                     >
                         {tags.map(option => (
                             <MenuItem key={option.value} value={option.value}>
@@ -191,7 +195,7 @@ class Create extends React.Component {
                     </TextField>
 
 
-                    <Button variant="contained" color="primary" className={classes.button}>
+                    <Button type="submit" variant="contained" color="primary" className={classes.button}>
                         Create
                     </Button>
 
