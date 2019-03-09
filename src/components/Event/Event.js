@@ -10,31 +10,254 @@ const event = (props) => (
             <div className={cls.wrapper}>
 
 
-                <ul>
+                <ul className={cls.chatbox}>
 
                     <div className={cls.cont}>
-                            <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                                 className={cls.right}/>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
 
 
                         <div className={cls.userInfo}>
 
-                        <span className={cls.name}>user1</span>
-                            <span className={cls["time-right"]}>11:02</span>
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:11 AM</span>
                         </div>
 
-                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.</li>
+                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
+                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
+                        </li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:11 AM</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
+                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
+                        </li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:11 AM</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
+                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
+                        </li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:11 AM</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
+                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
+                        </li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:11 AM</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
+                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
+                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
+                        </li>
                     </div>
 
                     <div className={cls.cont}>
-                            <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                                 className={cls.right}/>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
 
 
                         <div className={cls.userInfo}>
 
-                        <span className={cls.name}>user1</span>
-                            <span className={cls["time-right"]}>11:02</span>
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
+                        </div>
+
+                        <li className={cls.msg}>By this User, secondmessage</li>
+                    </div>
+                    <div className={cls.cont}>
+                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
+                             className={cls.right}/>
+
+
+                        <div className={cls.userInfo}>
+
+                            <span className={cls.name}>user1</span>
+                            <span className={cls["time"]}>11:02</span>
                         </div>
 
                         <li className={cls.msg}>By this User, secondmessage</li>
@@ -45,7 +268,10 @@ const event = (props) => (
 
 
                 <input placeholder="Type a message" className={cls.sendTab}/>
+
+
             </div>
+
 
         </Paper>
 

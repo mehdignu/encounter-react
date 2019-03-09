@@ -14,7 +14,6 @@
   padding: 20px;
   width: 100%;
   position: relative;
-
 }
 
 .wrapper ul .cont{
@@ -38,12 +37,28 @@
 }
 
 ul{
+
   list-style: none;
   margin: 0;
   padding: 0;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 81%;
+  padding-bottom: 80px;
+
+}
+
+.wrapper .chatbox {
+  overflow-y: scroll;
+  /* height: auto; */
+  max-height: 86%;
 }
 
 ul li{
+
   display:inline-block;
   //clear: both;
   padding: 20px;
@@ -52,6 +67,13 @@ ul li{
   font-family: Helvetica, Arial, sans-serif;
 }
 
+.wrapper ul {
+  position: absolute;
+  padding: 20px 50px 0px 30px;
+  color: rgb(116,124,142);
+  font-size: 15px;
+  overflow-y: scroll;
+}
 
 
 .msg{
@@ -87,8 +109,9 @@ ul li{
   //border: 2px solid #dedede;
   //background-color: #f1f1f1;
   border-radius: 5px;
-  padding: 10px;
-  margin: 10px;
+  padding: 0 0 0 10px;
+  margin: 0 0 0 10px;
+
 
 }
 
@@ -116,8 +139,24 @@ ul li{
 }
 
 
-.time-right {
-  color: #aaa;
+.time {
+  font-family: Open Sans,-apple-system,sans-serif;
+  font-weight: 400;
+  font-size: .8125rem;
+  line-height: 1.30769;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+}
+
+.name {
+  font-family: Open Sans,-apple-system,sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.375;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  margin-right: .5rem;
 }
 
 .time-left {
