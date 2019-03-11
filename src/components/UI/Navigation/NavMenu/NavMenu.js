@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Divider from '@material-ui/core/Divider';
 import Drawer from '@material-ui/core/Drawer';
@@ -13,6 +13,8 @@ import MailIcon from '@material-ui/icons/Mail';
 import AddCircle from '@material-ui/icons/Add';
 import MenuIcon from '@material-ui/icons/Menu';
 import {withStyles} from '@material-ui/core/styles';
+import {withRouter} from "react-router-dom";
+
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -32,12 +34,22 @@ const styles = theme => ({
             display: 'none',
         },
     },
+
+    menuButtonEvent: {
+        marginRight: 20,
+
+        [theme.breakpoints.down('sm')]: {
+            display: 'block',
+        },
+
+
+    },
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
         top: '4rem',
         [theme.breakpoints.down('sm')]: {
-            top:0,
+            top: 0,
         },
     },
     content: {
@@ -46,7 +58,8 @@ const styles = theme => ({
     },
 });
 
-class NavMenu extends React.Component {
+
+class NavMenu extends Component {
     state = {
         mobileOpen: false,
     };
@@ -54,6 +67,7 @@ class NavMenu extends React.Component {
     handleDrawerToggle = () => {
         this.setState(state => ({mobileOpen: !state.mobileOpen}));
     };
+
 
     render() {
         const {classes, theme} = this.props;
@@ -82,6 +96,47 @@ class NavMenu extends React.Component {
             </div>
         );
 
+
+        let menu = null;
+        let menuButton = null;
+        if (this.props.location.pathname === "/event") {
+
+            menuButton = classes.menuButtonEvent;
+
+            menu = (
+
+                <Drawer
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                >
+                    {drawer}
+
+                </Drawer>
+
+
+            );
+
+
+        } else {
+            menuButton = classes.menuButton;
+
+            menu = (
+
+                <Drawer
+                    classes={{
+                        paper: classes.drawerPaper,
+                    }}
+                    variant="permanent"
+                    open
+                >
+                    {drawer}
+
+                </Drawer>
+            );
+
+        }
+
         return (
             <div className={classes.root}>
 
@@ -89,7 +144,7 @@ class NavMenu extends React.Component {
                     color="inherit"
                     aria-label="Open drawer"
                     onClick={this.handleDrawerToggle}
-                    className={classes.menuButton}
+                    className={menuButton}
                 >
 
                     <MenuIcon/>
@@ -113,17 +168,10 @@ class NavMenu extends React.Component {
                             {drawer}
                         </Drawer>
                     </Hidden>
-                    <Hidden xsDown implementation="css" >
-                        <Drawer
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            variant="permanent"
-                            open
-                        >
-                            {drawer}
 
-                        </Drawer>
+
+                    <Hidden xsDown implementation="css">
+                        {menu}
                     </Hidden>
                 </nav>
 
@@ -141,4 +189,4 @@ NavMenu.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, {withTheme: true})(NavMenu);
+export default withStyles(styles, {withTheme: true})(withRouter(NavMenu));

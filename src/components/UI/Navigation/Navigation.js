@@ -16,6 +16,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NavMenu from './NavMenu/NavMenu';
+import {withRouter} from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -175,7 +176,10 @@ class Navigation extends Component {
             </Menu>
         );
 
+console.log(this.props);
+
         return (
+
             <div className={classes.root}>
 
                 <AppBar position="fixed">
@@ -183,7 +187,7 @@ class Navigation extends Component {
 
                     <Toolbar>
 
-                        <NavMenu/>
+                        <NavMenu />
 
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap component="a"
                                     href="/">

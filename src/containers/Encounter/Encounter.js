@@ -7,7 +7,8 @@ import Hidden from '@material-ui/core/Hidden';
 import {Route, Switch} from "react-router-dom";
 import Create from "../../components/Create/Create";
 import Event from "../../components/Event/Event";
-
+import cls from './Encounter.scss';
+import {withRouter} from 'react-router-dom';
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -22,6 +23,7 @@ const styles = theme => ({
 function Encounter(props) {
     const {classes} = props;
 
+
     return (
         <div className={classes.root}>
             <Grid container spacing={24}>
@@ -34,13 +36,11 @@ function Encounter(props) {
                 </Hidden>
                 <Grid item xs>
 
-
                     <Switch>
-                        <Route path="/event" component={Event}/>
+                        <Route path="/event" component={Event} />
                         <Route path="/create" component={Create}/>
-                        <Route path="/" exact component={Feed}/>
+                        <Route path="/" exact component={Feed} />
                     </Switch>
-
                 </Grid>
                 <Hidden smDown>
 
