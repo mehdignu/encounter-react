@@ -61,6 +61,9 @@ const styles = theme => ({
     input: {
         display: 'none',
     },
+    straightButt: {
+        paddingLeft: 0,
+    },
 
 });
 
@@ -110,7 +113,7 @@ class CardEvent extends Component {
 
                         <div className={cls.mainInfo}>
 
-                            <IconButton aria-label="Event place" disabled={true}>
+                            <IconButton aria-label="Event place" disabled={true} className={classes.straightButt}>
 
 
                                 <PlaceIcon/>
@@ -139,7 +142,7 @@ class CardEvent extends Component {
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
                         {/*<IconButton aria-label="Add to favorites">*/}
-                            {/*<FavoriteIcon/>*/}
+                        {/*<FavoriteIcon/>*/}
                         {/*</IconButton>*/}
                         <IconButton aria-label="Share">
                             <ShareIcon/>
