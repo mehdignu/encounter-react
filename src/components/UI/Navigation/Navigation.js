@@ -151,14 +151,14 @@ class Navigation extends Component {
                 open={isMobileMenuOpen}
                 onClose={this.handleMenuClose}
             >
-                <MenuItem onClick={this.handleMobileMenuClose}>
-                    <IconButton color="inherit">
-                        <Badge badgeContent={4} color="secondary">
-                            <MailIcon/>
-                        </Badge>
-                    </IconButton>
-                    <p>Messages</p>
-                </MenuItem>
+                {/*<MenuItem onClick={this.handleMobileMenuClose}>*/}
+                    {/*<IconButton color="inherit">*/}
+                        {/*<Badge badgeContent={4} color="secondary">*/}
+                            {/*<MailIcon/>*/}
+                        {/*</Badge>*/}
+                    {/*</IconButton>*/}
+                    {/*<p>Messages</p>*/}
+                {/*</MenuItem>*/}
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
                         <Badge badgeContent={11} color="secondary">
@@ -176,7 +176,6 @@ class Navigation extends Component {
             </Menu>
         );
 
-console.log(this.props);
 
         return (
 
@@ -209,11 +208,11 @@ console.log(this.props);
                         </div>
                         <div className={classes.grow}/>
                         <div className={classes.sectionDesktop}>
-                            <IconButton color="inherit">
-                                <Badge badgeContent={4} color="secondary">
-                                    <MailIcon/>
-                                </Badge>
-                            </IconButton>
+                            {/*<IconButton color="inherit">*/}
+                                {/*<Badge badgeContent={4} color="secondary">*/}
+                                    {/*<MailIcon/>*/}
+                                {/*</Badge>*/}
+                            {/*</IconButton>*/}
                             <IconButton color="inherit">
                                 <Badge badgeContent={17} color="secondary">
                                     <NotificationsIcon/>

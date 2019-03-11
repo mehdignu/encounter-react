@@ -3,6 +3,24 @@
 
 }
 
+.mainInfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+
+
+.mainInfo p{
+  padding-top: 31px;
+  padding-right: 21px;
+  max-width: 157px;
+  max-height: 38px;
+  width: 500px;
+  height: 50px;
+}
+
 @media (max-width: 600px) {
   .eventDate {
     padding-top: 1em;

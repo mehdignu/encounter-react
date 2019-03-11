@@ -14,8 +14,10 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import ShareIcon from '@material-ui/icons/Share';
+import PlaceIcon from '@material-ui/icons/Place';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
+import AccessIcon from '@material-ui/icons/AccessTime';
 import Button from '@material-ui/core/Button';
 import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
@@ -105,15 +107,40 @@ class CardEvent extends Component {
                         <Typography variant="h6" gutterBottom>
                             Some cool event
                         </Typography>
+
+                        <div className={cls.mainInfo}>
+
+                            <IconButton aria-label="Event place" disabled={true}>
+
+
+                                <PlaceIcon/>
+
+
+                            </IconButton>
+                            <Typography paragraph>
+                                Aristotelessteig 6, 10318 Berlin
+                            </Typography>
+
+                            <IconButton aria-label="Event time" disabled={true}>
+                                <AccessIcon/>
+
+                            </IconButton>
+
+                            <Typography paragraph>
+                                10:00 AM
+                            </Typography>
+
+                        </div>
+
                         <Typography component="p">
                             This impressive paella is a perfect party dish and a fun meal to cook together with your
                             guests. Add 1 cup of frozen peas along with the mussels, if you like.
                         </Typography>
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
-                        <IconButton aria-label="Add to favorites">
-                            <FavoriteIcon/>
-                        </IconButton>
+                        {/*<IconButton aria-label="Add to favorites">*/}
+                            {/*<FavoriteIcon/>*/}
+                        {/*</IconButton>*/}
                         <IconButton aria-label="Share">
                             <ShareIcon/>
                         </IconButton>

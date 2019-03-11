@@ -99,6 +99,8 @@ class NavMenu extends Component {
 
         let menu = null;
         let menuButton = null;
+
+        //case the chatbox page hide the side bar and show the menu button
         if (this.props.location.pathname === "/event") {
 
             menuButton = classes.menuButtonEvent;
