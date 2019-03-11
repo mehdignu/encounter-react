@@ -4,6 +4,7 @@ import Hidden from '@material-ui/core/Hidden';
 import {withStyles} from "@material-ui/core";
 import EventBox from "./EventBox/EventBox";
 import EventInfo from "./EventInfo/EventInfo";
+import EventAttendees from "./EventAttendees/EventAttendees";
 
 const styles = theme => ({
     root: {
@@ -22,7 +23,9 @@ const event = (props) => {
             <Grid container spacing={24}>
                 <Hidden smDown>
 
-                    <Grid item xs>
+                    <Grid item xs={2}>
+
+                        <EventInfo/>
 
 
                     </Grid>
@@ -35,9 +38,10 @@ const event = (props) => {
                 </Grid>
                 <Hidden smDown>
 
-                    <Grid item xs>
+                    <Grid item xs={2}>
 
-                        <EventInfo/>
+                        <EventAttendees/>
+
 
                     </Grid>
                 </Hidden>

@@ -1,12 +1,57 @@
 .content {
-  display: flex;
+  display: block;
   flex-wrap: wrap;
-  height: 87vh;
+  height: 83vh;
+  padding: 18px;
 
 }
 
-.eventTitle {
+.title {
 
   display: flex;
+
+}
+
+
+.mainInfo {
+  display: block;
+
+}
+
+.title {
+}
+
+.intro {
+  padding: 5px;
+}
+
+.placeInfo {
+  display: flex;
+}
+
+.timeInfo {
+  display: flex;
+}
+
+.timeInfo button {
+  padding-left: 0;
+}
+
+.placeInfo button {
+  padding-left: 0;
+}
+
+
+.mainInfo p{
+  padding-top: 18px;
+  padding-right: 21px;
+  max-width: 157px;
+  max-height: 38px;
+  width: 500px;
+  height: 50px;
+}
+
+.straightButt {
+  padding-left: 0;
 
 }
