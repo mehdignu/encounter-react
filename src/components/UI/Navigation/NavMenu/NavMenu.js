@@ -11,9 +11,16 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import MailIcon from '@material-ui/icons/Mail';
 import AddCircle from '@material-ui/icons/Add';
+import EventAvailable from '@material-ui/icons/Event';
 import MenuIcon from '@material-ui/icons/Menu';
+import Explicit from '@material-ui/icons/Explicit';
 import {withStyles} from '@material-ui/core/styles';
 import {withRouter} from "react-router-dom";
+import Collapse from '@material-ui/core/Collapse';
+import ExpandLess from '@material-ui/icons/ExpandLess';
+import ExpandMore from '@material-ui/icons/ExpandMore';
+import StarBorder from '@material-ui/icons/StarBorder';
+import cls from './NavMenu.scss';
 
 const drawerWidth = 240;
 
@@ -21,6 +28,7 @@ const styles = theme => ({
     root: {
         display: 'flex',
     },
+
 
     appBar: {
         marginLeft: drawerWidth,
@@ -56,16 +64,24 @@ const styles = theme => ({
         flexGrow: 1,
         padding: theme.spacing.unit * 3,
     },
+    nested: {
+        paddingLeft: theme.spacing.unit * 4,
+    },
 });
 
 
 class NavMenu extends Component {
     state = {
         mobileOpen: false,
+        open: true,
     };
 
     handleDrawerToggle = () => {
         this.setState(state => ({mobileOpen: !state.mobileOpen}));
+    };
+
+    handleClick = () => {
+        this.setState(state => ({ open: !state.open }));
     };
 
 
@@ -77,21 +93,40 @@ class NavMenu extends Component {
                 <Divider/>
                 <List>
 
-
                     <ListItem button component="a" href="/create" key={'create'}>
                         <ListItemIcon><AddCircle/></ListItemIcon>
-                        <ListItemText primary={'create'}/>
+                        <ListItemText primary={'create '}/>
                     </ListItem>
 
-                    {['Upcoming events', 'sent requests'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
-                            <ListItemText primary={text}/>
-                        </ListItem>
-                    ))}
+                    <ListItem button onClick={this.handleClick}>
+                        <ListItemIcon>
+                            <EventAvailable />
+                        </ListItemIcon>
+                        <ListItemText inset primary="Upcoming events" className={cls.listText} />
+                        {this.state.open ? <ExpandLess className={cls.arrow} /> : <ExpandMore className={cls.arrow} />}
+                    </ListItem>
+                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
+                        <List component="div" disablePadding>
+                            <ListItem button className={classes.nested}>
+                                <ListItemIcon>
+                                    <Explicit />
+                                </ListItemIcon>
+                                <ListItemText inset primary="some cool event" />
+                            </ListItem>
+                        </List>
+                    </Collapse>
+
+                    {/*<Divider/>*/}
+
+
+                    {/*{['sent requests'].map((text, index) => (*/}
+                        {/*<ListItem button key={text}>*/}
+                            {/*<ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>*/}
+                            {/*<ListItemText primary={text}/>*/}
+                        {/*</ListItem>*/}
+                    {/*))}*/}
                 </List>
 
-                <Divider/>
 
             </div>
         );

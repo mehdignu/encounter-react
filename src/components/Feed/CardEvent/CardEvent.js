@@ -22,6 +22,7 @@ import Button from '@material-ui/core/Button';
 import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
 import cls from './CardEvent.scss';
+import CardMenu from "../../UI/CardMenu/CardMenu";
 
 const styles = theme => ({
     card: {
@@ -93,9 +94,8 @@ class CardEvent extends Component {
                             </Avatar>
                         }
                         action={
-                            <IconButton>
-                                <MoreVertIcon/>
-                            </IconButton>
+                            <CardMenu/>
+
                         }
                         title="Shrimp and Chorizo Paella"
                         subheader="September 14, 2016"
