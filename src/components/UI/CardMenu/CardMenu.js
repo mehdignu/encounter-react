@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import toRenderProps from 'recompose/toRenderProps';
@@ -8,20 +7,21 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ShareIcon from '@material-ui/icons/Share';
 import cls from './CardMenu.scss';
+import Aux from '../../../hoc/Aux';
 
 const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
 
 function CardMenu() {
     return (
         <WithState>
-            {({ anchorEl, updateAnchorEl }) => {
+            {({anchorEl, updateAnchorEl}) => {
                 const open = Boolean(anchorEl);
                 const handleClose = () => {
                     updateAnchorEl(null);
                 };
 
                 return (
-                    <React.Fragment>
+                    <Aux>
                         <IconButton
                             aria-owns={open ? 'render-props-menu' : undefined}
                             aria-haspopup="true"
@@ -29,16 +29,16 @@ function CardMenu() {
                                 updateAnchorEl(event.currentTarget);
                             }}
                         >
-                            <MoreVertIcon />
+                            <MoreVertIcon className={cls.butt}/>
                         </IconButton>
                         <Menu id="render-props-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
                             <MenuItem onClick={handleClose}>
-                                <ShareIcon />
-                                 Share</MenuItem>
+                                <ShareIcon/>
+                                Share</MenuItem>
                             <MenuItem onClick={handleClose}>Hide</MenuItem>
                             <MenuItem onClick={handleClose}>Report</MenuItem>
                         </Menu>
-                    </React.Fragment>
+                    </Aux>
                 );
             }}
         </WithState>
