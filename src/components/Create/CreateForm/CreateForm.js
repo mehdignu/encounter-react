@@ -7,6 +7,7 @@ import Paper from "@material-ui/core/Paper";
 import Button from '@material-ui/core/Button';
 import MenuItem from "@material-ui/core/MenuItem";
 import Typography from '@material-ui/core/Typography';
+import DatePickerUI from "../../UI/DatePickerUI/DatePickerUI";
 
 const styles = theme => ({
     container: {
@@ -139,17 +140,8 @@ class CreateForm extends React.Component {
                         required
                     />
 
-                    <TextField
-                        id="datetime-local"
-                        label="Date"
-                        type="datetime-local"
-                        defaultValue={this.state.selectedDate}
-                        className={classes.textField}
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                        required
-                    />
+                    <DatePickerUI />
+
 
                     <TextField
                         select
@@ -182,6 +174,8 @@ class CreateForm extends React.Component {
                             </MenuItem>
                         ))}
                     </TextField>
+
+
 
 
                     <Button type="submit" variant="contained" color="primary" className={classes.button}>
