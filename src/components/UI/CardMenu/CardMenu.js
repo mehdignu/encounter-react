@@ -31,13 +31,18 @@ function CardMenu() {
                         >
                             <MoreVertIcon className={cls.butt}/>
                         </IconButton>
-                        <Menu id="render-props-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
+                        <Menu
+                            disableAutoFocusItem={true}
+                            id="render-props-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
                             <MenuItem onClick={handleClose}>
                                 <ShareIcon/>
                                 Share
                             </MenuItem>
+
                             <MenuItem onClick={handleClose}>Hide</MenuItem>
+
                             <MenuItem onClick={handleClose}>Report</MenuItem>
+
                         </Menu>
                     </Aux>
                 );

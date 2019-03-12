@@ -17,6 +17,11 @@ import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NavMenu from './NavMenu/NavMenu';
 import Aux from "../../../hoc/Aux";
+import cls from './Navigation.scss';
+import {Divider} from "@material-ui/core";
+import Icon from "@material-ui/core/Icon";
+import Button from "@material-ui/core/Button";
+import DeleteIcon from '@material-ui/icons/Delete';
 
 const drawerWidth = 240;
 
@@ -98,6 +103,10 @@ const styles = theme => ({
             display: 'none',
         },
     },
+    requestButt: {
+        fontSize: 12,
+        marginLeft: theme.spacing.unit,
+    }
 });
 
 class Navigation extends Component {
@@ -145,6 +154,7 @@ class Navigation extends Component {
     };
 
     render() {
+
         const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;
         const {classes} = this.props;
         const isMenuOpen = Boolean(anchorEl);
@@ -157,6 +167,8 @@ class Navigation extends Component {
             <Aux>
 
                 <Menu
+                    disableAutoFocusItem={true}
+                    className={cls.profileMenu}
                     anchorEl={anchorEl}
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     transformOrigin={{vertical: 'top', horizontal: 'right'}}
@@ -165,12 +177,16 @@ class Navigation extends Component {
                 >
 
                     <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                    <Divider/>
+
                     <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
 
                 </Menu>
 
 
                 <Menu
+                    disableAutoFocusItem={true}
+                    className={cls.menu}
                     anchorEl={anchorN}
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     transformOrigin={{vertical: 'top', horizontal: 'right'}}
@@ -178,13 +194,18 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseN}
                 >
 
-                    <MenuItem onClick={this.handleMenuClose}>Boo</MenuItem>
-                    <MenuItem onClick={this.handleMenuClose}>Hoo</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>User2 has accepted your request to join some cool event</MenuItem>
+                    <Divider/>
+
+                    <MenuItem onClick={this.handleMenuClose}>User3 has accepted your request to join another cool event</MenuItem>
+
 
                 </Menu>
 
 
                 <Menu
+                    disableAutoFocusItem={true}
+                    className={cls.menu}
                     anchorEl={anchorR}
                     anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                     transformOrigin={{vertical: 'top', horizontal: 'right'}}
@@ -192,8 +213,33 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseR}
                 >
 
-                    <MenuItem onClick={this.handleMenuClose}>Boo</MenuItem>
-                    <MenuItem onClick={this.handleMenuClose}>Hoo</MenuItem>
+                    <MenuItem  onClick={this.handleMenuClose}>
+
+                        <Typography >User1 want to join your cool event</Typography>
+
+                        <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
+                            Add
+                        </Button>
+
+                        <Button variant="contained" color="secondary" size={"small"} className={classes.requestButt}>
+                            Delete
+                        </Button>
+
+                    </MenuItem>
+                    <Divider/>
+
+                    <MenuItem  onClick={this.handleMenuClose}>
+
+                        <Typography >User2 want to join your cool event</Typography>
+
+                        <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
+                            Add
+                        </Button>
+                        <Button variant="contained" color="secondary" size={"small"} className={classes.requestButt}>
+                            Delete
+                        </Button>
+
+                    </MenuItem>
 
                 </Menu>
 
@@ -202,6 +248,7 @@ class Navigation extends Component {
 
         const renderMobileMenu = (
             <Menu
+                disableAutoFocusItem={true}
                 anchorEl={mobileMoreAnchorEl}
                 anchorOrigin={{vertical: 'top', horizontal: 'right'}}
                 transformOrigin={{vertical: 'top', horizontal: 'right'}}
