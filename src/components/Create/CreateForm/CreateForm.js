@@ -122,16 +122,6 @@ class CreateForm extends React.Component {
 
                     <TextField
                         id="standard-name"
-                        label="Introduction"
-                        className={classes.textField}
-                        value={this.state.introduction}
-                        onChange={this.handleChange('introduction')}
-                        margin="normal"
-                        required
-                    />
-
-                    <TextField
-                        id="standard-name"
                         label="Description"
                         className={classes.textField}
                         value={this.state.description}
