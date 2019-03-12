@@ -1,7 +1,6 @@
 import React from 'react';
 import Paper from "@material-ui/core/Paper";
 import cls from './EventAttendees.scss';
-import Typography from "@material-ui/core/Typography";
 
 
 const EventAttendees = (props) => (

@@ -34,7 +34,8 @@ function CardMenu() {
                         <Menu id="render-props-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
                             <MenuItem onClick={handleClose}>
                                 <ShareIcon/>
-                                Share</MenuItem>
+                                Share
+                            </MenuItem>
                             <MenuItem onClick={handleClose}>Hide</MenuItem>
                             <MenuItem onClick={handleClose}>Report</MenuItem>
                         </Menu>
