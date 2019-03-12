@@ -16,6 +16,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import NavMenu from './NavMenu/NavMenu';
+import Aux from "../../../hoc/Aux";
 
 const drawerWidth = 240;
 
@@ -102,16 +103,37 @@ const styles = theme => ({
 class Navigation extends Component {
     state = {
         anchorEl: null,
+        anchorN: null,
+        anchorR: null,
         mobileMoreAnchorEl: null,
+        mobileMoreAnchorN: null,
     };
 
     handleProfileMenuOpen = event => {
         this.setState({anchorEl: event.currentTarget});
     };
 
+    handleNotificationsMenuOpen = event => {
+        this.setState({anchorN: event.currentTarget});
+    };
+
+    handleRequestsMenuOpen = event => {
+        this.setState({anchorR: event.currentTarget});
+    };
+
     handleMenuClose = () => {
         this.setState({anchorEl: null});
+        this.setState({anchorR: null});
+        this.setState({anchorN: null});
         this.handleMobileMenuClose();
+    };
+
+    handleMenuCloseN = () => {
+        this.setState({anchorN: null});
+    };
+
+    handleMenuCloseR = () => {
+        this.setState({anchorR: null});
     };
 
     handleMobileMenuOpen = event => {
@@ -123,23 +145,59 @@ class Navigation extends Component {
     };
 
     render() {
-        const {anchorEl, mobileMoreAnchorEl} = this.state;
+        const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;
         const {classes} = this.props;
         const isMenuOpen = Boolean(anchorEl);
+        const isMenuOpenN = Boolean(anchorN);
+        const isMenuOpenR = Boolean(anchorR);
         const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
         const renderMenu = (
-            <Menu
-                anchorEl={anchorEl}
-                anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                open={isMenuOpen}
-                onClose={this.handleMenuClose}
-            >
 
-                <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-                <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-            </Menu>
+            <Aux>
+
+                <Menu
+                    anchorEl={anchorEl}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={isMenuOpen}
+                    onClose={this.handleMenuClose}
+                >
+
+                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
+
+                </Menu>
+
+
+                <Menu
+                    anchorEl={anchorN}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={isMenuOpenN}
+                    onClose={this.handleMenuCloseN}
+                >
+
+                    <MenuItem onClick={this.handleMenuClose}>Boo</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>Hoo</MenuItem>
+
+                </Menu>
+
+
+                <Menu
+                    anchorEl={anchorR}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={isMenuOpenR}
+                    onClose={this.handleMenuCloseR}
+                >
+
+                    <MenuItem onClick={this.handleMenuClose}>Boo</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>Hoo</MenuItem>
+
+                </Menu>
+
+            </Aux>
         );
 
         const renderMobileMenu = (
@@ -150,14 +208,7 @@ class Navigation extends Component {
                 open={isMobileMenuOpen}
                 onClose={this.handleMenuClose}
             >
-                {/*<MenuItem onClick={this.handleMobileMenuClose}>*/}
-                    {/*<IconButton color="inherit">*/}
-                        {/*<Badge badgeContent={4} color="secondary">*/}
-                            {/*<MailIcon/>*/}
-                        {/*</Badge>*/}
-                    {/*</IconButton>*/}
-                    {/*<p>Messages</p>*/}
-                {/*</MenuItem>*/}
+
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
                         <Badge badgeContent={5} color="secondary">
@@ -194,7 +245,7 @@ class Navigation extends Component {
 
                     <Toolbar>
 
-                        <NavMenu />
+                        <NavMenu/>
 
                         <Typography className={classes.title} variant="h6" color="inherit" noWrap component="a"
                                     href="/">
@@ -214,26 +265,36 @@ class Navigation extends Component {
                                 }}
                             />
                         </div>
-                        <div className={classes.grow}/>
-                        <div className={classes.sectionDesktop}>
-                            {/*<IconButton color="inherit">*/}
-                                {/*<Badge badgeContent={4} color="secondary">*/}
-                                    {/*<MailIcon/>*/}
-                                {/*</Badge>*/}
-                            {/*</IconButton>*/}
 
-                            <IconButton color="inherit">
+
+                        <div className={classes.grow}/>
+
+
+                        <div className={classes.sectionDesktop}>
+
+
+                            <IconButton
+                                aria-owns={isMenuOpenR ? 'material-appbar' : undefined}
+                                aria-haspopup="true"
+                                onClick={this.handleRequestsMenuOpen}
+                                color="inherit"
+                            >
                                 <Badge badgeContent={5} color="secondary">
                                     <PersonAddIcon/>
                                 </Badge>
                             </IconButton>
 
-                            <IconButton color="inherit">
+
+                            <IconButton
+                                aria-owns={isMenuOpenN ? 'material-appbar' : undefined}
+                                aria-haspopup="true"
+                                onClick={this.handleNotificationsMenuOpen}
+                                color="inherit"
+                            >
                                 <Badge badgeContent={17} color="secondary">
                                     <NotificationsIcon/>
                                 </Badge>
                             </IconButton>
-
 
                             <IconButton
                                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
@@ -241,9 +302,13 @@ class Navigation extends Component {
                                 onClick={this.handleProfileMenuOpen}
                                 color="inherit"
                             >
+
                                 <AccountCircle/>
+
                             </IconButton>
+
                         </div>
+
                         <div className={classes.sectionMobile}>
                             <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
                                 <MoreIcon/>
