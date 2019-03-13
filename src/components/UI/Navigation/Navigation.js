@@ -218,11 +218,12 @@ class Navigation extends Component {
                 >
 
                     <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
-                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png" className={cls.requestUsrImg} />
+                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"
+                                className={cls.requestUsrImg}/>
 
                         <Typography>
 
-                            User 2  want to join some cool event
+                            User 2 want to join some cool event
 
                         </Typography>
 
@@ -245,7 +246,8 @@ class Navigation extends Component {
 
                     <MenuItem onClick={this.handleMenuClose}>
 
-                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar2.png" className={cls.requestUsrImg} />
+                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar2.png"
+                                className={cls.requestUsrImg}/>
 
                         <Typography>
 

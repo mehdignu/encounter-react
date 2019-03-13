@@ -1,0 +1,107 @@
+.content {
+  display: block;
+  flex-wrap: wrap;
+  height: 83vh;
+  padding: 18px;
+  position: relative;
+
+  overflow: auto;
+}
+
+.title {
+
+  display: flex;
+  text-align: center;
+  padding-top: 0.5em;
+}
+
+
+.mainInfo {
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+
+}
+
+.content .joinButt {
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+}
+
+.eventMedia {
+  background-image: url(https://www.w3schools.com/howto/img_nature_wide.jpg);
+  height: 22%;
+  display: flex;
+}
+
+@media (max-width: 600px) {
+
+  .content {
+    display: block;
+    flex-wrap: wrap;
+    padding: 18px;
+    position: relative;
+
+    overflow: auto;
+    min-height: 100% !important;
+
+
+  }
+
+  .content .joinButt {
+    clear: both;
+    position: relative;
+    height: 40px;
+  }
+
+  .content .title {
+    font-size: 37px;
+  }
+
+  .mainInfo {
+    display: inline-grid;
+  }
+
+}
+
+.description {
+  padding-bottom: 11px;
+}
+
+.intro {
+  padding: 5px;
+}
+
+.placeInfo {
+  display: flex;
+}
+
+.timeInfo {
+  display: flex;
+}
+
+.timeInfo button {
+  padding-left: 0;
+}
+
+.placeInfo button {
+  padding-left: 0;
+}
+
+
+.mainInfo p {
+  padding-top: 18px;
+  padding-right: 21px;
+  max-width: 157px;
+  max-height: 38px;
+  width: 500px;
+  height: 50px;
+}
+
+.straightButt {
+  padding-left: 0;
+
+}

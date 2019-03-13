@@ -2,6 +2,7 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import {withStyles} from "@material-ui/core";
+import ShowEvent from "./ShowEvent/ShowEvent";
 
 const styles = theme => ({
     root: {
@@ -20,19 +21,19 @@ const Show = (props) => {
             <Grid container spacing={24}>
                 <Hidden smDown>
 
-                    <Grid item xs>
+                    <Grid item xs={2}>
 
 
                     </Grid>
                 </Hidden>
                 <Grid item xs>
 
-                    <p>show shit</p>
+                    <ShowEvent/>
 
                 </Grid>
                 <Hidden smDown>
 
-                    <Grid item xs>
+                    <Grid item xs={2}>
 
                         show new ads
 
