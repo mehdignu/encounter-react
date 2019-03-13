@@ -19,9 +19,7 @@ import NavMenu from './NavMenu/NavMenu';
 import Aux from "../../../hoc/Aux";
 import cls from './Navigation.scss';
 import {Divider} from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
 import Button from "@material-ui/core/Button";
-import DeleteIcon from '@material-ui/icons/Delete';
 
 const drawerWidth = 240;
 
@@ -194,10 +192,12 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseN}
                 >
 
-                    <MenuItem onClick={this.handleMenuClose}>User2 has accepted your request to join some cool event</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>User2 has accepted your request to join some cool
+                        event</MenuItem>
                     <Divider/>
 
-                    <MenuItem onClick={this.handleMenuClose}>User3 has accepted your request to join another cool event</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>User3 has accepted your request to join another cool
+                        event</MenuItem>
 
 
                 </Menu>
@@ -213,32 +213,40 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseR}
                 >
 
-                    <MenuItem  onClick={this.handleMenuClose}>
+                    <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
 
-                        <Typography >User1 want to join your cool event</Typography>
+                        <Typography>User1 want to join some cool event</Typography>
 
-                        <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
-                            Add
-                        </Button>
 
-                        <Button variant="contained" color="secondary" size={"small"} className={classes.requestButt}>
-                            Delete
-                        </Button>
+                        <div className={cls.butts}>
+
+                            <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
+                                Add
+                            </Button>
+
+                            <Button variant="contained" color="secondary" size={"small"}
+                                    className={classes.requestButt}>
+                                Delete
+                            </Button>
+
+                        </div>
 
                     </MenuItem>
                     <Divider/>
 
-                    <MenuItem  onClick={this.handleMenuClose}>
+                    <MenuItem onClick={this.handleMenuClose}>
 
-                        <Typography >User2 want to join your cool event</Typography>
+                        <Typography>User2 want to join your cool event</Typography>
+                        <div className={cls.butts}>
 
-                        <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
-                            Add
-                        </Button>
-                        <Button variant="contained" color="secondary" size={"small"} className={classes.requestButt}>
-                            Delete
-                        </Button>
-
+                            <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
+                                Add
+                            </Button>
+                            <Button variant="contained" color="secondary" size={"small"}
+                                    className={classes.requestButt}>
+                                Delete
+                            </Button>
+                        </div>
                     </MenuItem>
 
                 </Menu>
