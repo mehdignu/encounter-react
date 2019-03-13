@@ -1,23 +1,46 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
+import Avatar from '@material-ui/core/Avatar';
+import Grid from '@material-ui/core/Grid';
 import Paper from "@material-ui/core/Paper";
-import cls from './EventAttendees.scss';
-
-
-const EventAttendees = (props) => (
-
-    <Paper className={cls.content} elevation={1}>
-
-
-        <ul>
-
-            <li>mehdi</li>
-            <li>Hannah</li>
-        </ul>
+import cls from './EventAttendees.scss'
+import Typography from "@material-ui/core/Typography";
 
 
 
-    </Paper>
+function EventAttendees(props) {
+    return (
 
-);
+        <Paper className={cls.content} elevation={1}>
 
-export default EventAttendees;
+
+            <ul>
+
+                <li className={cls.attenderInfo}>  <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png" />
+
+                    <Typography paragraph>
+                        Mehdi
+                    </Typography>
+
+                </li>
+
+                <li className={cls.attenderInfo}>  <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar2.png" />
+
+                    <Typography paragraph>
+                        Hannah
+                    </Typography>
+
+                </li>
+            </ul>
+
+
+
+        </Paper>
+
+
+    );
+}
+
+
+export default (EventAttendees);

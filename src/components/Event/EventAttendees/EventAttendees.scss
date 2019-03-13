@@ -1,7 +1,19 @@
 .content {
-  display: block;
+  display: flex;
   flex-wrap: wrap;
   height: 83vh;
   padding: 18px;
 background-color: red;
+}
+
+.attenderInfo{
+  display: inline-flex;
+  padding: 0;
+  margin: 0;
+}
+
+.attenderInfo p{
+
+  padding: 11px;
+
 }

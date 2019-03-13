@@ -20,6 +20,7 @@ import Aux from "../../../hoc/Aux";
 import cls from './Navigation.scss';
 import {Divider} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
 
 const drawerWidth = 240;
 
@@ -192,12 +193,15 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseN}
                 >
 
-                    <MenuItem onClick={this.handleMenuClose}>User2 has accepted your request to join some cool
-                        event</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>
+
+
+                        User 1 has accepted your request to join some cool some cool event
+                    </MenuItem>
                     <Divider/>
 
-                    <MenuItem onClick={this.handleMenuClose}>User3 has accepted your request to join another cool
-                        event</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>User 3 has
+                        accepted your request to join some cool event</MenuItem>
 
 
                 </Menu>
@@ -214,8 +218,13 @@ class Navigation extends Component {
                 >
 
                     <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
+                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png" className={cls.requestUsrImg} />
 
-                        <Typography>User1 want to join some cool event</Typography>
+                        <Typography>
+
+                            User 2  want to join some cool event
+
+                        </Typography>
 
 
                         <div className={cls.butts}>
@@ -236,7 +245,14 @@ class Navigation extends Component {
 
                     <MenuItem onClick={this.handleMenuClose}>
 
-                        <Typography>User2 want to join your cool event</Typography>
+                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar2.png" className={cls.requestUsrImg} />
+
+                        <Typography>
+
+                            User1 want to join some cool event boohoo madafaka
+
+
+                        </Typography>
                         <div className={cls.butts}>
 
                             <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
