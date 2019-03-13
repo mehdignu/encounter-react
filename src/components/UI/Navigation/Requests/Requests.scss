@@ -1,0 +1,59 @@
+.content {
+  display: block;
+  flex-wrap: wrap;
+  height: 83vh;
+  padding: 18px;
+  position: relative;
+
+  overflow: auto;
+}
+
+.notifs {
+  position: relative;
+  display: flex;
+  margin: 0 auto;
+  height: 3em;
+}
+
+.butts {
+
+  clear: right;
+  float: right;
+  text-align: right;
+  height: 2em;
+  display: flex;
+
+
+}
+
+.notifs p {
+  padding-left: 4px;
+  display: flex;
+  margin: 0 auto;
+  padding-top: 0.5em;
+}
+
+@media (max-width: 600px) {
+
+  .notifs p {
+    padding-top: 0.2em;
+
+
+  }
+}
+
+.requestUsrImg img {
+  width: 1.5em;
+  border-radius: 50%;
+  height: 1.5em;
+
+  float: left;
+}
+
+
+.requestUsrImg {
+  padding: 0;
+  margin: 0;
+  display: inline-flex;
+
+}
