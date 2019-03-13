@@ -52,15 +52,20 @@ const styles = theme => ({
     search: {
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        marginLeft: 0,
+        // backgroundColor: fade(theme.palette.common.white, 0.15),
+        // '&:hover': {
+        //     backgroundColor: fade(theme.palette.common.white, 0.25),
+        // },
+        textDecoration: 'none',
+        marginLeft: '1em',
         width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing.unit,
-            width: 'auto',
+        textAlign: 'left',
+        [theme.breakpoints.down('sm')]: {
+            // marginLeft: theme.spacing.unit,
+            // width: 'auto',
+            marginRight: '1em',
+            textAlign: 'center',
+
         },
     },
     searchIcon: {
@@ -320,24 +325,30 @@ class Navigation extends Component {
 
                         <NavMenu/>
 
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap component="a"
+
+                        <div className={classes.grow}/>
+
+                        <Typography className={classes.search} variant="h6" color="inherit" noWrap component="a"
                                     href="/">
                             Encounter
                         </Typography>
 
-                        <div className={classes.grow}/>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon/>
-                            </div>
-                            <InputBase
-                                placeholder="Search…"
-                                classes={{
-                                    root: classes.inputRoot,
-                                    input: classes.inputInput,
-                                }}
-                            />
-                        </div>
+                        {/*<div className={classes.search}>*/}
+
+
+                            {/*<div className={classes.searchIcon}>*/}
+                                {/*<SearchIcon/>*/}
+                            {/*</div>*/}
+                            {/*<InputBase*/}
+                                {/*placeholder="Search…"*/}
+                                {/*classes={{*/}
+                                    {/*root: classes.inputRoot,*/}
+                                    {/*input: classes.inputInput,*/}
+                                {/*}}*/}
+                            {/*/>*/}
+
+
+                        {/*</div>*/}
 
 
                         <div className={classes.grow}/>
