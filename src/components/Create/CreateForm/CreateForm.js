@@ -143,21 +143,21 @@ class CreateForm extends React.Component {
                     <DatePickerUI />
 
 
-                    <TextField
-                        select
-                        label="Number of people"
-                        className={classNames(classes.margin, classes.textField)}
-                        value={this.state.maxim}
-                        onChange={this.handleChange('maxim')}
-                        required
+                    {/*<TextField*/}
+                        {/*select*/}
+                        {/*label="Number of people"*/}
+                        {/*className={classNames(classes.margin, classes.textField)}*/}
+                        {/*value={this.state.maxim}*/}
+                        {/*onChange={this.handleChange('maxim')}*/}
+                        {/*required*/}
 
-                    >
-                        {ranges.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
+                    {/*>*/}
+                        {/*{ranges.map(option => (*/}
+                            {/*<MenuItem key={option.value} value={option.value}>*/}
+                                {/*{option.label}*/}
+                            {/*</MenuItem>*/}
+                        {/*))}*/}
+                    {/*</TextField>*/}
 
 
                     <TextField

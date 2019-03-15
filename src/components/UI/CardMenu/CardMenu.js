@@ -39,9 +39,9 @@ function CardMenu() {
                                 Share
                             </MenuItem>
 
-                            <MenuItem onClick={handleClose}>Hide</MenuItem>
+                            {/*<MenuItem onClick={handleClose}>Hide</MenuItem>*/}
 
-                            <MenuItem onClick={handleClose}>Report</MenuItem>
+                            {/*<MenuItem onClick={handleClose}>Report</MenuItem>*/}
 
                         </Menu>
                     </Aux>

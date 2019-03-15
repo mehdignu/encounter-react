@@ -168,6 +168,18 @@ class Navigation extends Component {
             <Aux>
 
 
+                <Menu
+                    anchorEl={anchorEl}
+                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
+                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
+                    open={isMenuOpen}
+                    onClose={this.handleMenuClose}
+                >
+
+                    <MenuItem onClick={this.handleMenuClose}>My Profile</MenuItem>
+                    <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem>
+                </Menu>
+
 
                 <Menu
                     disableAutoFocusItem={true}
@@ -285,15 +297,13 @@ class Navigation extends Component {
                     </IconButton>
                     <p>Notifications</p>
                 </MenuItem>
-                <a href={"/edit_profile"} className={cls.linker}>
 
-                <MenuItem onClick={this.handleMobileMenuClose}>
+                <MenuItem onClick={this.handleProfileMenuOpen}>
                     <IconButton color="inherit">
                         <AccountCircle/>
                     </IconButton>
                    Profile
                 </MenuItem>
-                </a>
             </Menu>
         );
 
@@ -345,7 +355,6 @@ class Navigation extends Component {
                                     <NotificationsIcon/>
                                 </Badge>
                             </IconButton>
-                            <a href={"/edit_profile"} className={cls.linker}>
 
                             <IconButton
                                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
@@ -357,7 +366,6 @@ class Navigation extends Component {
                                 <AccountCircle/>
 
                             </IconButton>
-                            </a>
                         </div>
 
                         <div className={classes.sectionMobile}>
