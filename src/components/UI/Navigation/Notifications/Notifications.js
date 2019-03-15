@@ -15,7 +15,8 @@ const styles = theme => ({
     requestButt: {
         fontSize: 12,
         marginLeft: theme.spacing.unit,
-    }
+    },
+
 });
 
 const Notifications = (props) => {

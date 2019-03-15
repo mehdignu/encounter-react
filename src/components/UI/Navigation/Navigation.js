@@ -167,22 +167,6 @@ class Navigation extends Component {
 
             <Aux>
 
-                <Menu
-                    disableAutoFocusItem={true}
-                    className={cls.profileMenu}
-                    anchorEl={anchorEl}
-                    anchorOrigin={{vertical: 'top', horizontal: 'right'}}
-                    transformOrigin={{vertical: 'top', horizontal: 'right'}}
-                    open={isMenuOpen}
-                    onClose={this.handleMenuClose}
-                >
-
-                    <MenuItem onClick={this.handleMenuClose}>Profile</MenuItem>
-                    <Divider/>
-
-                    <MenuItem onClick={this.handleMenuClose}>My account</MenuItem>
-
-                </Menu>
 
 
                 <Menu
@@ -255,8 +239,8 @@ class Navigation extends Component {
 
                             User1 want to join some cool event boohoo madafaka
 
-
                         </Typography>
+
                         <div className={cls.butts}>
 
                             <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
@@ -301,12 +285,15 @@ class Navigation extends Component {
                     </IconButton>
                     <p>Notifications</p>
                 </MenuItem>
-                <MenuItem onClick={this.handleProfileMenuOpen}>
+                <a href={"/edit_profile"} className={cls.linker}>
+
+                <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
                         <AccountCircle/>
                     </IconButton>
-                    <p>Profile</p>
+                   Profile
                 </MenuItem>
+                </a>
             </Menu>
         );
 
@@ -329,24 +316,6 @@ class Navigation extends Component {
                                     href="/">
                             Encounter
                         </Typography>
-
-                        {/*<div className={classes.search}>*/}
-
-
-                            {/*<div className={classes.searchIcon}>*/}
-                                {/*<SearchIcon/>*/}
-                            {/*</div>*/}
-                            {/*<InputBase*/}
-                                {/*placeholder="Search…"*/}
-                                {/*classes={{*/}
-                                    {/*root: classes.inputRoot,*/}
-                                    {/*input: classes.inputInput,*/}
-                                {/*}}*/}
-                            {/*/>*/}
-
-
-                        {/*</div>*/}
-
 
                         <div className={classes.grow}/>
 
@@ -376,6 +345,7 @@ class Navigation extends Component {
                                     <NotificationsIcon/>
                                 </Badge>
                             </IconButton>
+                            <a href={"/edit_profile"} className={cls.linker}>
 
                             <IconButton
                                 aria-owns={isMenuOpen ? 'material-appbar' : undefined}
@@ -387,7 +357,7 @@ class Navigation extends Component {
                                 <AccountCircle/>
 
                             </IconButton>
-
+                            </a>
                         </div>
 
                         <div className={classes.sectionMobile}>
