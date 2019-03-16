@@ -9,8 +9,6 @@ import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from "prop-types";
 import {Divider} from "@material-ui/core";
-import TextField from "@material-ui/core/TextField";
-import Aux from "../../Feed/CardEvent/CardEvent";
 
 const styles = theme => ({
 
@@ -22,6 +20,8 @@ const styles = theme => ({
         margin: 10,
         width: 90,
         height: 90,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -42,11 +42,28 @@ class ShowProfile extends React.Component {
 
         description: '',
 
-
     };
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
+    };
+
+
+    componentDidMount() {
+        // Call our fetch function below once the component mounts
+        this.callBackendAPI()
+            .then(res => this.setState({ description: res.express }))
+            .catch(err => console.log(err));
+    }
+    // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
+    callBackendAPI = async () => {
+        const response = await fetch('/user');
+        const body = await response.json();
+
+        if (response.status !== 200) {
+            throw Error(body.message)
+        }
+        return body;
     };
 
 
@@ -70,7 +87,7 @@ class ShowProfile extends React.Component {
                         <div className={cls.mainInfos}>
 
                             <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"
-                                    className={[classes.bigAvatar, cls.avtr]}/>
+                                    className={classes.bigAvatar}/>
 
 
                             <Typography variant="h4" className={cls.eventDate}>

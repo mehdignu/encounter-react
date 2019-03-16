@@ -10,7 +10,6 @@ import {withStyles} from '@material-ui/core/styles';
 import PropTypes from "prop-types";
 import {Divider} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
-import Aux from "../../Feed/CardEvent/CardEvent";
 
 const styles = theme => ({
 
@@ -22,6 +21,8 @@ const styles = theme => ({
         margin: 10,
         width: 90,
         height: 90,
+        marginLeft: 'auto',
+        marginRight: 'auto',
     },
     textField: {
         marginLeft: theme.spacing.unit,
@@ -70,7 +71,7 @@ class EditProfile extends React.Component {
                         <div className={cls.mainInfos}>
 
                             <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"
-                                    className={[classes.bigAvatar, cls.avtr]}/>
+                                    className={classes.bigAvatar}/>
 
 
                             <Typography variant="h5" className={cls.eventDate}>
