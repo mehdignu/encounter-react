@@ -4,19 +4,42 @@ import App from './App';
 import './assets/sass/main.scss';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom';
+import {createStore, combineReducers} from 'redux'
+import userReducer from './store/reducers/user'
+import {Provider} from 'react-redux'
+import {offline} from '@redux-offline/redux-offline';
+import config from '@redux-offline/redux-offline/lib/config';
+
+const rootReducer = combineReducers({
+    user: userReducer
+});
+
+const store = createStore(rootReducer, offline(config));
 
 
 const app = (
     <BrowserRouter>
 
-        <App />
+        <App/>
 
     </BrowserRouter>
 );
 
-ReactDOM.render(app, document.getElementById('root'));
+ReactDOM.render(
+    <Provider store={store}>{app}</Provider>,
+    document.getElementById('root')
+);
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: http://bit.ly/CRA-PWA
-serviceWorker.unregister();
+
+//service worker
+// Add this below content to your HTML page, or add the js file to your page at the very top to register service worker
+if (navigator.serviceWorker.controller) {
+    console.log('[PWA Builder] active service worker found, no need to register')
+} else {
+    //Register the ServiceWorker
+    navigator.serviceWorker.register('service-worker.js', {
+        scope: './'
+    }).then(function(reg) {
+        console.log('Service worker has been registered for scope:'+ reg.scope);
+    });
+}

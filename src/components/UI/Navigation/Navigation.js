@@ -20,8 +20,10 @@ import {Divider} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import LoginBox from '../LoginBox/LoginBox';
+import {connect} from 'react-redux';
 /* global gapi */
 const drawerWidth = 240;
+
 
 const styles = theme => ({
     root: {
@@ -177,12 +179,125 @@ class Navigation extends Component {
     render() {
 
 
+        console.log(this.props.currentUser.isLoggedIn);
+
         const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;
         const {classes} = this.props;
         const isMenuOpen = Boolean(anchorEl);
         const isMenuOpenN = Boolean(anchorN);
         const isMenuOpenR = Boolean(anchorR);
         const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+
+        let mainMenu = null;
+        let sideMenu = null;
+        let moreMenu = null;
+
+        if(!this.props.currentUser.isLoggedIn){
+
+
+            mainMenu = (
+
+                <div className={classes.sectionDesktop}>
+
+
+                    <IconButton
+                        aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleLogin}
+                        color="inherit"
+                    >
+
+                        <AccountCircle/>
+
+                    </IconButton>
+
+
+
+                </div>
+            );
+
+
+            moreMenu = (
+
+                <IconButton
+                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                    aria-haspopup="true"
+                    onClick={this.handleLogin}
+                    color="inherit"
+                >
+
+                    <AccountCircle/>
+
+                </IconButton>
+
+            );
+
+
+        } else {
+
+
+            sideMenu = (
+                <NavMenu/>
+
+
+            );
+
+            mainMenu = (
+
+                <div className={classes.sectionDesktop}>
+
+
+                    <IconButton
+                        aria-owns={isMenuOpenR ? 'material-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleRequestsMenuOpen}
+                        color="inherit"
+                    >
+                        <Badge badgeContent={5} color="secondary">
+                            <PersonAddIcon/>
+                        </Badge>
+                    </IconButton>
+
+
+                    <IconButton
+                        aria-owns={isMenuOpenN ? 'material-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleNotificationsMenuOpen}
+                        color="inherit"
+                    >
+                        <Badge badgeContent={17} color="secondary">
+                            <NotificationsIcon/>
+                        </Badge>
+                    </IconButton>
+
+
+
+                    <IconButton
+                        aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleProfileMenuOpen}
+                        color="inherit"
+                    >
+
+                        <KeyboardArrowDownIcon/>
+
+                    </IconButton>
+
+
+                </div>
+
+            );
+
+            moreMenu = (
+                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+                    <MoreIcon/>
+                </IconButton>
+
+
+            );
+
+        }
 
         const renderMenu = (
 
@@ -343,8 +458,7 @@ class Navigation extends Component {
 
                         <Toolbar>
 
-                            <NavMenu/>
-
+                            {sideMenu}
 
                             <div className={classes.grow}/>
 
@@ -356,62 +470,10 @@ class Navigation extends Component {
                             <div className={classes.grow}/>
 
 
-                            <div className={classes.sectionDesktop}>
-
-
-                                <IconButton
-                                    aria-owns={isMenuOpenR ? 'material-appbar' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={this.handleRequestsMenuOpen}
-                                    color="inherit"
-                                >
-                                    <Badge badgeContent={5} color="secondary">
-                                        <PersonAddIcon/>
-                                    </Badge>
-                                </IconButton>
-
-
-                                <IconButton
-                                    aria-owns={isMenuOpenN ? 'material-appbar' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={this.handleNotificationsMenuOpen}
-                                    color="inherit"
-                                >
-                                    <Badge badgeContent={17} color="secondary">
-                                        <NotificationsIcon/>
-                                    </Badge>
-                                </IconButton>
-
-                                <IconButton
-                                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={this.handleLogin}
-                                    color="inherit"
-                                >
-
-                                    <AccountCircle/>
-
-                                </IconButton>
-
-
-                                <IconButton
-                                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={this.handleProfileMenuOpen}
-                                    color="inherit"
-                                >
-
-                                    <KeyboardArrowDownIcon/>
-
-                                </IconButton>
-
-
-                            </div>
+                            {mainMenu}
 
                             <div className={classes.sectionMobile}>
-                                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                                    <MoreIcon/>
-                                </IconButton>
+                                {moreMenu}
                             </div>
                         </Toolbar>
                     </AppBar>
@@ -427,4 +489,16 @@ Navigation.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Navigation);
+
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+
+
+
+export default withStyles(styles)(connect(mapStateToProps)(Navigation));
