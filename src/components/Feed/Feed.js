@@ -30,6 +30,8 @@ const Feed = (props) => {
                 <Grid item xs>
 
                     <Aux>
+
+
                         <CardEvent/>
                         <CardEvent/>
                         <CardEvent/>

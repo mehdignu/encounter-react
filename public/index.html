@@ -2,6 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
+    <script src="https://apis.google.com/js/platform.js?onload=onLoadCallback" async defer></script>
+    <meta name="google-signin-client_id" content="471660051640-t5dua6nsteuu7sku4ve9vgksn0ol73qv.apps.googleusercontent.com">
+
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
     <meta
       name="viewport"
@@ -40,4 +43,41 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+
+<script>
+
+  window.onLoadCallback = function(){
+    gapi.auth2.init({
+      client_id: '471660051640-t5dua6nsteuu7sku4ve9vgksn0ol73qv.apps.googleusercontent.com'
+    });
+  };
+  //
+  // function onSignIn(googleUser) {
+  //   var profile = googleUser.getBasicProfile();
+  //   var user_name = profile.getName();
+  //   window.boo = user_name;
+  // }
+  //
+  // function onLoad() {
+  //   gapi.load('auth2,signin2', function() {
+  //     var auth2 = gapi.auth2.init();
+  //     auth2.then(function() {
+  //       // Current values
+  //       var isSignedIn = auth2.isSignedIn.get();
+  //       var currentUser = auth2.currentUser.get();
+  //
+  //       alert(user_name);
+  //
+  //
+  //       if (!isSignedIn) {
+  //         // Rendering g-signin2 button.
+  //         gapi.signin2.render('google-signin-button', {
+  //           'onsuccess': 'onSignIn'
+  //         });
+  //       }
+  //     });
+  //   });
+  // }
+
+</script>
 </html>

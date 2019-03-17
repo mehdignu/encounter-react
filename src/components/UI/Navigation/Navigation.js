@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import {withStyles} from '@material-ui/core/styles';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
@@ -18,7 +19,8 @@ import cls from './Navigation.scss';
 import {Divider} from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
-
+import LoginBox from '../LoginBox/LoginBox';
+/* global gapi */
 const drawerWidth = 240;
 
 const styles = theme => ({
@@ -47,7 +49,7 @@ const styles = theme => ({
     },
 
     search: {
-        position: 'relative',
+        position: 'absolute',
         borderRadius: theme.shape.borderRadius,
         // backgroundColor: fade(theme.palette.common.white, 0.15),
         // '&:hover': {
@@ -55,7 +57,8 @@ const styles = theme => ({
         // },
         textDecoration: 'none',
         marginLeft: '1em',
-        width: '100%',
+        width: 'auto',
+        float: 'left',
         textAlign: 'left',
         [theme.breakpoints.down('sm')]: {
             // marginLeft: theme.spacing.unit,
@@ -117,7 +120,16 @@ class Navigation extends Component {
         anchorR: null,
         mobileMoreAnchorEl: null,
         mobileMoreAnchorN: null,
+        loginHidden: true
     };
+
+    handleLogin = event => {
+
+        this.setState({loginHidden: !this.state.loginHidden})
+
+
+    };
+
 
     handleProfileMenuOpen = event => {
         this.setState({anchorEl: event.currentTarget});
@@ -154,7 +166,16 @@ class Navigation extends Component {
         this.setState({mobileMoreAnchorEl: null});
     };
 
+    handleLogout = () => {
+        var auth2 = gapi.auth2.getAuthInstance();
+
+        auth2.signOut().then(function () {
+            console.log('User signed out.');
+        });
+    };
+
     render() {
+
 
         const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;
         const {classes} = this.props;
@@ -177,7 +198,7 @@ class Navigation extends Component {
                 >
 
                     <MenuItem onClick={this.handleMenuClose}>My Profile</MenuItem>
-                    <MenuItem onClick={this.handleMenuClose}>Logout</MenuItem>
+                    <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
 
 
@@ -302,7 +323,7 @@ class Navigation extends Component {
                     <IconButton color="inherit">
                         <AccountCircle/>
                     </IconButton>
-                   Profile
+                    Profile
                 </MenuItem>
             </Menu>
         );
@@ -310,74 +331,94 @@ class Navigation extends Component {
 
         return (
 
-            <div className={classes.root}>
+            <Aux>
 
-                <AppBar position="fixed">
+                <LoginBox hidden={this.state.loginHidden}/>
 
-
-                    <Toolbar>
-
-                        <NavMenu/>
+                <div className={classes.root}>
 
 
-                        <div className={classes.grow}/>
-
-                        <Typography className={classes.search} variant="h6" color="inherit" noWrap component="a"
-                                    href="/">
-                            Encounter
-                        </Typography>
-
-                        <div className={classes.grow}/>
+                    <AppBar position="fixed">
 
 
-                        <div className={classes.sectionDesktop}>
+                        <Toolbar>
+
+                            <NavMenu/>
 
 
-                            <IconButton
-                                aria-owns={isMenuOpenR ? 'material-appbar' : undefined}
-                                aria-haspopup="true"
-                                onClick={this.handleRequestsMenuOpen}
-                                color="inherit"
-                            >
-                                <Badge badgeContent={5} color="secondary">
-                                    <PersonAddIcon/>
-                                </Badge>
-                            </IconButton>
+                            <div className={classes.grow}/>
+
+                            <Typography className={classes.search} variant="h6" color="inherit" noWrap component="a"
+                                        href="/">
+                                Encounter
+                            </Typography>
+
+                            <div className={classes.grow}/>
 
 
-                            <IconButton
-                                aria-owns={isMenuOpenN ? 'material-appbar' : undefined}
-                                aria-haspopup="true"
-                                onClick={this.handleNotificationsMenuOpen}
-                                color="inherit"
-                            >
-                                <Badge badgeContent={17} color="secondary">
-                                    <NotificationsIcon/>
-                                </Badge>
-                            </IconButton>
+                            <div className={classes.sectionDesktop}>
 
-                            <IconButton
-                                aria-owns={isMenuOpen ? 'material-appbar' : undefined}
-                                aria-haspopup="true"
-                                onClick={this.handleProfileMenuOpen}
-                                color="inherit"
-                            >
 
-                                <AccountCircle/>
+                                <IconButton
+                                    aria-owns={isMenuOpenR ? 'material-appbar' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.handleRequestsMenuOpen}
+                                    color="inherit"
+                                >
+                                    <Badge badgeContent={5} color="secondary">
+                                        <PersonAddIcon/>
+                                    </Badge>
+                                </IconButton>
 
-                            </IconButton>
-                        </div>
 
-                        <div className={classes.sectionMobile}>
-                            <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
-                                <MoreIcon/>
-                            </IconButton>
-                        </div>
-                    </Toolbar>
-                </AppBar>
-                {renderMenu}
-                {renderMobileMenu}
-            </div>
+                                <IconButton
+                                    aria-owns={isMenuOpenN ? 'material-appbar' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.handleNotificationsMenuOpen}
+                                    color="inherit"
+                                >
+                                    <Badge badgeContent={17} color="secondary">
+                                        <NotificationsIcon/>
+                                    </Badge>
+                                </IconButton>
+
+                                <IconButton
+                                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.handleLogin}
+                                    color="inherit"
+                                >
+
+                                    <AccountCircle/>
+
+                                </IconButton>
+
+
+                                <IconButton
+                                    aria-owns={isMenuOpen ? 'material-appbar' : undefined}
+                                    aria-haspopup="true"
+                                    onClick={this.handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+
+                                    <KeyboardArrowDownIcon/>
+
+                                </IconButton>
+
+
+                            </div>
+
+                            <div className={classes.sectionMobile}>
+                                <IconButton aria-haspopup="true" onClick={this.handleMobileMenuOpen} color="inherit">
+                                    <MoreIcon/>
+                                </IconButton>
+                            </div>
+                        </Toolbar>
+                    </AppBar>
+                    {renderMenu}
+                    {renderMobileMenu}
+                </div>
+            </Aux>
         );
     }
 }
