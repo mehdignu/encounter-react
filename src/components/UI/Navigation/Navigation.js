@@ -21,6 +21,8 @@ import Button from "@material-ui/core/Button";
 import Avatar from "@material-ui/core/Avatar";
 import LoginBox from '../LoginBox/LoginBox';
 import {connect} from 'react-redux';
+import * as actionTypes from '../../../store/actions';
+
 /* global gapi */
 const drawerWidth = 240;
 
@@ -171,15 +173,17 @@ class Navigation extends Component {
     handleLogout = () => {
         var auth2 = gapi.auth2.getAuthInstance();
 
+
+        var a = this;
+
         auth2.signOut().then(function () {
-            console.log('User signed out.');
+            a.props.onLogOut();
+            a.handleMenuClose();
         });
     };
 
     render() {
 
-
-        console.log(this.props.currentUser.isLoggedIn);
 
         const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;
         const {classes} = this.props;
@@ -498,7 +502,16 @@ const mapStateToProps = state => {
     };
 };
 
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
 
 
 
-export default withStyles(styles)(connect(mapStateToProps)(Navigation));
+    }
+};
+
+
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Navigation));

@@ -8,6 +8,8 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import cls from './LoginBox.scss';
 import axios from "axios";
+import {connect} from 'react-redux'
+import * as actionTypes from '../../../store/actions';
 /* global gapi */
 
 const styles = theme => ({
@@ -88,10 +90,11 @@ class LoginBox extends Component {
 
         var auth2 = gapi.auth2.getAuthInstance();
 
+        var a = this;
+
         auth2.signIn().then(function () {
 
             var profile = auth2.currentUser.get().getBasicProfile();
-            console.log(profile.getName());
 
             // Make a request for a user with a given ID
             axios.get('/api/getUser', {
@@ -123,14 +126,18 @@ class LoginBox extends Component {
                                 console.log(error);
                             });
 
+
                     } else {
                         console.log('user exist');
+                        a.props.onLoginIn()
+
                     }
                 })
                 .catch(function (error) {
                     // handle error
                     console.log(error);
                 });
+
 
         });
     };
@@ -170,4 +177,24 @@ LoginBox.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(LoginBox);
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        onFetchUser: (user) => dispatch({type: actionTypes.STORE_USER, usersData: user}),
+        onLoginIn: () => dispatch({type: actionTypes.USER_SIGNEDIN}),
+        onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
+
+
+    }
+};
+
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(LoginBox));
