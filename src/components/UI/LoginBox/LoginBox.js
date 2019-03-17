@@ -1,10 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 import cls from './LoginBox.scss';
 import axios from "axios";
@@ -152,14 +150,11 @@ class LoginBox extends Component {
         return (
             <div className={showLoginodal}>
                 <main ref={this.setWrapperRef} className={classes.main}>
-                    <CssBaseline/>
                     <Paper className={classes.paper}>
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon/>
                         </Avatar>
-                        <Typography component="h1" variant="h5">
-                            Sign in
-                        </Typography>
+
                         <form className={classes.form}>
 
                             <div className="g-signin2" onClick={this.onSignIn}
@@ -167,6 +162,7 @@ class LoginBox extends Component {
 
                         </form>
                     </Paper>
+
                 </main>
             </div>
         );

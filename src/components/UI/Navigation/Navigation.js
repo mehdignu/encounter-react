@@ -197,7 +197,7 @@ class Navigation extends Component {
         let sideMenu = null;
         let moreMenu = null;
 
-        if(!this.props.currentUser.isLoggedIn){
+        if (!this.props.currentUser.isLoggedIn) {
 
 
             mainMenu = (
@@ -215,7 +215,6 @@ class Navigation extends Component {
                         <AccountCircle/>
 
                     </IconButton>
-
 
 
                 </div>
@@ -274,7 +273,6 @@ class Navigation extends Component {
                             <NotificationsIcon/>
                         </Badge>
                     </IconButton>
-
 
 
                     <IconButton
@@ -508,10 +506,8 @@ const mapDispatchToProps = dispatch => {
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
 
 
-
     }
 };
-
 
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Navigation));
