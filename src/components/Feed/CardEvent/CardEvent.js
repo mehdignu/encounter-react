@@ -17,6 +17,7 @@ import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
 import cls from './CardEvent.scss';
 import CardMenu from "../../UI/CardMenu/CardMenu";
+import { withRouter } from 'react-router-dom'
 
 const styles = theme => ({
     card: {
@@ -67,6 +68,10 @@ class CardEvent extends Component {
 
     handleExpandClick = () => {
         this.setState(state => ({expanded: !state.expanded}));
+    };
+
+    handleEventJoin = () => {
+        this.props.history.push('/event');
     };
 
     render() {
@@ -142,7 +147,7 @@ class CardEvent extends Component {
 
                     </CardActions>
 
-                    <Button variant="contained" color="primary" className={classes.button} href="/event">
+                    <Button onClick={this.handleEventJoin} variant="contained" color="primary" className={classes.button} >
                         Join Event
                     </Button>
 
@@ -158,4 +163,4 @@ CardEvent.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(CardEvent);
+export default withStyles(styles)(withRouter(CardEvent));

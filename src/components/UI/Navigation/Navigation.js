@@ -22,7 +22,7 @@ import Avatar from "@material-ui/core/Avatar";
 import LoginBox from '../LoginBox/LoginBox';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../../store/actions';
-
+import { withRouter } from 'react-router-dom'
 /* global gapi */
 const drawerWidth = 240;
 
@@ -60,7 +60,7 @@ const styles = theme => ({
         //     backgroundColor: fade(theme.palette.common.white, 0.25),
         // },
         textDecoration: 'none',
-        marginLeft: '1em',
+        marginLeft: '2.5em',
         width: 'auto',
         float: 'left',
         textAlign: 'left',
@@ -170,6 +170,18 @@ class Navigation extends Component {
         this.setState({mobileMoreAnchorEl: null});
     };
 
+
+    handleOpenProfile = () => {
+        this.props.history.push('/edit_profile');
+        this.handleMenuClose();
+    };
+
+
+    handleHomeButton = () => {
+        this.props.history.push('/');
+        this.handleMenuClose();
+    };
+
     handleLogout = () => {
         var auth2 = gapi.auth2.getAuthInstance();
 
@@ -197,8 +209,8 @@ class Navigation extends Component {
         let sideMenu = null;
         let moreMenu = null;
 
-        if (!this.props.currentUser.isLoggedIn) {
 
+        if (!this.props.currentUser.isLoggedIn) {
 
             mainMenu = (
 
@@ -314,7 +326,7 @@ class Navigation extends Component {
                     onClose={this.handleMenuClose}
                 >
 
-                    <MenuItem onClick={this.handleMenuClose}>My Profile</MenuItem>
+                    <MenuItem onClick={this.handleOpenProfile}>My Profile</MenuItem>
                     <MenuItem onClick={this.handleLogout}>Logout</MenuItem>
                 </Menu>
 
@@ -465,7 +477,7 @@ class Navigation extends Component {
                             <div className={classes.grow}/>
 
                             <Typography className={classes.search} variant="h6" color="inherit" noWrap component="a"
-                                        href="/">
+                                        onClick={this.handleHomeButton}>
                                 Encounter
                             </Typography>
 
@@ -510,4 +522,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(Navigation));
+export default  withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Navigation)));

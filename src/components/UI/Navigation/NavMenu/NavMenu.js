@@ -78,7 +78,14 @@ class NavMenu extends Component {
     };
 
     handleClick = () => {
-        this.setState(state => ({ open: !state.open }));
+        this.setState(state => ({open: !state.open}));
+    };
+
+
+    handleOpenCreate = () => {
+        this.props.history.push("/create");
+        if (this.state.mobileOpen === true)
+            this.setState({mobileOpen: false});
     };
 
 
@@ -90,40 +97,30 @@ class NavMenu extends Component {
                 <Divider/>
                 <List>
 
-                    <ListItem button component="a" href="/create" key={'create'}>
+                    <ListItem button onClick={this.handleOpenCreate} key={'create'}>
                         <ListItemIcon><AddCircle/></ListItemIcon>
                         <ListItemText primary={'create '}/>
                     </ListItem>
 
                     <ListItem button onClick={this.handleClick}>
                         <ListItemIcon>
-                            <EventAvailable />
+                            <EventAvailable/>
                         </ListItemIcon>
-                        <ListItemText inset primary="Upcoming events" className={cls.listText} />
-                        {this.state.open ? <ExpandLess className={cls.arrow} /> : <ExpandMore className={cls.arrow} />}
+                        <ListItemText inset primary="Upcoming events" className={cls.listText}/>
+                        {this.state.open ? <ExpandLess className={cls.arrow}/> : <ExpandMore className={cls.arrow}/>}
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
-                                    <Explicit />
+                                    <Explicit/>
                                 </ListItemIcon>
-                                <ListItemText inset primary="some cool event" />
+                                <ListItemText inset primary="some cool event"/>
                             </ListItem>
                         </List>
                     </Collapse>
 
-                    {/*<Divider/>*/}
-
-
-                    {/*{['sent requests'].map((text, index) => (*/}
-                        {/*<ListItem button key={text}>*/}
-                            {/*<ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>*/}
-                            {/*<ListItemText primary={text}/>*/}
-                        {/*</ListItem>*/}
-                    {/*))}*/}
                 </List>
-
 
             </div>
         );
