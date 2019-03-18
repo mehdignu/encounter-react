@@ -13,6 +13,8 @@ import TextField from "@material-ui/core/TextField";
 import {connect} from "react-redux";
 import * as actionTypes from '../../../store/actions';
 import axios from "axios";
+import {withRouter} from "react-router-dom";
+/* global gapi */
 
 const styles = theme => ({
 
@@ -59,10 +61,35 @@ class EditProfile extends React.Component {
     }
 
 
+    onDelete = () => {
+
+        var a = this;
+
+        var auth2 = gapi.auth2.getAuthInstance();
+
+
+        auth2.signOut().then(function () {
+            a.props.onDeleteUser();
+        });
+
+        axios.delete('/api/deleteUser',
+            {data: {userID: this.props.currentUser.userID}}
+        )
+            .then(function (response) {
+                a.props.history.push('/');
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+    };
+
     onUpdate = () => {
 
 
-        if(this.state.description.length !== 0){
+        if (this.state.description.length !== 0) {
             var a = this;
             const aboutUpdate = this.state.description;
 
@@ -78,7 +105,6 @@ class EditProfile extends React.Component {
                 .catch(function (error) {
                     console.log(error);
                 });
-
 
 
         }
@@ -128,14 +154,16 @@ class EditProfile extends React.Component {
 
 
                         <div className={cls.butts}>
-                            <Button type="submit" variant="contained" color="primary" className={classes.button} onClick={this.onUpdate}>
+                            <Button type="submit" variant="contained" color="primary" className={classes.button}
+                                    onClick={this.onUpdate}>
                                 Save changes
                             </Button>
 
 
                             <Divider/>
 
-                            <Button href="/" variant="outlined" color="secondary" className={classes.button}>
+                            <Button href="/" variant="outlined" color="secondary" className={classes.button}
+                                    onClick={this.onDelete}>
                                 delete account
                             </Button>
 
@@ -176,9 +204,10 @@ const mapDispatchToProps = dispatch => {
     return {
 
         onUpdateUser: (about) => dispatch({type: actionTypes.UPDATE_USER, about: about}),
+        onDeleteUser: () => dispatch({type: actionTypes.RESET}),
 
     }
 };
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EditProfile));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(EditProfile)));

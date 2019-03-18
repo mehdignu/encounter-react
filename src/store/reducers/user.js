@@ -47,6 +47,18 @@ const user = (state = initialState, action) => {
                 about: action.about
             };
 
+        case actionTypes.RESET:
+
+            return {
+                ...state,
+                isLoggedIn: false,
+                userID: null,
+                name: '',
+                email: '',
+                profileImage: '',
+                about: '',
+            };
+
         default:
     }
 

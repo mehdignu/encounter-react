@@ -85,16 +85,24 @@ router.post("/updateUser", (req, res) => {
 
     const {userID, about} = req.body;
 
-    console.log(about);
-    console.log(userID);
-
     User.findOneAndUpdate({"userId": Number(userID)}, {"about": about}, err => {
         if (err) return res.json({success: false, error: err});
         return res.json({success: true});
     });
 });
 
+//delete the user
+router.delete("/deleteUser", (req, res) => {
 
+    const {userID} = req.body;
+
+    console.log(req.body);
+
+    User.findOneAndDelete({"userId": Number(userID)}, err => {
+        if (err) return res.send(err);
+        return res.json({success: true});
+    });
+});
 
 
 
