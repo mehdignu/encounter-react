@@ -130,41 +130,6 @@ class CreateForm extends React.Component {
                     <DatePickerUI />
 
 
-                    {/*<TextField*/}
-                        {/*select*/}
-                        {/*label="Number of people"*/}
-                        {/*className={classNames(classes.margin, classes.textField)}*/}
-                        {/*value={this.state.maxim}*/}
-                        {/*onChange={this.handleChange('maxim')}*/}
-                        {/*required*/}
-
-                    {/*>*/}
-                        {/*{ranges.map(option => (*/}
-                            {/*<MenuItem key={option.value} value={option.value}>*/}
-                                {/*{option.label}*/}
-                            {/*</MenuItem>*/}
-                        {/*))}*/}
-                    {/*</TextField>*/}
-
-
-                    <TextField
-                        select
-                        label="Topic"
-                        className={classNames(classes.margin, classes.textField)}
-                        value={this.state.tag}
-                        onChange={this.handleChange('tag')}
-                        required
-                    >
-                        {tags.map(option => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
-                            </MenuItem>
-                        ))}
-                    </TextField>
-
-
-
-
                     <Button type="submit" variant="contained" color="primary" className={classes.button}>
                         Create
                     </Button>
