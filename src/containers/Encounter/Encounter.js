@@ -21,7 +21,7 @@ function Encounter(props) {
             <Route path="/notifications" exact component={Notifications} />
             <Route path="/requests" exact component={Requests} />
             <Route path="/event" component={Event} />
-            <Route path="/create" component={Create}/>
+            <Route path="/eventForm" component={Create}/>
             <Route path="/" exact component={Feed} />
         </Switch>
 

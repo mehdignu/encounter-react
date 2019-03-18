@@ -83,7 +83,7 @@ class NavMenu extends Component {
 
 
     handleOpenCreate = () => {
-        this.props.history.push("/create");
+        this.props.history.push("/eventForm/create");
         if (this.state.mobileOpen === true)
             this.setState({mobileOpen: false});
     };

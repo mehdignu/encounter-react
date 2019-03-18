@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
-const User = require("./Model/user");
+const User = require("./Model/User");
+const Event = require("./Model/Event");
 
 
 const API_PORT = 5000;
@@ -21,7 +22,6 @@ mongoose.connect(
 let db = mongoose.connection;
 
 
-
 db.once("open", () => console.log("connected to the database"));
 
 // checks if connection with the database is successful
@@ -34,17 +34,18 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 
+/* User database api endpoint  */
 
 //get user to the database
 router.get("/getUser", (req, res) => {
 
     var userID = req.query.userID;
 
-    User.findOne( {"userId": Number(userID)},
+    User.findOne({"userId": Number(userID)},
         (err, data) => {
-        if (err) return res.json({success: false, error: err});
-        return res.json({success: true, data: data});
-    });
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
 });
 
 
@@ -103,6 +104,33 @@ router.delete("/deleteUser", (req, res) => {
     });
 });
 
+/* Event database api endpoint  */
+
+
+//add event to the database
+router.post("/createEvent", (req, res) => {
+
+    let newEvent = new Event();
+
+    const {title, desc, loc, date, time, admin} = req.body;
+
+
+    newEvent.title = title;
+    newEvent.description = desc;
+    newEvent.location = loc;
+    newEvent.date = date;
+    newEvent.time = time;
+    newEvent.admin = admin;
+    newEvent.participants = [admin];
+    newEvent.requester = [];
+
+
+    newEvent.save(err => {
+        if (err) return res.json({success: false, error: err});
+        return res.json({success: true});
+    });
+
+});
 
 // append /api for our http requests
 app.use("/api", router);

@@ -4,6 +4,9 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import {withStyles} from "@material-ui/core";
 import CreateForm from "./CreateForm/CreateForm";
+import {Route, Switch} from "react-router-dom";
+import EditEvent from "./EditEvent/EditEvent";
+
 
 const styles = theme => ({
     root: {
@@ -29,9 +32,13 @@ const Feed = (props) => {
                 </Hidden>
                 <Grid item xs>
 
-                    <Aux>
-                        <CreateForm/>
-                    </Aux>
+
+                    <Switch>
+                        <Route path="/eventForm/create" exact component={CreateForm}/>
+                        <Route path="/eventForm/edit" exact component={EditEvent}/>
+
+                    </Switch>
+
                 </Grid>
                 <Hidden smDown>
 
@@ -43,7 +50,6 @@ const Feed = (props) => {
                 </Hidden>
             </Grid>
         </div>
-
 
 
     );
