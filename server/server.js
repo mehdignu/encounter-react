@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const User = require("./Model/user");
 const Data = require("./Model/data");
-var Int32 = require('mongoose-int32');
 
 
 const API_PORT = 5000;
@@ -71,6 +70,7 @@ router.post("/addUser", (req, res) => {
     newUser.name = name;
     newUser.image = image;
     newUser.email = email;
+    newUser.about = '';
 
 
     newUser.save(err => {
@@ -78,6 +78,20 @@ router.post("/addUser", (req, res) => {
         return res.json({success: true});
     });
 
+});
+
+//update the user
+router.post("/updateUser", (req, res) => {
+
+    const {userID, about} = req.body;
+
+    console.log(about);
+    console.log(userID);
+
+    User.findOneAndUpdate({"userId": Number(userID)}, {"about": about}, err => {
+        if (err) return res.json({success: false, error: err});
+        return res.json({success: true});
+    });
 });
 
 

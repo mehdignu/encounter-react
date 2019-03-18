@@ -10,6 +10,9 @@ import {withStyles} from '@material-ui/core/styles';
 import PropTypes from "prop-types";
 import {Divider} from "@material-ui/core";
 import TextField from "@material-ui/core/TextField";
+import {connect} from "react-redux";
+import * as actionTypes from '../../../store/actions';
+import axios from "axios";
 
 const styles = theme => ({
 
@@ -41,7 +44,7 @@ class EditProfile extends React.Component {
 
     state = {
 
-        description: '',
+        description: this.props.currentUser.about,
 
 
     };
@@ -55,6 +58,33 @@ class EditProfile extends React.Component {
 
     }
 
+
+    onUpdate = () => {
+
+
+        if(this.state.description.length !== 0){
+            var a = this;
+            const aboutUpdate = this.state.description;
+
+            axios.post('/api/updateUser', {
+
+                userID: this.props.currentUser.userID,
+                about: aboutUpdate
+
+            })
+                .then(function (response) {
+                    a.props.onUpdateUser(aboutUpdate);
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+
+
+
+        }
+
+
+    };
 
 
     render() {
@@ -76,12 +106,12 @@ class EditProfile extends React.Component {
 
                         <div className={cls.mainInfos}>
 
-                            <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"
+                            <Avatar alt="Remy Sharp" src={this.props.currentUser.profileImage}
                                     className={classes.bigAvatar}/>
 
 
                             <Typography variant="h5" className={cls.eventDate}>
-                                Mehdi Dridi
+                                {this.props.currentUser.name}
 
                             </Typography>
 
@@ -98,7 +128,7 @@ class EditProfile extends React.Component {
 
 
                         <div className={cls.butts}>
-                            <Button type="submit" variant="contained" color="primary" className={classes.button}>
+                            <Button type="submit" variant="contained" color="primary" className={classes.button} onClick={this.onUpdate}>
                                 Save changes
                             </Button>
 
@@ -133,4 +163,22 @@ EditProfile.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(EditProfile);
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+
+        onUpdateUser: (about) => dispatch({type: actionTypes.UPDATE_USER, about: about}),
+
+    }
+};
+
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(EditProfile));

@@ -118,7 +118,17 @@ class LoginBox extends Component {
 
                         })
                             .then(function (response) {
-                                console.log(response);
+                                a.props.onLoginIn();
+
+                                let user = [{
+                                    "userId": profile.getId(),
+                                    "name": profile.getName(),
+                                    "image": profile.getImageUrl(),
+                                    "email": profile.getEmail()
+                                }];
+
+
+                                a.props.onFetchUser(user[0]);
                             })
                             .catch(function (error) {
                                 console.log(error);
@@ -127,7 +137,18 @@ class LoginBox extends Component {
 
                     } else {
                         console.log('user exist');
-                        a.props.onLoginIn()
+                        a.props.onLoginIn();
+
+                        let user = [{
+                            "userId": profile.getId(),
+                            "name": profile.getName(),
+                            "image": profile.getImageUrl(),
+                            "email": profile.getEmail()
+                        }];
+
+
+                        a.props.onFetchUser(user[0]);
+
 
                     }
                 })
@@ -184,7 +205,7 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchUser: (user) => dispatch({type: actionTypes.STORE_USER, usersData: user}),
+        onFetchUser: (user) => dispatch({type: actionTypes.STORE_USER, user: user}),
         onLoginIn: () => dispatch({type: actionTypes.USER_SIGNEDIN}),
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
 
