@@ -12,7 +12,7 @@ const EventInfo = (props) => (
 
 
         <Typography variant="h6" className={cls.title}>
-            Event Title
+            {props.title}
         </Typography>
 
 
@@ -28,7 +28,7 @@ const EventInfo = (props) => (
 
                 </IconButton>
                 <Typography paragraph>
-                    Aristotelessteig 6, 10318 Berlin
+                    {props.loc}
                 </Typography>
 
             </div>
@@ -42,7 +42,7 @@ const EventInfo = (props) => (
                 </IconButton>
 
                 <Typography paragraph>
-                    13th February 2019 10:00 AM
+                    {props.date} {props.time}
                 </Typography>
             </div>
         </div>
@@ -50,9 +50,7 @@ const EventInfo = (props) => (
 
         <Typography className={cls.description}>
 
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, maiores voluptates. Animi aut beatae
-            dignissimos dolor in, incidunt itaque natus nemo nobis quisquam repellat sapiente sequi soluta, tempore,
-            vero? Incidunt!
+            {props.desc}
 
         </Typography>
 

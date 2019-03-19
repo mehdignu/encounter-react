@@ -13,7 +13,7 @@ import EventAvailable from '@material-ui/icons/Event';
 import MenuIcon from '@material-ui/icons/Menu';
 import Explicit from '@material-ui/icons/Explicit';
 import {withStyles} from '@material-ui/core/styles';
-import {withRouter} from "react-router-dom";
+import {NavLink, withRouter} from "react-router-dom";
 import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
@@ -93,13 +93,16 @@ class NavMenu extends Component {
             this.setState({mobileOpen: false});
     };
 
-    handleEnterEvent = (event) => {
-        console.log(event.target.id);
-        // this.props.history.push("/eventForm/create");
-    };
+    componentWillUpdate(nextProps, nextState, nextContext) {
 
+        // console.log(nextState);
+
+        //TODO - close sideMenu after using it
+
+    }
 
     componentDidMount() {
+
 
         var a = this;
         const userId = this.props.currentUser.userID;
@@ -129,34 +132,27 @@ class NavMenu extends Component {
         const {classes, theme} = this.props;
 
         let key = 0;
-        let eventsFeed = <p>loading events</p>;
+        let userEvents = <p>loading events</p>;
 
 
         if (this.state.events.length !== 0) {
 
-            eventsFeed = this.state.events.map(
+            userEvents = this.state.events.map(
                 x => {
 
-
-
-                    const eventDate = new MomentUtils({ locale: "de" }).date(x.date).format("MMMM Do YYYY");
-                    const eventTime = new MomentUtils({ locale: "de" }).date(x.time).format("H:mm a");
-                    const eventCreationDate = new MomentUtils({ locale: "de" }).date(x.time).format("MMMM Do YYYY");
-
+                    const eventID = x._id;
 
                     return (
 
-                        <CardEvent
-                            key={key++}
-                            title={x.title}
-                            description={x.description}
-                            locat={x.location}
-                            date={eventDate}
-                            time={eventTime}
-                            eventCreationDate={eventCreationDate}
-                            adminName={x.adminName}
-                            adminPicture={x.adminPicture}
-                        />
+                        <NavLink className={cls.link} exact
+                                 to={{pathname: '/event/' + eventID}} key={key++}>
+                            <ListItem button className={classes.nested}>
+                                <ListItemIcon>
+                                    <Explicit/>
+                                </ListItemIcon>
+                                <ListItemText inset primary={x.title}/>
+                            </ListItem>
+                        </NavLink>
 
 
                     );
@@ -188,20 +184,10 @@ class NavMenu extends Component {
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
 
-                        <List component="div" >
-                            <ListItem button id={12345} onClick={this.handleEnterEvent} key={'de'} className={classes.nested}>
-                                <ListItemIcon>
-                                    <Explicit/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="some cool event" />
-                            </ListItem>
+                        <List component="div">
 
-                            <ListItem button className={classes.nested}>
-                                <ListItemIcon>
-                                    <Explicit/>
-                                </ListItemIcon>
-                                <ListItemText inset primary="some cool event"/>
-                            </ListItem>
+
+                            {userEvents}
 
                         </List>
 
@@ -217,7 +203,7 @@ class NavMenu extends Component {
         let menuButton = null;
 
         //case the chatbox page hide the side bar and show the menu button
-        if (this.props.location.pathname === "/event") {
+        if (this.props.location.pathname.startsWith("/event/")) {
 
             menuButton = classes.menuButtonEvent;
 

@@ -126,7 +126,24 @@ router.get("/getFeed", (req, res) => {
 });
 
 
-//get Events feed from the database
+//get Eevnt from id
+router.get("/getEvent", (req, res) => {
+
+    var eventID = req.query.eventID;
+
+    Event.findOne({
+      "_id": eventID
+    },
+        (err, data) => {
+
+
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
+});
+
+
+//get all user Events
 router.get("/getUserEvents", (req, res) => {
 
     const userID = req.query.userID;
