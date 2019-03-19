@@ -48,7 +48,6 @@ class Event extends Component {
                 if (response.status === 200) {
 
                     a.setState({eventData: response.data.data});
-                    console.log(response.data.data);
 
                     if (a.state.eventData.participants.length > 0) {
 
@@ -72,7 +71,6 @@ class Event extends Component {
                                             userImg: response.data.data.image,
                                         };
 
-                                        console.log(userParticipant);
                                         a.setState(prevState => ({
                                             participants: [...prevState.participants, userParticipant]
                                         }))
@@ -100,7 +98,7 @@ class Event extends Component {
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (this.props.match.params.id !== nextProps.match.params.id) {
 
-
+            this.setState({participants: []});
             this.fetchEventInfos(nextProps.match.params.id);
 
         }

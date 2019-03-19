@@ -17,7 +17,7 @@ import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
 import cls from './CardEvent.scss';
 import CardMenu from "../../UI/CardMenu/CardMenu";
-import { withRouter } from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 
 const styles = theme => ({
     card: {
@@ -64,14 +64,17 @@ const styles = theme => ({
 });
 
 class CardEvent extends Component {
-    state = {expanded: false};
+    state = {
+        expanded: false,
+        eventID: this.props.eventID
+    };
 
     handleExpandClick = () => {
         this.setState(state => ({expanded: !state.expanded}));
     };
 
     handleEventJoin = () => {
-        this.props.history.push('/event');
+        this.props.history.push('/event/'+this.state.eventID);
     };
 
     render() {
@@ -89,7 +92,8 @@ class CardEvent extends Component {
                 <Card className={classes.card}>
                     <CardHeader
                         avatar={
-                            <Avatar alt={this.props.adminName} src={this.props.adminPicture} className={classes.avatar} />
+                            <Avatar alt={this.props.adminName} src={this.props.adminPicture}
+                                    className={classes.avatar}/>
                         }
                         action={
                             <CardMenu/>
@@ -138,14 +142,14 @@ class CardEvent extends Component {
                         </Typography>
 
 
-
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
 
 
                     </CardActions>
 
-                    <Button onClick={this.handleEventJoin} variant="contained" color="primary" className={classes.button} >
+                    <Button onClick={this.handleEventJoin} variant="contained" color="primary"
+                            className={classes.button}>
                         Join Event
                     </Button>
 

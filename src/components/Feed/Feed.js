@@ -63,12 +63,13 @@ class Feed extends Component {
                     const eventDate = new MomentUtils({ locale: "de" }).date(x.date).format("MMMM Do YYYY");
                     const eventTime = new MomentUtils({ locale: "de" }).date(x.time).format("H:mm a");
                     const eventCreationDate = new MomentUtils({ locale: "de" }).date(x.time).format("MMMM Do YYYY");
-
+                    const eventID = x._id;
 
                     return (
 
                         <CardEvent
                             key={key++}
+                            eventID = {eventID}
                             title={x.title}
                             description={x.description}
                             locat={x.location}
