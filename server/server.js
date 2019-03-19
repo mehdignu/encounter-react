@@ -34,9 +34,12 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 
-/* User database api endpoint  */
+                        /* ************************** */
+                        /* User database api endpoint */
+                        /* ************************** */
 
-//get user to the database
+
+//get user from the database
 router.get("/getUser", (req, res) => {
 
     var userID = req.query.userID;
@@ -96,7 +99,6 @@ router.delete("/deleteUser", (req, res) => {
 
     const {userID} = req.body;
 
-    console.log(req.body);
 
     User.findOneAndDelete({"userId": Number(userID)}, err => {
         if (err) return res.send(err);
@@ -104,15 +106,45 @@ router.delete("/deleteUser", (req, res) => {
     });
 });
 
-/* Event database api endpoint  */
+                        /* ***************************  */
+                        /* Event database api endpoint  */
+                        /* ***************************  */
 
+
+
+
+//get Events feed from the database
+router.get("/getFeed", (req, res) => {
+
+    Event.find(
+        (err, data) => {
+
+
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
+});
+
+
+//get Events feed from the database
+router.get("/getUserEvents", (req, res) => {
+
+    const userID = req.query.userID;
+
+    Event.find({"admin": Number(userID)},
+        (err, data) => {
+
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
+});
 
 //add event to the database
 router.post("/createEvent", (req, res) => {
 
     let newEvent = new Event();
 
-    const {title, desc, loc, date, time, admin} = req.body;
+    const {title, desc, loc, date, time, admin, adminName, adminPicture} = req.body;
 
 
     newEvent.title = title;
@@ -122,6 +154,8 @@ router.post("/createEvent", (req, res) => {
     newEvent.time = time;
     newEvent.admin = admin;
     newEvent.participants = [admin];
+    newEvent.adminName = adminName;
+    newEvent.adminPicture = adminPicture;
     newEvent.requester = [];
 
 

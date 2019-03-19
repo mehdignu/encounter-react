@@ -77,27 +77,26 @@ class CardEvent extends Component {
     render() {
         const {classes} = this.props;
 
+
         return (
 
             <Aux>
                 <Typography variant="h5" className={cls.eventDate}>
-                    13th February 2019
+                    {this.props.date}
                 </Typography>
                 <hr align="left"/>
 
                 <Card className={classes.card}>
                     <CardHeader
                         avatar={
-                            <Avatar aria-label="Recipe" className={classes.avatar}>
-                                R
-                            </Avatar>
+                            <Avatar alt={this.props.adminName} src={this.props.adminPicture} className={classes.avatar} />
                         }
                         action={
                             <CardMenu/>
 
                         }
-                        title="Shrimp and Chorizo Paella"
-                        subheader="September 14, 2016"
+                        title={this.props.adminName}
+                        subheader={this.props.eventCreationDate}
                     />
                     <CardMedia
                         className={classes.media}
@@ -107,7 +106,7 @@ class CardEvent extends Component {
                     <CardContent>
 
                         <Typography variant="h6" gutterBottom>
-                            Some cool event
+                            {this.props.title}
                         </Typography>
 
                         <div className={cls.mainInfo}>
@@ -120,7 +119,7 @@ class CardEvent extends Component {
 
                             </IconButton>
                             <Typography paragraph>
-                                Aristotelessteig 6, 10318 Berlin
+                                {this.props.locat}
                             </Typography>
 
                             <IconButton aria-label="Event time" disabled={true}>
@@ -129,14 +128,13 @@ class CardEvent extends Component {
                             </IconButton>
 
                             <Typography paragraph>
-                                10:00 AM
+                                {this.props.time}
                             </Typography>
 
                         </div>
 
                         <Typography component="p">
-                            This impressive paella is a perfect party dish and a fun meal to cook together with your
-                            guests. Add 1 cup of frozen peas along with the mussels, if you like.
+                            {this.props.description}
                         </Typography>
 
 

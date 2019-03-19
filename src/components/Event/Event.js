@@ -16,7 +16,7 @@ const event = (props) => {
 
 
     const {classes} = props;
-
+console.log(props);
     return (
 
         <div className={classes.root}>

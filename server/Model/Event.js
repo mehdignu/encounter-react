@@ -9,6 +9,8 @@ const DataSchema = new Schema(
         date: Number, // timestamp of the date
         time: Number, // timestamp
         admin: Number,
+        adminName: String,
+        adminPicture: String,
         participants: [Number],
         requester: [Number],
     },

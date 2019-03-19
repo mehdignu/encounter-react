@@ -94,6 +94,8 @@ class CreateForm extends Component {
             const date = this.state.selectedDate.valueOf();
             const time = this.state.selectedTime.valueOf();
             const admin = this.props.currentUser.userID;
+            const adminName = this.props.currentUser.name;
+            const adminPicture = this.props.currentUser.profileImage;
 
 
             axios.post('/api/createEvent', {
@@ -104,6 +106,8 @@ class CreateForm extends Component {
                 date: date,
                 time: time,
                 admin: admin,
+                adminName: adminName,
+                adminPicture: adminPicture,
 
             })
                 .then(function (response) {

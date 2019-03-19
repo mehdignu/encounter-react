@@ -19,6 +19,7 @@ const Feed = (props) => {
 
     const {classes} = props;
 
+
     return (
 
         <div className={classes.root}>
@@ -34,9 +35,8 @@ const Feed = (props) => {
 
 
                     <Switch>
+                        <Route path="/eventForm/edit/:id" exact component={EditEvent}/>
                         <Route path="/eventForm/create" exact component={CreateForm}/>
-                        <Route path="/eventForm/edit" exact component={EditEvent}/>
-
                     </Switch>
 
                 </Grid>

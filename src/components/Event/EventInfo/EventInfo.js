@@ -53,12 +53,7 @@ const EventInfo = (props) => (
             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, maiores voluptates. Animi aut beatae
             dignissimos dolor in, incidunt itaque natus nemo nobis quisquam repellat sapiente sequi soluta, tempore,
             vero? Incidunt!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aut blanditiis culpa dolor
-            dolorum error est, facere iure molestias nobis optio, qui ratione tempore veritatis voluptatum. Atque,
-            perferendis.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aut blanditiis culpa dolor
-            dolorum error est, facere iure molestias nobis optio, qui ratione tempore veritatis voluptatum. Atque,
-            perferendis.
+
         </Typography>
 
 

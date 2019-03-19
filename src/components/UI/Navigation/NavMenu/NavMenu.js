@@ -18,6 +18,10 @@ import Collapse from '@material-ui/core/Collapse';
 import ExpandLess from '@material-ui/icons/ExpandLess';
 import ExpandMore from '@material-ui/icons/ExpandMore';
 import cls from './NavMenu.scss';
+import axios from "axios";
+import {connect} from "react-redux";
+import MomentUtils from "@date-io/moment";
+import CardEvent from "../../../Feed/Feed";
 
 const drawerWidth = 240;
 
@@ -71,6 +75,7 @@ class NavMenu extends Component {
     state = {
         mobileOpen: false,
         open: true,
+        events: [],
     };
 
     handleDrawerToggle = () => {
@@ -88,9 +93,81 @@ class NavMenu extends Component {
             this.setState({mobileOpen: false});
     };
 
+    handleEnterEvent = (event) => {
+        console.log(event.target.id);
+        // this.props.history.push("/eventForm/create");
+    };
+
+
+    componentDidMount() {
+
+        var a = this;
+        const userId = this.props.currentUser.userID;
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            }
+        })
+            .then(function (response) {
+
+                a.setState({loading: false});
+
+                if (response.status === 200) {
+
+                    a.setState({events: response.data.data});
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
 
     render() {
         const {classes, theme} = this.props;
+
+        let key = 0;
+        let eventsFeed = <p>loading events</p>;
+
+
+        if (this.state.events.length !== 0) {
+
+            eventsFeed = this.state.events.map(
+                x => {
+
+
+
+                    const eventDate = new MomentUtils({ locale: "de" }).date(x.date).format("MMMM Do YYYY");
+                    const eventTime = new MomentUtils({ locale: "de" }).date(x.time).format("H:mm a");
+                    const eventCreationDate = new MomentUtils({ locale: "de" }).date(x.time).format("MMMM Do YYYY");
+
+
+                    return (
+
+                        <CardEvent
+                            key={key++}
+                            title={x.title}
+                            description={x.description}
+                            locat={x.location}
+                            date={eventDate}
+                            time={eventTime}
+                            eventCreationDate={eventCreationDate}
+                            adminName={x.adminName}
+                            adminPicture={x.adminPicture}
+                        />
+
+
+                    );
+                }
+            );
+
+
+        }
+
+        //TODO - finish enter event with id
+
 
         const drawer = (
             <div>
@@ -110,14 +187,24 @@ class NavMenu extends Component {
                         {this.state.open ? <ExpandLess className={cls.arrow}/> : <ExpandMore className={cls.arrow}/>}
                     </ListItem>
                     <Collapse in={this.state.open} timeout="auto" unmountOnExit>
-                        <List component="div" disablePadding>
+
+                        <List component="div" >
+                            <ListItem button id={12345} onClick={this.handleEnterEvent} key={'de'} className={classes.nested}>
+                                <ListItemIcon>
+                                    <Explicit/>
+                                </ListItemIcon>
+                                <ListItemText inset primary="some cool event" />
+                            </ListItem>
+
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <Explicit/>
                                 </ListItemIcon>
                                 <ListItemText inset primary="some cool event"/>
                             </ListItem>
+
                         </List>
+
                     </Collapse>
 
                 </List>
@@ -220,4 +307,18 @@ NavMenu.propTypes = {
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, {withTheme: true})(withRouter(NavMenu));
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {}
+};
+
+
+export default withStyles(styles, {withTheme: true})(withRouter(connect(mapStateToProps, mapDispatchToProps)(NavMenu)));

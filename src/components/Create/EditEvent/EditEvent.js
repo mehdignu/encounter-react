@@ -126,7 +126,18 @@ class CreateForm extends Component {
         this.props.history.push('/');
     };
 
+
     render() {
+
+
+        if (this.props.match.params.id) {
+
+
+            console.log(this.props.match.params.id);
+
+
+        }
+
         const {classes} = this.props;
 
         return (
