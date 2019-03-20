@@ -3,7 +3,7 @@
   flex-wrap: wrap;
   height: 83vh;
   padding: 18px;
-
+  position: relative;
 }
 
 .title {
@@ -41,6 +41,14 @@
   padding-left: 0;
 }
 
+.content .butts{
+  padding: 0;
+  margin: 0;
+  bottom: 1em;
+  width: 90%;
+  left: 5px;
+  position: absolute;
+}
 
 .mainInfo p{
   padding-top: 18px;
@@ -53,5 +61,11 @@
 
 .straightButt {
   padding-left: 0;
+
+}
+
+
+.description {
+  padding-bottom: 1em;
 
 }

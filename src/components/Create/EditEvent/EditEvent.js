@@ -66,6 +66,8 @@ class CreateForm extends Component {
         selectedDate: new Date(),
         selectedTime: new Date(),
 
+        eventID: '',
+
     };
 
     handleChange = name => event => {
@@ -81,10 +83,9 @@ class CreateForm extends Component {
         this.setState({selectedTime: date});
     };
 
-    handleCreation = () => {
+    handleUpdate = () => {
 
         if (this.state.title.length !== 0 && this.state.description.length !== 0) {
-
 
             var a = this;
 
@@ -93,23 +94,23 @@ class CreateForm extends Component {
             const loc = this.state.location;
             const date = this.state.selectedDate.valueOf();
             const time = this.state.selectedTime.valueOf();
-            const admin = this.props.currentUser.userID;
+            const eventID = this.state.eventID;
 
 
-            axios.post('/api/createEvent', {
+            axios.post('/api/updateEvent', {
 
+                eventID: eventID,
                 title: title,
                 desc: desc,
                 loc: loc,
                 date: date,
                 time: time,
-                admin: admin,
 
             })
                 .then(function (response) {
 
-                    a.props.history.push('/');
-                    console.log(response);
+                    if (response.status === 200)
+                        a.props.history.push('/');
 
                 })
                 .catch(function (error) {
@@ -126,17 +127,55 @@ class CreateForm extends Component {
         this.props.history.push('/');
     };
 
+    fetchEventInfos = (id) => {
 
-    render() {
+        var a = this;
 
+        axios.get('/api/getEvent', {
+            params: {
+                eventID: id
+            }
+        })
+            .then(function (response) {
+
+                a.setState({loading: false});
+
+                if (response.status === 200) {
+
+                    a.setState({title: response.data.data.title});
+                    a.setState({description: response.data.data.description});
+                    a.setState({location: response.data.data.location});
+
+                    const eventDate = new MomentUtils({locale: "de"}).date(response.data.data.date);
+                    const eventTime = new MomentUtils({locale: "de"}).date(response.data.data.time);
+
+                    a.setState({selectedDate: eventDate});
+                    a.setState({selectedTime: eventTime});
+                    a.setState({eventID: response.data.data._id});
+
+
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    };
+
+    componentDidMount() {
 
         if (this.props.match.params.id) {
 
-
-            console.log(this.props.match.params.id);
-
+            this.fetchEventInfos(this.props.match.params.id);
 
         }
+
+    }
+
+
+    render() {
+
 
         const {classes} = this.props;
 
@@ -148,7 +187,7 @@ class CreateForm extends Component {
                 <form className={classes.container} autoComplete="off">
 
                     <Typography variant="h4">
-                        Create new Encounter
+                        Update Encounter
                     </Typography>
 
                     <TextField
@@ -201,8 +240,8 @@ class CreateForm extends Component {
 
 
                     <Button variant="contained" color="primary" className={classes.button}
-                            onClick={this.handleCreation}>
-                        Create
+                            onClick={this.handleUpdate}>
+                        Update
                     </Button>
 
                     <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button}>

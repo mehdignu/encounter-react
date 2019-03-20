@@ -34,9 +34,9 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 
-                        /* ************************** */
-                        /* User database api endpoint */
-                        /* ************************** */
+/* ************************** */
+/* User database api endpoint */
+/* ************************** */
 
 
 //get user from the database
@@ -99,18 +99,15 @@ router.delete("/deleteUser", (req, res) => {
 
     const {userID} = req.body;
 
-
     User.findOneAndDelete({"userId": Number(userID)}, err => {
         if (err) return res.send(err);
         return res.json({success: true});
     });
 });
 
-                        /* ***************************  */
-                        /* Event database api endpoint  */
-                        /* ***************************  */
-
-
+/* ***************************  */
+/* Event database api endpoint  */
+/* ***************************  */
 
 
 //get Events feed from the database
@@ -132,8 +129,8 @@ router.get("/getEvent", (req, res) => {
     var eventID = req.query.eventID;
 
     Event.findOne({
-      "_id": eventID
-    },
+            "_id": eventID
+        },
         (err, data) => {
 
 
@@ -181,6 +178,40 @@ router.post("/createEvent", (req, res) => {
         return res.json({success: true});
     });
 
+});
+
+//update event
+router.post("/updateEvent", (req, res) => {
+
+    const {eventID, title, desc, loc, date, time} = req.body;
+
+    Event.findOneAndUpdate({"_id": eventID}, {
+
+
+        "title": title,
+        "description": desc,
+        "location": loc,
+        "date": date,
+        "time": time,
+
+    }, err => {
+        if (err) return res.json({success: false, error: err});
+        return res.json({success: true});
+    });
+});
+
+
+//delete the event
+router.delete("/deleteEvent", (req, res) => {
+
+    const {eventID} = req.body;
+
+    console.log(eventID);
+
+    Event.findOneAndDelete({"_id": eventID}, err => {
+        if (err) return res.send(err);
+        return res.json({success: true});
+    });
 });
 
 // append /api for our http requests
