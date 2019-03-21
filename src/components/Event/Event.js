@@ -6,12 +6,16 @@ import EventBox from "./EventBox/EventBox";
 import EventInfo from "./EventInfo/EventInfo";
 import EventAttendees from "./EventAttendees/EventAttendees";
 import axios from "axios";
-import {NavLink} from "react-router-dom";
+import {NavLink, withRouter} from "react-router-dom";
 import cls from "./Event.scss";
 import ListItem from "../UI/Navigation/NavMenu/NavMenu";
 import MomentUtils from "@date-io/moment";
 import Paper from "@material-ui/core/Paper";
+import {connect} from "react-redux";
+import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
+import {string} from "prop-types";
 
+let chatManager = null;
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -27,8 +31,64 @@ class Event extends Component {
         eventData: null,
         eventID: this.props.match.params.id,
         participants: [],
+        currentPusherUser: null,
+        currentRoom: { users: [] },
+        messages: [],
+        users: []
 
     };
+
+    componentDidMount() {
+
+
+        this.fetchEventInfos();
+
+
+
+
+
+    }
+
+
+    // fetchPusherUser = () => {
+    //
+    //
+    //
+    //     const uid = this.props.currentUser.userID;
+    //     const chatManager = new ChatManager({
+    //         instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+    //         userId: uid,
+    //         tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+    //     });
+    //
+    //     chatManager
+    //         .connect()
+    //         .then(currentUser => {
+    //
+    //             this.setState({currentPusherUser: currentUser});
+    //
+    //             // return currentUser.subscribeToRoom({
+    //             //     roomId: this.status.eventData.pusherID,
+    //             //     messageLimit: 100,
+    //             //     hooks: {
+    //             //         onMessage: message => {
+    //             //             this.setState({
+    //             //                 messages: [...this.state.messages, message],
+    //             //             })
+    //             //         },
+    //             //     }
+    //             // })
+    //         })
+    //         .then(currentRoom => {
+    //             // this.setState({
+    //             //     currentRoom,
+    //             //     users: currentRoom.userIds
+    //             // })
+    //         })
+    //         .catch(error => console.log(error))
+    //
+    // };
+
 
     fetchEventInfos = (id) => {
 
@@ -104,23 +164,29 @@ class Event extends Component {
         }
     }
 
-    componentDidMount() {
-
-        this.fetchEventInfos();
-
-    }
 
 
     render() {
 
         const {classes} = this.props;
 
-
         //load events info
         let eventInfo = <p>loadign event infos</p>;
+        let eventChat = <p>loadign chat</p>;
 
         let k1 = 0;
-        if (this.state.eventData) {
+
+        console.log(this.state.eventData);
+
+        if (this.state.eventData === null || this.props.currentUser.userID === null) {
+
+            return null;
+        }
+
+
+
+
+
 
             const eventDate = new MomentUtils({locale: "de"}).date(this.state.eventData.date).format("MMMM Do YYYY");
             const eventTime = new MomentUtils({locale: "de"}).date(this.state.eventData.time).format("H:mm a");
@@ -139,8 +205,18 @@ class Event extends Component {
                 />
             );
 
+            console.log(this.props.currentUser.userID);
 
-        }
+            eventChat = (
+
+                <EventBox
+                    userID={this.props.currentUser.userID}
+                    eventID={this.state.eventData._id}
+                    pusherID={this.state.eventData.pusherID}
+                />
+
+            );
+
 
 
         //load participants info
@@ -183,8 +259,7 @@ class Event extends Component {
                     </Hidden>
                     <Grid item xs>
 
-
-                        <EventBox/>
+                        {eventChat}
 
                     </Grid>
                     <Hidden smDown>
@@ -215,5 +290,23 @@ class Event extends Component {
     };
 };
 
-export default withStyles(styles)(Event);
+
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+
+
+    }
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Event)));
 

@@ -38,6 +38,7 @@ class EventInfo extends React.Component {
     onDelete = (e) => {
         var a = this;
 
+        //TODO - check if the user is admin of the event before delete it
         axios.delete('/api/deleteEvent',
             {data: {eventID: this.props.eventID}}
         )

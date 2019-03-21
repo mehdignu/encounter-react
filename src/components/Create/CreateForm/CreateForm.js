@@ -114,7 +114,6 @@ class CreateForm extends Component {
             //add the room to pusher
             chatManager.connect()
                 .then(currentUser => {
-                    console.log(currentUser);
                     currentUser.createRoom({creatorId: admin, name: title})
                         .then((x) => {
 
