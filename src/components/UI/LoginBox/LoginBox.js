@@ -8,6 +8,7 @@ import cls from './LoginBox.scss';
 import axios from "axios";
 import {connect} from 'react-redux'
 import * as actionTypes from '../../../store/actions';
+import {default as Chatkit} from "@pusher/chatkit-server";
 /* global gapi */
 
 const styles = theme => ({
@@ -42,6 +43,10 @@ const styles = theme => ({
     },
 });
 
+const chatkit = new Chatkit({
+    instanceLocator: "v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762",
+    key: "898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g="
+});
 
 class LoginBox extends Component {
     constructor(props) {
@@ -102,8 +107,6 @@ class LoginBox extends Component {
             })
                 .then(function (response) {
 
-                    console.log(response);
-
                     //add the user if he doesn't exist in the database
                     if (response.data.data === null) {
 
@@ -129,6 +132,18 @@ class LoginBox extends Component {
 
 
                                 a.props.onFetchUser(user[0]);
+
+                                // add user to pusher
+                                chatkit.createUser({
+                                    id: profile.getId(),
+                                    name: profile.getName(),
+                                })
+                                    .then((currentUser) => {
+
+                                    }).catch((err) => {
+
+                                });
+
                             })
                             .catch(function (error) {
                                 console.log(error);

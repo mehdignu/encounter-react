@@ -129,6 +129,7 @@ class Event extends Component {
 
                 <EventInfo
                     eventID={this.state.eventData._id}
+                    pusherID={this.state.eventData.pusherID}
                     title={this.state.eventData.title}
                     desc={this.state.eventData.description}
                     loc={this.state.eventData.location}

@@ -4,7 +4,13 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const User = require("./Model/User");
 const Event = require("./Model/Event");
+const Chatkit = require('@pusher/chatkit-server');
+const cors = require('cors');
 
+
+/* ************************** */
+/* App Configurations */
+/* ************************** */
 
 const API_PORT = 5000;
 const app = express();
@@ -19,6 +25,13 @@ mongoose.connect(
     {useNewUrlParser: true}
 );
 
+
+const chatkit = new Chatkit.default({
+    instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+    key: '898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g=',
+});
+
+
 let db = mongoose.connection;
 
 
@@ -27,11 +40,22 @@ db.once("open", () => console.log("connected to the database"));
 // checks if connection with the database is successful
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-// (optional) only made for logging and
-// bodyParser, parses the request body to be a readable json format
+app.use(cors());
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+
 app.use(logger("dev"));
+
+
+/* ************************** */
+/* Messaging endpoint */
+/* ************************** */
+
+// app.post('/message', (req, res) => {
+//     const payload = req.body;
+//     pusher.trigger('chat', 'message', payload);
+//     res.send(payload)
+// });
 
 
 /* ************************** */
@@ -94,13 +118,25 @@ router.post("/updateUser", (req, res) => {
     });
 });
 
-//delete the user
+//delete the user and his events
 router.delete("/deleteUser", (req, res) => {
 
     const {userID} = req.body;
 
     User.findOneAndDelete({"userId": Number(userID)}, err => {
         if (err) return res.send(err);
+
+        Event.deleteMany({"admin": Number(userID)}, err => {
+            if (err) return res.send(err);
+        });
+
+        chatkit.deleteUser({ userId: userID })
+            .then(() => {
+                console.log('User deleted successfully');
+            }).catch((err) => {
+            console.log(err);
+        });
+
         return res.json({success: true});
     });
 });
@@ -158,7 +194,7 @@ router.post("/createEvent", (req, res) => {
 
     let newEvent = new Event();
 
-    const {title, desc, loc, date, time, admin, adminName, adminPicture} = req.body;
+    const {title, desc, loc, date, time, admin, adminName, adminPicture, pusherID} = req.body;
 
 
     newEvent.title = title;
@@ -171,11 +207,12 @@ router.post("/createEvent", (req, res) => {
     newEvent.adminName = adminName;
     newEvent.adminPicture = adminPicture;
     newEvent.requester = [];
+    newEvent.pusherID = pusherID;
 
 
-    newEvent.save(err => {
+    newEvent.save((err, data) => {
         if (err) return res.json({success: false, error: err});
-        return res.json({success: true});
+        return res.json({success: true, EvendID: data._id});
     });
 
 });
@@ -206,10 +243,9 @@ router.delete("/deleteEvent", (req, res) => {
 
     const {eventID} = req.body;
 
-    console.log(eventID);
-
     Event.findOneAndDelete({"_id": eventID}, err => {
         if (err) return res.send(err);
+
         return res.json({success: true});
     });
 });

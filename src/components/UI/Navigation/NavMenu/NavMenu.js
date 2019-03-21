@@ -116,7 +116,7 @@ class NavMenu extends Component {
 
                 a.setState({loading: false});
 
-                if (response.status === 200) {
+                if (response.status === 200 && response.data.data) {
 
                     a.setState({events: response.data.data});
                 }

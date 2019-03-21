@@ -1,279 +1,153 @@
-import React from 'react';
+import React, {Component} from 'react';
 import cls from './EventBox.scss';
 import Paper from "@material-ui/core/Paper";
+import axios from "axios";
+import {ChatManager, TokenProvider} from '@pusher/chatkit-client'
+import {default as Chatkit} from '@pusher/chatkit-server';
+import * as actionTypes from "../../../store/actions";
+import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import EventMsg from "../EventMsg/EventMsg";
+
+class EventBox extends Component {
+
 
-const EventBox = (props) => (
+    state = {
+        text: '',
+        username: '',
+        chats: []
+    };
 
-        <Paper className={cls.content} elevation={1}>
 
-            <div className={cls.wrapper}>
+    componentDidMount() {
 
+        // //delete the user from pusher
+        // const chatManager = new ChatManager({
+        //     instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+        //     userId: this.props.currentUser.userID,
+        //     tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+        // });
 
-                <ul className={cls.chatbox}>
 
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
 
 
-                        <div className={cls.userInfo}>
+        //
+        //
+        // console.log(this.props.currentUser);
+        //
+        // chatManager.deleteUser({userId: this.props.currentUser.userID})
+        //     .then(() => {
+        //
+        //         console.log('User deleted successfully');
+        //
+        //     }).catch((err) => {
+        //     console.log(err);
+        // });
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:11 AM</span>
-                        </div>
 
-                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
-                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
-                        </li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
+        // //create a room
+        // // user aka the creator of the room have to be auth in pusher first
+        //
+        // const chatManager = new ChatManager({
+        //     instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+        //     userId: '12345',
+        //     tokenProvider: new TokenProvider({ url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token' })
+        // });
+        //
+        // chatManager.connect()
+        //     .then(currentUser => {
+        //
+        //         currentUser.createRoom({
+        //             name: 'sex_room',
+        //             private: true,
+        //             addUserIds: [],
+        //             customData: {},
+        //         }).then(room => {
+        //             console.log(`Created room called ${room.name}`)
+        //         })
+        //             .catch(err => {
+        //                 console.log(`Error creating room ${err}`)
+        //             })
+        //
+        //     })
+        //     .catch(err => {
+        //         console.log('Error on connection', err)
+        //     })
 
 
-                        <div className={cls.userInfo}>
+    }
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:11 AM</span>
-                        </div>
+    handleTextChange(e) {
 
-                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
-                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
-                        </li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
+        console.log(e.target.value);
 
+        // if (e.keyCode === 13) {
+        //     const payload = {
+        //         username: this.state.username,
+        //         message: this.state.text
+        //     };
+        //     axios.post('/api/message', payload);
+        // } else {
+        //     this.setState({ text: e.target.value });
+        // }
+    }
 
-                        <div className={cls.userInfo}>
+    render() {
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:11 AM</span>
-                        </div>
 
-                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
-                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
-                        </li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
+        const {classes} = this.props;
 
+        return (
 
-                        <div className={cls.userInfo}>
+            <Paper className={cls.content} elevation={1}>
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:11 AM</span>
-                        </div>
+                <div className={cls.wrapper}>
 
-                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
-                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
-                        </li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
 
+                    <ul className={cls.chatbox}>
 
-                        <div className={cls.userInfo}>
+                       <EventMsg />
+                       <EventMsg />
+                       <EventMsg />
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:11 AM</span>
-                        </div>
 
-                        <li className={cls.msg}>By this User, secondmessage Lorem ipsum dolor sit amet, consectetur
-                            adipisicing elit. Accusantium aliquid amet aperiam ipsa laboriosam laudantium quae quas
-                            sequi totam, vitae! Ad at cum dolorum, ducimus eos provident quia quod temporibus.
-                        </li>
-                    </div>
+                    </ul>
 
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
 
+                    <input placeholder="Type a message"
+                           className={cls.sendTab}
+                           onChange={this.handleTextChange}
+                           onKeyDown={this.handleTextChange}/>
 
-                        <div className={cls.userInfo}>
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
+                </div>
 
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
 
+            </Paper>
 
-                        <div className={cls.userInfo}>
+        );
+    }
+}
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
 
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
 
+    };
+};
 
-                        <div className={cls.userInfo}>
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
 
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
+        onUpdateUser: (about) => dispatch({type: actionTypes.UPDATE_USER, about: about}),
+        onDeleteUser: () => dispatch({type: actionTypes.RESET}),
 
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
+    }
+};
 
 
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-                    <div className={cls.cont}>
-                        <img src="https://www.w3schools.com/w3images/bandmember.jpg" alt="Avatar"
-                             className={cls.right}/>
-
-
-                        <div className={cls.userInfo}>
-
-                            <span className={cls.name}>user1</span>
-                            <span className={cls["time"]}>11:02</span>
-                        </div>
-
-                        <li className={cls.msg}>By this User, secondmessage</li>
-                    </div>
-
-
-                </ul>
-
-
-                <input placeholder="Type a message" className={cls.sendTab}/>
-
-
-            </div>
-
-
-        </Paper>
-
-    );
-
-export default EventBox;
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventBox));

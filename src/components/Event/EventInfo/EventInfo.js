@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import {Divider, withStyles} from "@material-ui/core";
 import axios from "axios";
 import {withRouter} from 'react-router-dom'
+import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
+import {connect} from "react-redux";
 
 
 const styles = theme => ({
@@ -18,22 +20,48 @@ const styles = theme => ({
     },
 });
 
+let chatManager = null;
 
 class EventInfo extends React.Component {
 
 
-    onDelete = () => {
+    componentDidMount() {
+
+        chatManager = new ChatManager({
+            instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+            userId: '105466931476929488142',
+            tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+        });
+
+    }
+
+    onDelete = (e) => {
+        var a = this;
 
         axios.delete('/api/deleteEvent',
             {data: {eventID: this.props.eventID}}
         )
             .then(function (response) {
+                chatManager.connect()
+                    .then(currentUser => {
+                        currentUser.deleteRoom({roomId: a.props.pusherID})
+                            .then(() => {
+                                console.log(`Deleted room with ID: `);
+                                a.props.history.push('/');
 
+                            })
+                            .catch(err => {
+                                console.log(`Error deleted room  ${err}`)
+                            })
+                    })
+                    .catch(err => {
+                        console.log('Error on connection', err)
+                    });
             })
             .catch(function (error) {
                 console.log(error);
             });
-
+        e.preventDefault();
 
     };
 
@@ -41,7 +69,7 @@ class EventInfo extends React.Component {
     onEdit = () => {
         //TODO - check if the user is the owner of the event before edit
 
-        this.props.history.push('/eventForm/edit/'+this.props.eventID);
+        this.props.history.push('/eventForm/edit/' + this.props.eventID);
 
     };
 
@@ -120,4 +148,21 @@ class EventInfo extends React.Component {
     };
 }
 
-export default withStyles(styles)(withRouter(EventInfo));
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+
+
+    }
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(EventInfo)));

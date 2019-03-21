@@ -12,6 +12,7 @@ import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
 import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-pickers';
+import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
 
 const styles = theme => ({
     container: {
@@ -57,6 +58,7 @@ const styles = theme => ({
     },
 });
 
+let chatManager = null;
 
 class CreateForm extends Component {
     state = {
@@ -67,6 +69,18 @@ class CreateForm extends Component {
         selectedTime: new Date(),
 
     };
+
+
+    componentDidMount() {
+
+        chatManager = new ChatManager({
+            instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+            userId: '105466931476929488142',
+            tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+        });
+
+    }
+
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
@@ -81,7 +95,7 @@ class CreateForm extends Component {
         this.setState({selectedTime: date});
     };
 
-    handleCreation = () => {
+    handleCreation = (e) => {
 
         if (this.state.title.length !== 0 && this.state.description.length !== 0) {
 
@@ -97,29 +111,48 @@ class CreateForm extends Component {
             const adminName = this.props.currentUser.name;
             const adminPicture = this.props.currentUser.profileImage;
 
+            //add the room to pusher
+            chatManager.connect()
+                .then(currentUser => {
+                    console.log(currentUser);
+                    currentUser.createRoom({creatorId: admin, name: title})
+                        .then((x) => {
 
-            axios.post('/api/createEvent', {
+                            //add the room to mongo
+                            axios.post('/api/createEvent', {
 
-                title: title,
-                desc: desc,
-                loc: loc,
-                date: date,
-                time: time,
-                admin: admin,
-                adminName: adminName,
-                adminPicture: adminPicture,
+                                title: title,
+                                desc: desc,
+                                loc: loc,
+                                date: date,
+                                time: time,
+                                admin: admin,
+                                adminName: adminName,
+                                adminPicture: adminPicture,
+                                pusherID: x.id,
 
-            })
-                .then(function (response) {
+                            })
+                                .then(function (response) {
 
-                    a.props.history.push('/');
-                    console.log(response);
 
+                                    a.props.history.push('/');
+
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+
+
+                        })
+                        .catch(err => {
+                            console.log(`Error deleted room  ${err}`)
+                        })
                 })
-                .catch(function (error) {
-                    console.log(error);
+                .catch(err => {
+                    console.log('Error on connection', err)
                 });
 
+            e.preventDefault();
 
         }
 

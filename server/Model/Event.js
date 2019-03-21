@@ -13,8 +13,9 @@ const DataSchema = new Schema(
         adminPicture: String,
         participants: [Number],
         requester: [Number],
+        pusherID: String
     },
-    { timestamps: true }
+    {timestamps: true}
 );
 
 module.exports = mongoose.model("Event", DataSchema);

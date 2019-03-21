@@ -9,12 +9,14 @@ import userReducer from './store/reducers/user'
 import {Provider} from 'react-redux'
 import {offline} from '@redux-offline/redux-offline';
 import config from '@redux-offline/redux-offline/lib/config';
+import { RESET_STATE } from "@redux-offline/redux-offline/lib/constants";
 
 const rootReducer = combineReducers({
     user: userReducer
 });
 
 const store = createStore(rootReducer, offline(config));
+store.dispatch({ type: RESET_STATE });
 
 
 const app = (

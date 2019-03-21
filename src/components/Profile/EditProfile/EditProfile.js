@@ -13,6 +13,7 @@ import TextField from "@material-ui/core/TextField";
 import {connect} from "react-redux";
 import * as actionTypes from '../../../store/actions';
 import axios from "axios";
+import {ChatManager, TokenProvider} from '@pusher/chatkit-client'
 import {withRouter} from "react-router-dom";
 /* global gapi */
 
@@ -61,22 +62,28 @@ class EditProfile extends React.Component {
     }
 
 
-    onDelete = () => {
+    onDelete = (e) => {
 
         var a = this;
 
         var auth2 = gapi.auth2.getAuthInstance();
 
+        // e.preventDefault();
 
         auth2.signOut().then(function () {
-            a.props.onDeleteUser();
         });
 
+        const uid = this.props.currentUser.userID;
+
+        a.props.onDeleteUser();
+
         axios.delete('/api/deleteUser',
-            {data: {userID: this.props.currentUser.userID}}
+            {data: {userID: uid}}
         )
             .then(function (response) {
-                a.props.history.push('/');
+
+
+                a.props.history.push('/')
 
             })
             .catch(function (error) {
