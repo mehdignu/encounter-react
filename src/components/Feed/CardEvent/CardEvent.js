@@ -20,6 +20,8 @@ import CardMenu from "../../UI/CardMenu/CardMenu";
 import {withRouter} from 'react-router-dom'
 import EventMsg from "../../Event/EventBox/EventBox";
 import {connect} from "react-redux";
+import axios from "axios";
+import * as actionTypes from "../../../store/actions";
 
 const styles = theme => ({
     card: {
@@ -81,7 +83,25 @@ class CardEvent extends Component {
 
 
     handleJoinRequest = () => {
-        console.log();
+
+        var a = this;
+
+        //add the room to mongo
+        axios.post('/api/sendRequest', {
+
+            eventID: '5678',
+            userID: '1234',
+
+        })
+            .then(function (response) {
+
+                a.props.onRequest();
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     };
 
     render() {
@@ -188,6 +208,7 @@ CardEvent.propTypes = {
 const mapStateToProps = state => {
     return {
         currentUser: state.user,
+        currentRequests: state.requests,
 
     };
 };
@@ -195,8 +216,7 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
-
+        onRequest: () => dispatch({type: actionTypes.INCREMENT})
 
     }
 };

@@ -105,7 +105,6 @@ class EventBox extends Component {
 
                             const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
 
-                            console.log(message.senderId);
                             if(sender){
 
 

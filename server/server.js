@@ -5,6 +5,7 @@ const logger = require("morgan");
 const User = require("./Model/User");
 const Event = require("./Model/Event");
 const Chatkit = require('@pusher/chatkit-server');
+var Pusher = require('pusher');
 const cors = require('cors');
 
 
@@ -29,6 +30,15 @@ mongoose.connect(
 const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
     key: '898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g=',
+});
+
+
+var pusher = new Pusher({
+    appId: '741209',
+    key: 'b3c4b499cc2b3ff03699',
+    secret: 'eda0320d9a352b5470b7',
+    cluster: 'eu',
+    encrypted: true
 });
 
 
@@ -130,7 +140,7 @@ router.delete("/deleteUser", (req, res) => {
             if (err) return res.send(err);
         });
 
-        chatkit.deleteUser({ userId: userID })
+        chatkit.deleteUser({userId: userID})
             .then(() => {
                 console.log('User deleted successfully');
             }).catch((err) => {
@@ -249,6 +259,30 @@ router.delete("/deleteEvent", (req, res) => {
         return res.json({success: true});
     });
 });
+
+
+/* **************************** */
+/* Event Notifications endpoint */
+/* **************************** */
+
+//delete the event
+router.post("/sendRequest", (req, res) => {
+
+    const {eventID, userID} = req.body;
+
+    pusher.trigger('my-channel', 'my-event', {
+        "message": "hello world"
+    });
+
+    return res.json({success: true});
+
+
+});
+
+
+/* **************************** */
+/*     API Configuration        */
+/* **************************** */
 
 // append /api for our http requests
 app.use("/api", router);

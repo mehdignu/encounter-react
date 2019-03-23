@@ -22,7 +22,7 @@ import Avatar from "@material-ui/core/Avatar";
 import LoginBox from '../LoginBox/LoginBox';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../../store/actions';
-import { withRouter } from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
 /* global gapi */
 const drawerWidth = 240;
 
@@ -140,10 +140,12 @@ class Navigation extends Component {
     };
 
     handleNotificationsMenuOpen = event => {
+        this.props.onRequestsCheck();
         this.setState({anchorN: event.currentTarget});
     };
 
     handleRequestsMenuOpen = event => {
+        this.props.onRequestsCheck();
         this.setState({anchorR: event.currentTarget});
     };
 
@@ -256,7 +258,6 @@ class Navigation extends Component {
             sideMenu = (
                 <NavMenu/>
 
-
             );
 
             mainMenu = (
@@ -270,7 +271,7 @@ class Navigation extends Component {
                         onClick={this.handleRequestsMenuOpen}
                         color="inherit"
                     >
-                        <Badge badgeContent={5} color="secondary">
+                        <Badge badgeContent={this.props.currentRequests.num} color="secondary">
                             <PersonAddIcon/>
                         </Badge>
                     </IconButton>
@@ -433,7 +434,7 @@ class Navigation extends Component {
 
                 <MenuItem onClick={this.handleMobileMenuClose}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={5} color="secondary">
+                        <Badge badgeContent={0} color="secondary">
                             <PersonAddIcon/>
                         </Badge>
                     </IconButton>
@@ -509,6 +510,7 @@ Navigation.propTypes = {
 const mapStateToProps = state => {
     return {
         currentUser: state.user,
+        currentRequests: state.requests,
 
     };
 };
@@ -518,11 +520,11 @@ const mapDispatchToProps = dispatch => {
     return {
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
         onLogOutReset: () => dispatch({type: actionTypes.RESET}),
-
+        onRequestsCheck: () => dispatch({type: actionTypes.RESET_REQUESTS}),
 
 
     }
 };
 
 
-export default  withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Navigation)));
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Navigation)));

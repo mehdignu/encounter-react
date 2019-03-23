@@ -8,7 +8,6 @@ import axios from "axios";
 import * as actionTypes from "../../store/actions";
 import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
-
 /* global gapi */
 
 const styles = theme => ({
@@ -17,6 +16,9 @@ const styles = theme => ({
     },
 
 });
+
+let channel = null;
+let channeLoaded = false;
 
 class Feed extends Component {
 
@@ -27,6 +29,8 @@ class Feed extends Component {
 
     componentDidMount() {
 
+
+        //get all th events to be displayed on the feed
         var a = this;
         axios.get('/api/getFeed')
             .then(function (response) {
@@ -47,6 +51,18 @@ class Feed extends Component {
 
     render() {
 
+        if (window.pusher !== undefined && !channeLoaded) {
+
+            channel = window.pusher.subscribe('my-channel');
+            channel.bind('my-event', function (data) {
+                alert(JSON.stringify(data));
+            });
+
+            channeLoaded = true;
+
+        }
+
+
         const {classes} = this.props;
 
         let key = 0;
@@ -58,9 +74,9 @@ class Feed extends Component {
             eventsFeed = this.state.events.map(
                 x => {
 
-                    const eventDate = new MomentUtils({ locale: "de" }).date(x.date).format("MMMM Do YYYY");
-                    const eventTime = new MomentUtils({ locale: "de" }).date(x.time).format("H:mm a");
-                    const eventCreationDate = new MomentUtils({ locale: "de" }).date(x.time).format("MMMM Do YYYY");
+                    const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("MMMM Do YYYY");
+                    const eventTime = new MomentUtils({locale: "de"}).date(x.time).format("H:mm a");
+                    const eventCreationDate = new MomentUtils({locale: "de"}).date(x.time).format("MMMM Do YYYY");
                     const eventID = x._id;
                     const allowed = x.participants.includes(this.props.currentUser.userID);
 
@@ -68,7 +84,7 @@ class Feed extends Component {
 
                         <CardEvent
                             key={key++}
-                            eventID = {eventID}
+                            eventID={eventID}
                             title={x.title}
                             description={x.description}
                             locat={x.location}
@@ -129,8 +145,7 @@ class Feed extends Component {
 //redux store values
 const mapStateToProps = state => {
     return {
-        currentUser: state.user,
-
+        currentUser: state.user
     };
 };
 
