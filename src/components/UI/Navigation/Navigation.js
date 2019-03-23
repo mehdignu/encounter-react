@@ -190,6 +190,7 @@ class Navigation extends Component {
 
         auth2.signOut().then(function () {
             a.props.onLogOut();
+            a.props.onLogOutReset();
             a.handleMenuClose();
         });
     };
@@ -516,6 +517,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+        onLogOutReset: () => dispatch({type: actionTypes.RESET}),
+
 
 
     }

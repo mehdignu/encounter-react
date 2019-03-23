@@ -18,6 +18,8 @@ import Aux from '../../../hoc/Aux';
 import cls from './CardEvent.scss';
 import CardMenu from "../../UI/CardMenu/CardMenu";
 import {withRouter} from 'react-router-dom'
+import EventMsg from "../../Event/EventBox/EventBox";
+import {connect} from "react-redux";
 
 const styles = theme => ({
     card: {
@@ -74,7 +76,12 @@ class CardEvent extends Component {
     };
 
     handleEventJoin = () => {
-        this.props.history.push('/event/'+this.state.eventID);
+        this.props.history.push('/event/' + this.state.eventID);
+    };
+
+
+    handleJoinRequest = () => {
+        console.log();
     };
 
     render() {
@@ -148,10 +155,22 @@ class CardEvent extends Component {
 
                     </CardActions>
 
-                    <Button onClick={this.handleEventJoin} variant="contained" color="primary"
-                            className={classes.button}>
-                        Join Event
-                    </Button>
+
+                    {(this.props.allowed) ?
+
+                        <Button onClick={this.handleEventJoin} variant="contained" color="primary"
+                                className={classes.button}>
+                            join event
+                        </Button>
+
+                        :
+
+                        <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                                className={classes.button}>
+                            Request to join
+                        </Button>
+
+                    }
 
 
                 </Card>
@@ -165,4 +184,21 @@ CardEvent.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(withRouter(CardEvent));
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+
+
+    }
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(CardEvent)));

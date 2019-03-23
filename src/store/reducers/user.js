@@ -2,7 +2,7 @@ import * as actionTypes from '../actions';
 
 const initialState = {
     isLoggedIn: false,
-    userID: null,
+    userID: '',
     name: '',
     email: '',
     profileImage: '',
@@ -15,6 +15,7 @@ const user = (state = initialState, action) => {
     switch (action.type) {
 
         case actionTypes.STORE_USER:
+
 
             return {
                 ...state,

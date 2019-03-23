@@ -50,52 +50,15 @@ class Event extends Component {
     }
 
 
-    // fetchPusherUser = () => {
-    //
-    //
-    //
-    //     const uid = this.props.currentUser.userID;
-    //     const chatManager = new ChatManager({
-    //         instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-    //         userId: uid,
-    //         tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
-    //     });
-    //
-    //     chatManager
-    //         .connect()
-    //         .then(currentUser => {
-    //
-    //             this.setState({currentPusherUser: currentUser});
-    //
-    //             // return currentUser.subscribeToRoom({
-    //             //     roomId: this.status.eventData.pusherID,
-    //             //     messageLimit: 100,
-    //             //     hooks: {
-    //             //         onMessage: message => {
-    //             //             this.setState({
-    //             //                 messages: [...this.state.messages, message],
-    //             //             })
-    //             //         },
-    //             //     }
-    //             // })
-    //         })
-    //         .then(currentRoom => {
-    //             // this.setState({
-    //             //     currentRoom,
-    //             //     users: currentRoom.userIds
-    //             // })
-    //         })
-    //         .catch(error => console.log(error))
-    //
-    // };
-
 
     fetchEventInfos = (id) => {
 
+
+
         var a = this;
         const eventId = id ? id : this.state.eventID;
-        let participantsUsers = [];
 
+        //get the events data from the database
         axios.get('/api/getEvent', {
             params: {
                 eventID: eventId
@@ -112,6 +75,8 @@ class Event extends Component {
                     if (a.state.eventData.participants.length > 0) {
 
                         const participantsFetched = a.state.eventData.participants;
+
+
 
                         for (let i = 0; i < participantsFetched.length; i++) {
 
@@ -153,10 +118,12 @@ class Event extends Component {
             });
 
 
+
     };
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (this.props.match.params.id !== nextProps.match.params.id) {
+
 
             this.setState({participants: []});
             this.fetchEventInfos(nextProps.match.params.id);
@@ -176,15 +143,11 @@ class Event extends Component {
 
         let k1 = 0;
 
-        console.log(this.state.eventData);
 
-        if (this.state.eventData === null || this.props.currentUser.userID === null) {
-
+        // if (this.state.eventData === null || this.props.currentUser.userID === null) {
+        if (this.state.eventData === null) {
             return null;
         }
-
-
-
 
 
 
@@ -205,17 +168,8 @@ class Event extends Component {
                 />
             );
 
-            console.log(this.props.currentUser.userID);
 
-            eventChat = (
 
-                <EventBox
-                    userID={this.props.currentUser.userID}
-                    eventID={this.state.eventData._id}
-                    pusherID={this.state.eventData.pusherID}
-                />
-
-            );
 
 
 
@@ -224,6 +178,7 @@ class Event extends Component {
 
         let k2 = 0;
         if (this.state.participants.length > 0) {
+
 
             particiPantsInfo = this.state.participants.map(
                 x => {
@@ -241,6 +196,17 @@ class Event extends Component {
                 }
             );
 
+
+            eventChat = (
+
+                <EventBox
+                    userID={this.props.currentUser.userID}
+                    eventID={this.state.eventData._id}
+                    pusherID={this.state.eventData.pusherID}
+                    participants={this.state.participants}
+                />
+
+            );
 
         }
 

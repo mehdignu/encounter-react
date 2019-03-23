@@ -44,6 +44,7 @@ ul{
   display: flex;
   flex-direction: column;
   height: auto;
+  overflow-x: hidden;
   min-height: 81%;
   padding-bottom: 80px;
 
@@ -53,6 +54,8 @@ ul{
   overflow-y: scroll;
   /* height: auto; */
   max-height: 86%;
+  width: 96%;
+
 }
 
 ul li{

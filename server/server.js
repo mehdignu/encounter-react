@@ -68,7 +68,7 @@ router.get("/getUser", (req, res) => {
 
     var userID = req.query.userID;
 
-    User.findOne({"userId": Number(userID)},
+    User.findOne({"userId": userID},
         (err, data) => {
             if (err) return res.json({success: false, error: err});
             return res.json({success: true, data: data});
@@ -93,7 +93,7 @@ router.post("/addUser", (req, res) => {
     //     });
     // }
 
-    newUser.userId = Number(userID);
+    newUser.userId = userID;
     newUser.name = name;
     newUser.image = image;
     newUser.email = email;
@@ -112,7 +112,7 @@ router.post("/updateUser", (req, res) => {
 
     const {userID, about} = req.body;
 
-    User.findOneAndUpdate({"userId": Number(userID)}, {"about": about}, err => {
+    User.findOneAndUpdate({"userId": userID}, {"about": about}, err => {
         if (err) return res.json({success: false, error: err});
         return res.json({success: true});
     });
@@ -123,10 +123,10 @@ router.delete("/deleteUser", (req, res) => {
 
     const {userID} = req.body;
 
-    User.findOneAndDelete({"userId": Number(userID)}, err => {
+    User.findOneAndDelete({"userId": userID}, err => {
         if (err) return res.send(err);
 
-        Event.deleteMany({"admin": Number(userID)}, err => {
+        Event.deleteMany({"admin": userID}, err => {
             if (err) return res.send(err);
         });
 
@@ -181,7 +181,7 @@ router.get("/getUserEvents", (req, res) => {
 
     const userID = req.query.userID;
 
-    Event.find({"admin": Number(userID)},
+    Event.find({"admin": userID},
         (err, data) => {
 
             if (err) return res.json({success: false, error: err});

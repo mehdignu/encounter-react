@@ -8,6 +8,7 @@ import * as actionTypes from "../../../store/actions";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import EventMsg from "../EventMsg/EventMsg";
+
 let chatManager = null;
 
 class EventBox extends Component {
@@ -26,31 +27,30 @@ class EventBox extends Component {
 
 
     componentDidMount() {
-
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-            userId: '105466931476929488142',
+            userId: this.props.currentUser.userID,
             tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
         });
-
 
 
         chatManager
             .connect()
             .then(currentUser => {
-                this.setState({currentPusherUser: currentUser})
 
-                // return currentUser.subscribeToRoom({
-                //     roomId: this.status.eventData.pusherID,
-                //     messageLimit: 100,
-                //     hooks: {
-                //         onMessage: message => {
-                //             this.setState({
-                //                 messages: [...this.state.messages, message],
-                //             })
-                //         },
-                //     }
-                // })
+                this.setState({currentPusherUser: currentUser});
+
+                return currentUser.subscribeToRoom({
+                    roomId: this.props.pusherID,
+                    messageLimit: 50,
+                    hooks: {
+                        onMessage: message => {
+                            this.setState({
+                                messages: [...this.state.messages, message],
+                            })
+                        },
+                    }
+                })
             })
             .then(currentRoom => {
 
@@ -60,61 +60,9 @@ class EventBox extends Component {
 
     }
 
-    // //delete the user from pusher
-    // const chatManager = new ChatManager({
-    //     instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-    //     userId: this.props.currentUser.userID,
-    //     tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
-    // });
-
-
-    //
-    //
-    // console.log(this.props.currentUser);
-    //
-    // chatManager.deleteUser({userId: this.props.currentUser.userID})
-    //     .then(() => {
-    //
-    //         console.log('User deleted successfully');
-    //
-    //     }).catch((err) => {
-    //     console.log(err);
-    // });
-
-
-    // //create a room
-    // // user aka the creator of the room have to be auth in pusher first
-    //
-    // const chatManager = new ChatManager({
-    //     instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-    //     userId: '12345',
-    //     tokenProvider: new TokenProvider({ url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token' })
-    // });
-    //
-    // chatManager.connect()
-    //     .then(currentUser => {
-    //
-    //         currentUser.createRoom({
-    //             name: 'sex_room',
-    //             private: true,
-    //             addUserIds: [],
-    //             customData: {},
-    //         }).then(room => {
-    //             console.log(`Created room called ${room.name}`)
-    //         })
-    //             .catch(err => {
-    //                 console.log(`Error creating room ${err}`)
-    //             })
-    //
-    //     })
-    //     .catch(err => {
-    //         console.log('Error on connection', err)
-    //     })
-
 
     handleTextChange(e) {
 
-        console.log(this.state);
 
         if (e.keyCode === 13) {
 
@@ -122,18 +70,27 @@ class EventBox extends Component {
             this.state.currentPusherUser.sendMessage({
                 text: e.target.value,
                 roomId: this.props.pusherID
+            });
+
+            this.setState({
+                text: ''
             })
 
         }
     }
 
+    handleChange(e) {
+        this.setState({
+            text: e.target.value
+        })
+    }
+
     render() {
 
-        if (this.props.currentUser === null ) {
+        if (this.props.currentUser === null) {
             return null;
         }
 
-        const {classes} = this.props;
 
         return (
 
@@ -144,9 +101,26 @@ class EventBox extends Component {
 
                     <ul className={cls.chatbox}>
 
-                        <EventMsg/>
-                        <EventMsg/>
-                        <EventMsg/>
+                        {this.state.messages.map((message, index) => {
+
+                            const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
+
+                            console.log(message.senderId);
+                            if(sender){
+
+
+                            return (
+                                <EventMsg
+                                    key={index}
+                                    msgUser={sender.name}
+                                    msgTime={message.createdAt}
+                                    msgText={message.text}
+                                    msgImg={sender.userImg}
+                                />
+                            );
+                            }
+
+                        })}
 
 
                     </ul>
@@ -154,8 +128,11 @@ class EventBox extends Component {
 
                     <input placeholder="Type a message"
                            className={cls.sendTab}
-                           onChange={this.handleTextChange.bind(this)}
-                           onKeyDown={this.handleTextChange.bind(this)}/>
+                           value={this.state.text}
+                           onSubmit={this.handleTextChange.bind(this)}
+                           onKeyDown={this.handleTextChange.bind(this)}
+                           onChange={this.handleChange.bind(this)}
+                    />
 
 
                 </div>
@@ -176,15 +153,5 @@ const mapStateToProps = state => {
     };
 };
 
-//dispatch actions that are going to be executed in the redux store
-const mapDispatchToProps = dispatch => {
-    return {
 
-        onUpdateUser: (about) => dispatch({type: actionTypes.UPDATE_USER, about: about}),
-        onDeleteUser: () => dispatch({type: actionTypes.RESET}),
-
-    }
-};
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventBox));
+export default connect(mapStateToProps, null)(withRouter(EventBox));

@@ -75,7 +75,7 @@ class CreateForm extends Component {
 
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-            userId: '105466931476929488142',
+            userId: this.props.currentUser.userID,
             tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
         });
 

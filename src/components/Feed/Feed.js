@@ -53,17 +53,16 @@ class Feed extends Component {
         let eventsFeed = <p>loading events</p>;
 
 
-        if (this.state.events.length !== 0) {
+        if (this.state.events.length !== 0 && this.props.currentUser !== null) {
 
             eventsFeed = this.state.events.map(
                 x => {
-
-
 
                     const eventDate = new MomentUtils({ locale: "de" }).date(x.date).format("MMMM Do YYYY");
                     const eventTime = new MomentUtils({ locale: "de" }).date(x.time).format("H:mm a");
                     const eventCreationDate = new MomentUtils({ locale: "de" }).date(x.time).format("MMMM Do YYYY");
                     const eventID = x._id;
+                    const allowed = x.participants.includes(this.props.currentUser.userID);
 
                     return (
 
@@ -78,6 +77,8 @@ class Feed extends Component {
                             eventCreationDate={eventCreationDate}
                             adminName={x.adminName}
                             adminPicture={x.adminPicture}
+                            allowed={allowed}
+                            admin={x.admin}
                         />
 
 

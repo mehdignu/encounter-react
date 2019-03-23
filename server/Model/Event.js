@@ -8,11 +8,11 @@ const DataSchema = new Schema(
         location: String,
         date: Number, // timestamp of the date
         time: Number, // timestamp
-        admin: Number,
+        admin: String,
         adminName: String,
         adminPicture: String,
-        participants: [Number],
-        requester: [Number],
+        participants: [],
+        requester: [],
         pusherID: String
     },
     {timestamps: true}

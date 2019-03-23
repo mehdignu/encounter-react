@@ -133,6 +133,7 @@ class LoginBox extends Component {
 
                                 a.props.onFetchUser(user[0]);
 
+
                                 // add user to pusher
                                 chatkit.createUser({
                                     id: profile.getId(),
