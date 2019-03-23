@@ -99,79 +99,87 @@ class LoginBox extends Component {
 
             var profile = auth2.currentUser.get().getBasicProfile();
 
-            // Make a request for a user with a given ID
-            axios.get('/api/getUser', {
-                params: {
-                    userID: profile.getId()
-                }
+            // The ID token you need to pass to your backend:
+            var id_token = auth2.currentUser.get().getAuthResponse().id_token;
+
+
+            axios.post('/api/token', {
+                token: id_token
             })
                 .then(function (response) {
 
-                    //add the user if he doesn't exist in the database
-                    if (response.data.data === null) {
-
-                        console.log('adding new user');
-
-                        axios.post('/api/addUser', {
-
-                            userID: profile.getId(),
-                            name: profile.getName(),
-                            image: profile.getImageUrl(),
-                            email: profile.getEmail()
-
-                        })
-                            .then(function (response) {
-                                a.props.onLoginIn();
-
-                                let user = [{
-                                    "userId": profile.getId(),
-                                    "name": profile.getName(),
-                                    "image": profile.getImageUrl(),
-                                    "email": profile.getEmail()
-                                }];
+                        //user is verified
+                        if (response.status === 200) {
 
 
-                                a.props.onFetchUser(user[0]);
+                            const user = response.data;
 
 
-                                // add user to pusher
-                                chatkit.createUser({
-                                    id: profile.getId(),
-                                    name: profile.getName(),
+                            // Make a request for a user with a given ID
+                            axios.get('/api/getUser', {
+                                params: {
+                                    userID: user.id
+                                }
+                            })
+                                .then(function (response) {
+
+                                    //add the user if he doesn't exist in the database
+                                    if (response.data.data === null) {
+
+                                        console.log('adding new user');
+
+                                        axios.post('/api/addUser', {
+
+                                            userID: user.id,
+                                            name: user.name,
+                                            image: user.pic,
+                                            email: user.email
+
+                                        })
+                                            .then(function (response) {
+                                                a.props.onLoginIn();
+
+
+                                                a.props.onFetchUser(user);
+
+
+                                                // add user to pusher
+                                                chatkit.createUser({
+                                                    id: user.id,
+                                                    name: user.name,
+                                                })
+                                                    .then((currentUser) => {
+
+                                                    }).catch((err) => {
+
+                                                });
+
+                                            })
+                                            .catch(function (error) {
+                                                console.log(error);
+                                            });
+
+
+                                    } else {
+                                        console.log('user exist');
+
+                                        a.props.onLoginIn();
+
+                                        a.props.onFetchUser(user);
+
+                                    }
                                 })
-                                    .then((currentUser) => {
-
-                                    }).catch((err) => {
-
+                                .catch(function (error) {
+                                    // handle error
+                                    console.log(error);
                                 });
 
-                            })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
 
-
-                    } else {
-                        console.log('user exist');
-                        a.props.onLoginIn();
-
-                        let user = [{
-                            "userId": profile.getId(),
-                            "name": profile.getName(),
-                            "image": profile.getImageUrl(),
-                            "email": profile.getEmail()
-                        }];
-
-
-                        a.props.onFetchUser(user[0]);
+                        }
 
 
                     }
-                })
-                .catch(function (error) {
-                    // handle error
-                    console.log(error);
-                });
+                );
 
 
         });

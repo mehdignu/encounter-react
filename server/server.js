@@ -5,10 +5,15 @@ const logger = require("morgan");
 const User = require("./Model/User");
 const Event = require("./Model/Event");
 const Chatkit = require('@pusher/chatkit-server');
-var Pusher = require('pusher');
+const Pusher = require('pusher');
 const cors = require('cors');
-
-
+const googleAuth = require( './googleAuth.js' );
+const tokenizer = require('./tokenizer.js');
+const fs   = require('fs');
+const jwt  = require('jsonwebtoken');
+const privateKEY  = fs.readFileSync('./keys/private.key', 'utf8');
+const publicKEY  = fs.readFileSync('./keys/public.key', 'utf8');
+const session_check = require("./middleware");
 /* ************************** */
 /* App Configurations */
 /* ************************** */
@@ -26,13 +31,13 @@ mongoose.connect(
     {useNewUrlParser: true}
 );
 
-
+//chat manager
 const chatkit = new Chatkit.default({
     instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
     key: '898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g=',
 });
 
-
+//pusher notifications instance
 var pusher = new Pusher({
     appId: '741209',
     key: 'b3c4b499cc2b3ff03699',
@@ -57,24 +62,41 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 
-/* ************************** */
-/* Messaging endpoint */
-/* ************************** */
-
-// app.post('/message', (req, res) => {
-//     const payload = req.body;
-//     pusher.trigger('chat', 'message', payload);
-//     res.send(payload)
-// });
-
 
 /* ************************** */
 /* User database api endpoint */
 /* ************************** */
 
+router.post( '/token', ( req, res ) => {
+    try {
+        const {token} = req.body;
+
+        googleAuth.getGoogleUser( token )
+            .then( response => {
+                var content = {
+                    token: tokenizer.sign( response, privateKEY ),
+                    user: response
+                };
+                return content
+            } )
+            .then( credentials => {
+                res.setHeader( 'Content-Type', 'application/json' );
+                res.end( JSON.stringify( credentials ) );
+            } )
+            .catch( e => {
+                console.log( e );
+                throw new Error( e )
+            } )
+
+
+    } catch ( error ) {
+        res.sendStatus( 500 ).end( JSON.stringify( { error: "Internal server error" } ) )
+        return console.error( error )
+    }
+} );
 
 //get user from the database
-router.get("/getUser", (req, res) => {
+router.get("/getUser", session_check, (req, res) => {
 
     var userID = req.query.userID;
 
@@ -283,6 +305,9 @@ router.post("/sendRequest", (req, res) => {
 /* **************************** */
 /*     API Configuration        */
 /* **************************** */
+
+
+
 
 // append /api for our http requests
 app.use("/api", router);
