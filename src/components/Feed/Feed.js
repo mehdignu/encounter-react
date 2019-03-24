@@ -8,6 +8,8 @@ import axios from "axios";
 import * as actionTypes from "../../store/actions";
 import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
+import Snackbar from '../UI/Navigation/Snackbar/SnackbarUI';
+
 /* global gapi */
 
 const styles = theme => ({
@@ -25,7 +27,10 @@ class Feed extends Component {
     state = {
         events: [],
         loading: true,
+        notifications: [],
+
     };
+
 
     componentDidMount() {
 
@@ -39,6 +44,7 @@ class Feed extends Component {
                 if (response.status === 200) {
 
                     a.setState({events: response.data.data});
+
                 }
 
             })
@@ -51,12 +57,33 @@ class Feed extends Component {
 
     render() {
 
-        if (window.pusher !== undefined && !channeLoaded) {
+        if (window.pusher !== undefined && !channeLoaded && this.state.events.length !== 0 && this.props.currentUser.user !== null) {
+            console.log(this.state.events);
+            console.log(this.props.currentUser.user.user.id);
+            var a = this;
 
-            channel = window.pusher.subscribe('my-channel');
-            channel.bind('my-event', function (data) {
-                alert(JSON.stringify(data));
-            });
+            channel = window.pusher.subscribe('general-channel');
+
+            this.state.events
+
+                .filter(x => x.admin === this.props.currentUser.user.user.id)
+
+                .map(
+                    x => {
+
+                        console.log(x);
+                        return (
+                            channel.bind(x._id, function (data) {
+
+                                a.setState(prevState => ({
+                                    notifications: [...prevState.notifications, data]
+                                }))
+
+                            })
+                        );
+                    }
+                );
+
 
             channeLoaded = true;
 
@@ -66,10 +93,21 @@ class Feed extends Component {
         const {classes} = this.props;
 
         let key = 0;
+        let key2 = 0;
         let eventsFeed = <p>loading events</p>;
+        let not = null;
 
 
-        if (this.state.events.length !== 0 ) {
+        if (this.state.events.length !== 0) {
+
+
+            if (this.state.notifications) {
+
+                not = this.state.notifications.map(function (x) {
+
+                    return <Snackbar msg={x.message} key={key2++}/>
+                });
+            }
 
             eventsFeed = this.state.events.map(
                 x => {
@@ -81,15 +119,16 @@ class Feed extends Component {
                     let allowed = null;
                     let loggedIn = null;
 
-                    if(this.props.currentUser.user !== null){
+                    if (this.props.currentUser.user !== null) {
 
                         //verify id plz
-                         allowed = x.participants.includes(this.props.currentUser.user.user.id);
-                         loggedIn = this.props.currentUser.isLoggedIn;
+                        allowed = x.participants.includes(this.props.currentUser.user.user.id);
+                        loggedIn = this.props.currentUser.isLoggedIn;
                     }
 
 
                     return (
+
 
                         <CardEvent
                             key={key++}
@@ -130,6 +169,7 @@ class Feed extends Component {
                     <Grid item xs>
 
                         <Aux>
+                            {not}
 
                             {eventsFeed}
 

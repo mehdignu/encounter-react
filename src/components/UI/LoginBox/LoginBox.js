@@ -97,7 +97,6 @@ class LoginBox extends Component {
 
         auth2.signIn().then(function () {
 
-            var profile = auth2.currentUser.get().getBasicProfile();
 
             // The ID token you need to pass to your backend:
             var id_token = auth2.currentUser.get().getAuthResponse().id_token;

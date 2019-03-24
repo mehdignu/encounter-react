@@ -5,6 +5,8 @@ export const UPDATE_USER = 'UPDATE_USER';
 export const RESET = 'RESET';
 
 
+export const STORE_USER_EVENTS = 'STORE_USER_EVENTS';
 
 export const INCREMENT = 'INCREMENT';
 export const RESET_REQUESTS = 'RESET_REQUESTS';
+export const ADD_REQUEST = 'ADD_REQUEST';

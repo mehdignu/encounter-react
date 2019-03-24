@@ -279,10 +279,10 @@ router.delete("/deleteEvent",session_check, (req, res) => {
 //delete the event
 router.post("/sendRequest",session_check, (req, res) => {
 
-    const {eventID, userID} = req.body;
+    const {admin, userID, eventID, eventName, userName} = req.body;
 
-    pusher.trigger('my-channel', 'my-event', {
-        "message": "hello world"
+    pusher.trigger('general-channel', '5c975f4a727a18e5a15b232c', {
+        "message": userName + " want to join " + eventName
     });
 
     return res.json({success: true});

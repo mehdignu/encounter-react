@@ -89,12 +89,21 @@ class CardEvent extends Component {
     handleJoinRequest = () => {
 
         var a = this;
+        const eventName = this.props.title;
+        const admin = this.props.admin;
+        const userID = this.props.currentUser.user.user.id;
         const token = this.props.currentUser.user.token;
+        const eventID = this.props.eventID;
+        const userName = this.props.currentUser.user.user.name;
+
         //add the room to mongo
         axios.post('/api/sendRequest', {
 
-                eventID: '5678',
-                userID: '1234',
+                admin: admin,
+                userID: userID,
+                eventID: eventID,
+                eventName: eventName,
+                userName: userName,
 
             },
             {
@@ -104,7 +113,7 @@ class CardEvent extends Component {
             })
             .then(function (response) {
 
-                a.props.onRequest();
+                // a.props.onRequest();
 
             })
             .catch(function (error) {
@@ -204,7 +213,7 @@ class CardEvent extends Component {
 
                         :
 
-                        <Button onClick={this.handleVisitor} variant="contained" color="primary"
+                        <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
                                 className={classes.button}>
                             Request to join visitor
                         </Button>
