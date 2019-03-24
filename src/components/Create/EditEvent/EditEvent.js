@@ -57,6 +57,7 @@ const styles = theme => ({
     },
 });
 
+let channeLoaded = false;
 
 class CreateForm extends Component {
     state = {
@@ -172,21 +173,21 @@ class CreateForm extends Component {
 
     };
 
-    componentDidMount() {
-
-        if (this.props.match.params.id) {
-
-            this.fetchEventInfos(this.props.match.params.id);
-
-        }
-
+    componentWillUnmount() {
+        channeLoaded = false;
     }
-
 
     render() {
 
 
         const {classes} = this.props;
+
+
+        if (this.props.currentUser.user !== null && !channeLoaded && this.props.match.params.id) {
+            this.fetchEventInfos(this.props.match.params.id);
+            channeLoaded = true;
+        }
+
 
         return (
 

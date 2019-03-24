@@ -194,6 +194,8 @@ class Navigation extends Component {
             a.props.onLogOut();
             a.props.onLogOutReset();
             a.handleMenuClose();
+            a.props.history.push('/');
+
         });
     };
 

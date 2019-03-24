@@ -105,18 +105,18 @@ class EventBox extends Component {
 
                             const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
 
-                            if(sender){
+                            if (sender) {
 
 
-                            return (
-                                <EventMsg
-                                    key={index}
-                                    msgUser={sender.name}
-                                    msgTime={message.createdAt}
-                                    msgText={message.text}
-                                    msgImg={sender.userImg}
-                                />
-                            );
+                                return (
+                                    <EventMsg
+                                        key={index}
+                                        msgUser={sender.name}
+                                        msgTime={message.createdAt}
+                                        msgText={message.text}
+                                        msgImg={sender.userImg}
+                                    />
+                                );
                             }
 
                         })}

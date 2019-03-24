@@ -22,6 +22,7 @@ const styles = theme => ({
     },
 
 });
+let channeLoaded = false;
 
 class Event extends Component {
 
@@ -32,27 +33,18 @@ class Event extends Component {
         eventID: this.props.match.params.id,
         participants: [],
         currentPusherUser: null,
-        currentRoom: { users: [] },
+        currentRoom: {users: []},
         messages: [],
         users: []
 
     };
 
-    componentDidMount() {
-
-
-        this.fetchEventInfos();
-
-
-
-
-
+    componentWillUnmount() {
+        channeLoaded = false;
+        this.setState({eventData: null});
     }
 
-
-
     fetchEventInfos = (id) => {
-
 
 
         var a = this;
@@ -71,7 +63,6 @@ class Event extends Component {
         })
             .then(function (response) {
 
-                a.setState({loading: false});
 
                 if (response.status === 200) {
 
@@ -80,7 +71,6 @@ class Event extends Component {
                     if (a.state.eventData.participants.length > 0) {
 
                         const participantsFetched = a.state.eventData.participants;
-
 
 
                         for (let i = 0; i < participantsFetched.length; i++) {
@@ -126,12 +116,12 @@ class Event extends Component {
             });
 
 
-
     };
+
+
 
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (this.props.match.params.id !== nextProps.match.params.id) {
-
 
             this.setState({participants: []});
             this.fetchEventInfos(nextProps.match.params.id);
@@ -151,16 +141,29 @@ class Event extends Component {
 
         let k1 = 0;
 
+        if (this.props.currentUser.user !== null && !channeLoaded) {
+            this.fetchEventInfos();
+            channeLoaded = true;
+        }
+
 
         // if (this.state.eventData === null || this.props.currentUser.userID === null) {
-        if (this.state.eventData === null) {
+        if (this.state.eventData === null || this.state.participants.length < 0) {
             return null;
         }
 
 
+        const eventDate = new MomentUtils({locale: "de"}).date(this.state.eventData.date).format("MMMM Do YYYY");
+        const eventTime = new MomentUtils({locale: "de"}).date(this.state.eventData.time).format("H:mm a");
 
-            const eventDate = new MomentUtils({locale: "de"}).date(this.state.eventData.date).format("MMMM Do YYYY");
-            const eventTime = new MomentUtils({locale: "de"}).date(this.state.eventData.time).format("H:mm a");
+
+
+
+        //load participants info
+        let particiPantsInfo = <p>loadign participants infos</p>;
+
+        let k2 = 0;
+        if (this.state.participants.length > 0 && this.props.currentUser.user !== null) {
 
             eventInfo = (
 
@@ -175,18 +178,6 @@ class Event extends Component {
                     key={k1++}
                 />
             );
-
-
-
-
-
-
-        //load participants info
-        let particiPantsInfo = <p>loadign participants infos</p>;
-
-        let k2 = 0;
-        if (this.state.participants.length > 0) {
-
 
             particiPantsInfo = this.state.participants.map(
                 x => {

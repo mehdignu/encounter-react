@@ -27,14 +27,10 @@ let channeLoaded = false;
 class EventInfo extends React.Component {
 
 
-    componentDidMount() {
-
-
-    }
-
     onDelete = (e) => {
         var a = this;
-        // e.preventDefault();
+        e.preventDefault();
+
         const token = this.props.currentUser.user.token;
         axios.delete('/api/deleteEvent',
             {
@@ -48,20 +44,28 @@ class EventInfo extends React.Component {
             }
         )
             .then(function (response) {
-                chatManager.connect()
-                    .then(currentUser => {
-                        currentUser.deleteRoom({roomId: a.props.pusherID})
-                            .then(() => {
-                                console.log(`Deleted room with ID: `);
 
-                            })
-                            .catch(err => {
-                                console.log(`Error deleted room  ${err}`)
-                            })
-                    })
-                    .catch(err => {
-                        console.log('Error on connection', err)
-                    });
+                if (response.status === 200) {
+
+                    chatManager.connect()
+                        .then(currentUser => {
+                            currentUser.deleteRoom({roomId: a.props.pusherID})
+                                .then(() => {
+                                    console.log(`Deleted room with ID: `);
+
+                                    a.props.history.push('/');
+
+                                })
+                                .catch(err => {
+                                    console.log(`Error deleted room  ${err}`)
+                                })
+                        })
+                        .catch(err => {
+                            console.log('Error on connection', err)
+                        });
+                }
+
+
             })
             .catch(function (error) {
                 console.log(error);
@@ -82,12 +86,13 @@ class EventInfo extends React.Component {
         const {classes} = this.props;
 
         if (this.props.currentUser.user !== null && !channeLoaded) {
-            alert(this.props.pusherID);
+
             chatManager = new ChatManager({
                 instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
                 userId: this.props.currentUser.user.user.id,
                 tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
             });
+            channeLoaded = true;
         }
 
         return (

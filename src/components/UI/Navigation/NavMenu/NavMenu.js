@@ -24,6 +24,7 @@ import MomentUtils from "@date-io/moment";
 import CardEvent from "../../../Feed/Feed";
 
 const drawerWidth = 240;
+let channeLoaded = false;
 
 const styles = theme => ({
     root: {
@@ -93,15 +94,20 @@ class NavMenu extends Component {
             this.setState({mobileOpen: false});
     };
 
-    componentWillUpdate(nextProps, nextState, nextContext) {
+    componentWillReceiveProps(nextProps, prevState) {
 
-        // console.log(nextState);
+        if (this.props.currentUser.user !== null ) {
 
-        //TODO - close sideMenu after using it
+            this.onLoadMenuEvents();
 
+        }
     }
 
-    componentDidMount() {
+    componentWillUnmount() {
+        channeLoaded = false
+    }
+
+    onLoadMenuEvents() {
 
 
         var a = this;
@@ -133,11 +139,17 @@ class NavMenu extends Component {
 
     }
 
+
     render() {
         const {classes, theme} = this.props;
 
         let key = 0;
         let userEvents = <p>loading events</p>;
+
+        if (this.props.currentUser.user !== null && !channeLoaded) {
+            this.onLoadMenuEvents();
+            channeLoaded = true;
+        }
 
 
         if (this.state.events.length !== 0) {
