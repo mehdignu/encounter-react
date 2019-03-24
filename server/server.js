@@ -7,12 +7,11 @@ const Event = require("./Model/Event");
 const Chatkit = require('@pusher/chatkit-server');
 const Pusher = require('pusher');
 const cors = require('cors');
-const googleAuth = require( './googleAuth.js' );
+const googleAuth = require('./googleAuth.js');
 const tokenizer = require('./tokenizer.js');
-const fs   = require('fs');
-const jwt  = require('jsonwebtoken');
-const privateKEY  = fs.readFileSync('./keys/private.key', 'utf8');
-const publicKEY  = fs.readFileSync('./keys/public.key', 'utf8');
+const fs = require('fs');
+const jwt = require('jsonwebtoken');
+const privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 const session_check = require("./middleware");
 /* ************************** */
 /* App Configurations */
@@ -62,38 +61,37 @@ app.use(bodyParser.json());
 app.use(logger("dev"));
 
 
-
 /* ************************** */
 /* User database api endpoint */
 /* ************************** */
 
-router.post( '/token', ( req, res ) => {
+router.post('/token', (req, res) => {
     try {
         const {token} = req.body;
 
-        googleAuth.getGoogleUser( token )
-            .then( response => {
+        googleAuth.getGoogleUser(token)
+            .then(response => {
                 var content = {
-                    token: tokenizer.sign( response, privateKEY ),
+                    token: tokenizer.sign(response, privateKEY),
                     user: response
                 };
                 return content
-            } )
-            .then( credentials => {
-                res.setHeader( 'Content-Type', 'application/json' );
-                res.end( JSON.stringify( credentials ) );
-            } )
-            .catch( e => {
-                console.log( e );
-                throw new Error( e )
-            } )
+            })
+            .then(credentials => {
+                res.setHeader('Content-Type', 'application/json');
+                res.end(JSON.stringify(credentials));
+            })
+            .catch(e => {
+                console.log(e);
+                throw new Error(e)
+            })
 
 
-    } catch ( error ) {
-        res.sendStatus( 500 ).end( JSON.stringify( { error: "Internal server error" } ) )
-        return console.error( error )
+    } catch (error) {
+        res.sendStatus(500).end(JSON.stringify({error: "Internal server error"}))
+        return console.error(error)
     }
-} );
+});
 
 //get user from the database
 router.get("/getUser", session_check, (req, res) => {
@@ -109,21 +107,12 @@ router.get("/getUser", session_check, (req, res) => {
 
 
 //add user to the database
-router.post("/addUser", (req, res) => {
+router.post("/addUser", session_check, (req, res) => {
 
     let newUser = new User();
 
     const {userID, name, image, email} = req.body;
 
-
-    //TODO - check the input for validity
-
-    // if ((!id && id !== 0) || !message) {
-    //     return res.json({
-    //         success: false,
-    //         error: "INVALID INPUTS"
-    //     });
-    // }
 
     newUser.userId = userID;
     newUser.name = name;
@@ -140,7 +129,7 @@ router.post("/addUser", (req, res) => {
 });
 
 //update the user
-router.post("/updateUser", (req, res) => {
+router.post("/updateUser", session_check, (req, res) => {
 
     const {userID, about} = req.body;
 
@@ -151,7 +140,7 @@ router.post("/updateUser", (req, res) => {
 });
 
 //delete the user and his events
-router.delete("/deleteUser", (req, res) => {
+router.delete("/deleteUser", session_check, (req, res) => {
 
     const {userID} = req.body;
 
@@ -192,7 +181,7 @@ router.get("/getFeed", (req, res) => {
 
 
 //get Eevnt from id
-router.get("/getEvent", (req, res) => {
+router.get("/getEvent",session_check, (req, res) => {
 
     var eventID = req.query.eventID;
 
@@ -209,7 +198,7 @@ router.get("/getEvent", (req, res) => {
 
 
 //get all user Events
-router.get("/getUserEvents", (req, res) => {
+router.get("/getUserEvents",session_check, (req, res) => {
 
     const userID = req.query.userID;
 
@@ -222,7 +211,7 @@ router.get("/getUserEvents", (req, res) => {
 });
 
 //add event to the database
-router.post("/createEvent", (req, res) => {
+router.post("/createEvent", session_check, (req, res) => {
 
     let newEvent = new Event();
 
@@ -250,7 +239,7 @@ router.post("/createEvent", (req, res) => {
 });
 
 //update event
-router.post("/updateEvent", (req, res) => {
+router.post("/updateEvent",session_check, (req, res) => {
 
     const {eventID, title, desc, loc, date, time} = req.body;
 
@@ -271,7 +260,7 @@ router.post("/updateEvent", (req, res) => {
 
 
 //delete the event
-router.delete("/deleteEvent", (req, res) => {
+router.delete("/deleteEvent",session_check, (req, res) => {
 
     const {eventID} = req.body;
 
@@ -288,7 +277,7 @@ router.delete("/deleteEvent", (req, res) => {
 /* **************************** */
 
 //delete the event
-router.post("/sendRequest", (req, res) => {
+router.post("/sendRequest",session_check, (req, res) => {
 
     const {eventID, userID} = req.body;
 
@@ -305,8 +294,6 @@ router.post("/sendRequest", (req, res) => {
 /* **************************** */
 /*     API Configuration        */
 /* **************************** */
-
-
 
 
 // append /api for our http requests

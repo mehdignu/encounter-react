@@ -2,7 +2,8 @@ import * as actionTypes from '../actions';
 
 const initialState = {
     user: null,
-    isLoggedIn: false
+    isLoggedIn: false,
+    about: ''
 
 };
 
@@ -16,7 +17,8 @@ const user = (state = initialState, action) => {
 
             return {
                 ...state,
-               user: action.user
+               user: action.user,
+               about: action.about
             };
 
         case actionTypes.USER_SIGNEDIN:
@@ -46,7 +48,9 @@ const user = (state = initialState, action) => {
 
             return {
                 ...state,
-                user: null
+                user: null,
+                isLoggedIn: false,
+                about: ''
             };
 
         default:

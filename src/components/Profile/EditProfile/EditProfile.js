@@ -68,20 +68,28 @@ class EditProfile extends React.Component {
 
         var auth2 = gapi.auth2.getAuthInstance();
 
-        // e.preventDefault();
+        e.preventDefault();
 
         auth2.signOut().then(function () {
         });
 
-        const uid = this.props.currentUser.userID;
-
-        a.props.onDeleteUser();
+        const uid = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
 
         axios.delete('/api/deleteUser',
-            {data: {userID: uid}}
+            {
+
+                data: {userID: uid}
+
+            ,
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+            }
         )
             .then(function (response) {
 
+                a.props.onDeleteUser();
 
                 a.props.history.push('/')
 
@@ -102,9 +110,13 @@ class EditProfile extends React.Component {
 
             axios.post('/api/updateUser', {
 
-                userID: this.props.currentUser.userID,
+                userID: this.props.currentUser.user.user.id,
                 about: aboutUpdate
 
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(this.props.currentUser.user.token)}`
+                }
             })
                 .then(function (response) {
                     a.props.onUpdateUser(aboutUpdate);
@@ -123,6 +135,9 @@ class EditProfile extends React.Component {
     render() {
         const {classes} = this.props;
 
+        if (this.props.currentUser.user === null) {
+            return null;
+        }
         return (
 
             <Grid container spacing={24}>
@@ -139,12 +154,12 @@ class EditProfile extends React.Component {
 
                         <div className={cls.mainInfos}>
 
-                            <Avatar alt="Remy Sharp" src={this.props.currentUser.profileImage}
+                            <Avatar alt="Remy Sharp" src={this.props.currentUser.user.user.pic}
                                     className={classes.bigAvatar}/>
 
 
                             <Typography variant="h5" className={cls.eventDate}>
-                                {this.props.currentUser.name}
+                                {this.props.currentUser.user.user.name}
 
                             </Typography>
 

@@ -105,12 +105,17 @@ class NavMenu extends Component {
 
 
         var a = this;
-        const userId = this.props.currentUser.userID;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
 
         axios.get('/api/getUserEvents', {
             params: {
                 userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
             }
+
         })
             .then(function (response) {
 

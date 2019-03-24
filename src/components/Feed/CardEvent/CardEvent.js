@@ -81,18 +81,27 @@ class CardEvent extends Component {
         this.props.history.push('/event/' + this.state.eventID);
     };
 
+    handleVisitor = () => {
+        console.log('bo');
+    };
+
 
     handleJoinRequest = () => {
 
         var a = this;
-
+        const token = this.props.currentUser.user.token;
         //add the room to mongo
         axios.post('/api/sendRequest', {
 
-            eventID: '5678',
-            userID: '1234',
+                eventID: '5678',
+                userID: '1234',
 
-        })
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+            })
             .then(function (response) {
 
                 a.props.onRequest();
@@ -176,20 +185,29 @@ class CardEvent extends Component {
                     </CardActions>
 
 
-                    {(this.props.allowed) ?
+                    {(this.props.loggedIn) ?
 
-                        <Button onClick={this.handleEventJoin} variant="contained" color="primary"
-                                className={classes.button}>
-                            join event
-                        </Button>
+                        (this.props.allowed) ?
+
+                            <Button onClick={this.handleEventJoin} variant="contained" color="primary"
+                                    className={classes.button}>
+                                join event
+                            </Button>
+
+                            :
+
+                            <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                                    className={classes.button}>
+                                Request to join
+                            </Button>
+
 
                         :
 
-                        <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                        <Button onClick={this.handleVisitor} variant="contained" color="primary"
                                 className={classes.button}>
-                            Request to join
+                            Request to join visitor
                         </Button>
-
                     }
 
 

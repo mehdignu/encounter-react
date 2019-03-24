@@ -111,16 +111,22 @@ class LoginBox extends Component {
                         //user is verified
                         if (response.status === 200) {
 
+                            const payload = response.data;
 
-                            const user = response.data;
-
+                            const user = response.data.user;
+                            const token = response.data.token;
 
                             // Make a request for a user with a given ID
                             axios.get('/api/getUser', {
-                                params: {
-                                    userID: user.id
+                                    params: {
+                                        userID: user.id
+                                    }
+                                    ,
+                                    headers: {
+                                        'Authorization': `Bearer ${JSON.stringify(token)}`
+                                    }
                                 }
-                            })
+                            )
                                 .then(function (response) {
 
                                     //add the user if he doesn't exist in the database
@@ -135,13 +141,16 @@ class LoginBox extends Component {
                                             image: user.pic,
                                             email: user.email
 
+                                        }, {
+                                            headers: {
+                                                'Authorization': `Bearer ${JSON.stringify(token)}`
+                                            }
                                         })
                                             .then(function (response) {
                                                 a.props.onLoginIn();
 
 
-                                                a.props.onFetchUser(user);
-
+                                                a.props.onFetchUser(payload);
 
                                                 // add user to pusher
                                                 chatkit.createUser({
@@ -165,7 +174,7 @@ class LoginBox extends Component {
 
                                         a.props.onLoginIn();
 
-                                        a.props.onFetchUser(user);
+                                        a.props.onFetchUser(payload, response.data.data.about);
 
                                     }
                                 })
@@ -229,7 +238,7 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        onFetchUser: (user) => dispatch({type: actionTypes.STORE_USER, user: user}),
+        onFetchUser: (user, about) => dispatch({type: actionTypes.STORE_USER, user: user, about: about}),
         onLoginIn: () => dispatch({type: actionTypes.USER_SIGNEDIN}),
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
 

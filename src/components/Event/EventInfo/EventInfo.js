@@ -20,27 +20,32 @@ const styles = theme => ({
     },
 });
 
+
 let chatManager = null;
+let channeLoaded = false;
 
 class EventInfo extends React.Component {
 
 
     componentDidMount() {
 
-        chatManager = new ChatManager({
-            instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-            userId: '105466931476929488142',
-            tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
-        });
 
     }
 
     onDelete = (e) => {
         var a = this;
-
-        //TODO - check if the user is admin of the event before delete it
+        // e.preventDefault();
+        const token = this.props.currentUser.user.token;
         axios.delete('/api/deleteEvent',
-            {data: {eventID: this.props.eventID}}
+            {
+
+                data: {eventID: this.props.eventID},
+
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+
+            }
         )
             .then(function (response) {
                 chatManager.connect()
@@ -48,7 +53,6 @@ class EventInfo extends React.Component {
                         currentUser.deleteRoom({roomId: a.props.pusherID})
                             .then(() => {
                                 console.log(`Deleted room with ID: `);
-                                a.props.history.push('/');
 
                             })
                             .catch(err => {
@@ -62,7 +66,6 @@ class EventInfo extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-        e.preventDefault();
 
     };
 
@@ -77,6 +80,15 @@ class EventInfo extends React.Component {
     render() {
 
         const {classes} = this.props;
+
+        if (this.props.currentUser.user !== null && !channeLoaded) {
+            alert(this.props.pusherID);
+            chatManager = new ChatManager({
+                instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+                userId: this.props.currentUser.user.user.id,
+                tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+            });
+        }
 
         return (
             <Paper className={cls.content} elevation={1}>

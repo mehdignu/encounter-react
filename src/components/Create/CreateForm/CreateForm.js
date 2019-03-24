@@ -59,6 +59,7 @@ const styles = theme => ({
 });
 
 let chatManager = null;
+let channeLoaded = false;
 
 class CreateForm extends Component {
     state = {
@@ -71,15 +72,6 @@ class CreateForm extends Component {
     };
 
 
-    componentDidMount() {
-
-        chatManager = new ChatManager({
-            instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-            userId: this.props.currentUser.userID,
-            tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
-        });
-
-    }
 
 
     handleChange = name => event => {
@@ -107,9 +99,10 @@ class CreateForm extends Component {
             const loc = this.state.location;
             const date = this.state.selectedDate.valueOf();
             const time = this.state.selectedTime.valueOf();
-            const admin = this.props.currentUser.userID;
-            const adminName = this.props.currentUser.name;
-            const adminPicture = this.props.currentUser.profileImage;
+            const admin = this.props.currentUser.user.user.id;
+            const adminName = this.props.currentUser.user.user.name;
+            const adminPicture = this.props.currentUser.user.user.pic;
+            const token = this.props.currentUser.user.token;
 
             //add the room to pusher
             chatManager.connect()
@@ -120,17 +113,23 @@ class CreateForm extends Component {
                             //add the room to mongo
                             axios.post('/api/createEvent', {
 
-                                title: title,
-                                desc: desc,
-                                loc: loc,
-                                date: date,
-                                time: time,
-                                admin: admin,
-                                adminName: adminName,
-                                adminPicture: adminPicture,
-                                pusherID: x.id,
+                                    title: title,
+                                    desc: desc,
+                                    loc: loc,
+                                    date: date,
+                                    time: time,
+                                    admin: admin,
+                                    adminName: adminName,
+                                    adminPicture: adminPicture,
+                                    pusherID: x.id,
 
-                            })
+                                },
+                                {
+                                    headers: {
+                                        'Authorization': `Bearer ${JSON.stringify(token)}`
+                                    }
+
+                                })
                                 .then(function (response) {
 
 
@@ -164,6 +163,15 @@ class CreateForm extends Component {
 
     render() {
         const {classes} = this.props;
+
+        if (this.props.currentUser.user !== null && !channeLoaded) {
+
+            chatManager = new ChatManager({
+                instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+                userId: this.props.currentUser.user.user.id,
+                tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+            });
+        }
 
         return (
 

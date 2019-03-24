@@ -58,10 +58,15 @@ class Event extends Component {
         var a = this;
         const eventId = id ? id : this.state.eventID;
 
+        const token = this.props.currentUser.user.token;
+
         //get the events data from the database
         axios.get('/api/getEvent', {
             params: {
                 eventID: eventId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
             }
         })
             .then(function (response) {
@@ -84,6 +89,9 @@ class Event extends Component {
                             axios.get('/api/getUser', {
                                 params: {
                                     userID: participantsFetched[i]
+                                },
+                                headers: {
+                                    'Authorization': `Bearer ${JSON.stringify(token)}`
                                 }
                             })
                                 .then(function (response) {
@@ -200,7 +208,7 @@ class Event extends Component {
             eventChat = (
 
                 <EventBox
-                    userID={this.props.currentUser.userID}
+                    userID={this.props.currentUser.user.user.id}
                     eventID={this.state.eventData._id}
                     pusherID={this.state.eventData.pusherID}
                     participants={this.state.participants}

@@ -96,17 +96,23 @@ class CreateForm extends Component {
             const time = this.state.selectedTime.valueOf();
             const eventID = this.state.eventID;
 
+            const token = this.props.currentUser.user.token;
 
             axios.post('/api/updateEvent', {
 
-                eventID: eventID,
-                title: title,
-                desc: desc,
-                loc: loc,
-                date: date,
-                time: time,
+                    eventID: eventID,
+                    title: title,
+                    desc: desc,
+                    loc: loc,
+                    date: date,
+                    time: time,
 
-            })
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${JSON.stringify(token)}`
+                    }
+                })
                 .then(function (response) {
 
                     if (response.status === 200)
@@ -130,10 +136,13 @@ class CreateForm extends Component {
     fetchEventInfos = (id) => {
 
         var a = this;
-
+        const token = this.props.currentUser.user.token;
         axios.get('/api/getEvent', {
             params: {
                 eventID: id
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
             }
         })
             .then(function (response) {

@@ -29,7 +29,7 @@ class EventBox extends Component {
     componentDidMount() {
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-            userId: this.props.currentUser.userID,
+            userId: this.props.currentUser.user.user.id,
             tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
         });
 
