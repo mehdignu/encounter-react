@@ -233,26 +233,22 @@ class Navigation extends Component {
                 a.setState({loading: false});
 
                 if (response.status === 200 && response.data.data) {
+
                     a.setState({requestsNum: 0});
+                    a.setState({requests: []});
+
                     response.data.data.map(
                         x => {
+
                             if (x.requester.length > 0) {
 
                                 //get user requests
 
-                                console.log(x.requester);
+                                a.setState({
+                                    requests: [...a.state.requests, x.requester]
+                                });
 
-                                // let newRequest = [];
-                                // newRequest[x._id] = x.requester;
-                                //
-                                // a.setState(prevState => ({
-                                //     requests: {
-                                //         ...prevState.requests,
-                                //         newRequest
-                                //     }
-                                // }));
-                                //
-                                // a.setState({requestsNum: a.state.requestsNum + x.requester.length});
+                                a.setState({requestsNum: a.state.requestsNum + x.requester.length});
 
                             }
 
@@ -284,6 +280,20 @@ class Navigation extends Component {
         let sideMenu = null;
         let moreMenu = null;
 
+        let notifications = (
+            <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
+
+
+                <Typography>
+
+                    no requests yet
+
+                </Typography>
+
+
+            </MenuItem>
+
+        );
 
         if (!this.props.currentUser.isLoggedIn) {
 
@@ -332,16 +342,51 @@ class Navigation extends Component {
                 channeLoaded = true;
             }
 
+            if (this.state.requests.length !== 0) {
 
-            // let notifications = null;
-            //
-            // console.log(this.state.requests);
-            //
-            // this.state.requests.map(
-            //     x => {
-            //         console.log(x);
-            //     }
-            // );
+
+                let key = 0;
+                notifications = this.state.requests.map(
+                    s =>
+
+                        s.map(x => {
+                            console.log(x);
+
+                            return (
+                                <Aux key={key++}>
+
+                                    <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
+                                        <Avatar alt="Remy Sharp" src={x.userPic}
+                                                className={cls.requestUsrImg}/>
+
+                                        <Typography>
+
+                                            {x.userName} want to join {x.eventName}
+
+                                        </Typography>
+
+
+                                        <div className={cls.butts}>
+
+                                            <Button variant="contained" color="primary" size={"small"}
+                                                    className={classes.requestButt}>
+                                                Add
+                                            </Button>
+
+                                            <Button variant="contained" color="secondary" size={"small"}
+                                                    className={classes.requestButt}>
+                                                Delete
+                                            </Button>
+
+                                        </div>
+
+                                    </MenuItem>
+                                    <Divider/>
+                                </Aux>
+                            );
+                        })
+                );
+            }
 
             sideMenu = (
                 <NavMenu/>
@@ -455,56 +500,7 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseR}
                 >
 
-
-                    <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
-                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"
-                                className={cls.requestUsrImg}/>
-
-                        <Typography>
-
-                            User 2 want to join some cool event
-
-                        </Typography>
-
-
-                        <div className={cls.butts}>
-
-                            <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
-                                Add
-                            </Button>
-
-                            <Button variant="contained" color="secondary" size={"small"}
-                                    className={classes.requestButt}>
-                                Delete
-                            </Button>
-
-                        </div>
-
-                    </MenuItem>
-                    <Divider/>
-
-                    <MenuItem onClick={this.handleMenuClose}>
-
-                        <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar2.png"
-                                className={cls.requestUsrImg}/>
-
-                        <Typography>
-
-                            User1 want to join some cool event boohoo madafaka
-
-                        </Typography>
-
-                        <div className={cls.butts}>
-
-                            <Button variant="contained" color="primary" size={"small"} className={classes.requestButt}>
-                                Add
-                            </Button>
-                            <Button variant="contained" color="secondary" size={"small"}
-                                    className={classes.requestButt}>
-                                Delete
-                            </Button>
-                        </div>
-                    </MenuItem>
+                    {notifications}
 
                 </Menu>
 
@@ -567,7 +563,8 @@ class Navigation extends Component {
 
                             <div className={classes.grow}/>
 
-                            <Typography className={classes.search} variant="h6" color="inherit" noWrap component="a"
+                            <Typography className={classes.search} variant="h6" color="inherit" noWrap
+                                        component="a"
                                         onClick={this.handleHomeButton}>
                                 Encounter
                             </Typography>
@@ -616,4 +613,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(Navigation)));
+export default withStyles(styles)(connect(mapStateToProps,
+    mapDispatchToProps)(withRouter(Navigation)));

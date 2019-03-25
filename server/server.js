@@ -279,7 +279,7 @@ router.delete("/deleteEvent", session_check, (req, res) => {
 //handle the request event
 router.post("/sendRequest", session_check, (req, res) => {
 
-    const {userID, eventID, eventName, userName} = req.body;
+    const {userID, eventID, eventName, userName, userPic} = req.body;
 
     //check if the user request already sent
     Event.findOne({
@@ -299,7 +299,7 @@ router.post("/sendRequest", session_check, (req, res) => {
                 }
             }
 
-            const newRequest = {"userID": userID, "userName": userName, "eventName": eventName};
+            const newRequest = {"userID": userID, "userName": userName, "userPic": userPic, "eventName": eventName, "eventID": eventID};
 
 
             requests.push(newRequest);
@@ -312,11 +312,11 @@ router.post("/sendRequest", session_check, (req, res) => {
                 pusher.trigger('general-channel', eventID, {
                     "message": userName + " want to join " + eventName
                 });
+                return res.json({success: true});
 
             });
 
 
-            return res.json({success: true});
         });
 
 
@@ -327,7 +327,6 @@ router.post("/deleteRequest", session_check, (req, res) => {
 
     const {userID, eventID} = req.body;
 
-    let requesters = [];
 
     //get the events info to remove the requester
     Event.findOne({"_id": eventID},
@@ -335,10 +334,15 @@ router.post("/deleteRequest", session_check, (req, res) => {
 
             if (err) return res.json({success: false, error: err});
 
-            requesters = data.requester;
+            let requests = data.requester;
+            let requesters = [];
 
-            //remove the user from the requests
-            requesters.remove(userID);
+
+            for (var i = 0; i < requests.length; i++) {
+                if (requests[i].userID !== userID) {
+                   requesters.push(requests[i]);
+                }
+            }
 
             //update the event requesters
             Event.findOneAndUpdate({"_id": eventID}, {"requester": requesters}, err => {

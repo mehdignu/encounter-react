@@ -58,8 +58,6 @@ class Feed extends Component {
     render() {
 
         if (window.pusher !== undefined && !channeLoaded && this.state.events.length !== 0 && this.props.currentUser.user !== null) {
-            console.log(this.state.events);
-            console.log(this.props.currentUser.user.user.id);
             var a = this;
 
             channel = window.pusher.subscribe('general-channel');
@@ -71,7 +69,6 @@ class Feed extends Component {
                 .map(
                     x => {
 
-                        console.log(x);
                         return (
                             channel.bind(x._id, function (data) {
 
@@ -125,7 +122,14 @@ class Feed extends Component {
                         //verify id plz
                         allowed = x.participants.includes(this.props.currentUser.user.user.id);
                         loggedIn = this.props.currentUser.isLoggedIn;
-                        requested = x.requester.includes(this.props.currentUser.user.user.id);
+
+                        for (var i = 0; i < x.requester.length; i++) {
+                            if (x.requester[i].userID === this.props.currentUser.user.user.id) {
+                                requested = true;
+                                break;
+                            }
+                        }
+
 
                     }
 

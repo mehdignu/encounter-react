@@ -124,6 +124,7 @@ class CardEvent extends Component {
         const token = this.props.currentUser.user.token;
         const eventID = this.props.eventID;
         const userName = this.props.currentUser.user.user.name;
+        const userPic = this.props.currentUser.user.user.pic;
 
         //add the room to mongo
         axios.post('/api/sendRequest', {
@@ -133,6 +134,7 @@ class CardEvent extends Component {
                 eventID: eventID,
                 eventName: eventName,
                 userName: userName,
+                userPic: userPic
 
             },
             {
@@ -235,7 +237,7 @@ class CardEvent extends Component {
                             :
                             (this.props.requested) ?
 
-                                <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                                <Button onClick={this.handleDeleteRequest} variant="contained" color="primary"
                                         className={classes.button}>
                                     request sent
                                 </Button>
