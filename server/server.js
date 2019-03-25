@@ -299,7 +299,14 @@ router.post("/sendRequest", session_check, (req, res) => {
                 }
             }
 
-            const newRequest = {"userID": userID, "userName": userName, "userPic": userPic, "eventName": eventName, "eventID": eventID};
+            const newRequest = {
+                "admin": admin,
+                "userID": userID,
+                "userName": userName,
+                "userPic": userPic,
+                "eventName": eventName,
+                "eventID": eventID
+            };
 
 
             requests.push(newRequest);
@@ -325,7 +332,7 @@ router.post("/sendRequest", session_check, (req, res) => {
 //handle deleting the request event
 router.post("/deleteRequest", session_check, (req, res) => {
 
-    const {userID, eventID} = req.body;
+    const {admin, userID, eventID} = req.body;
 
 
     //get the events info to remove the requester
@@ -340,15 +347,78 @@ router.post("/deleteRequest", session_check, (req, res) => {
 
             for (var i = 0; i < requests.length; i++) {
                 if (requests[i].userID !== userID) {
-                   requesters.push(requests[i]);
+                    requesters.push(requests[i]);
                 }
             }
 
             //update the event requesters
             Event.findOneAndUpdate({"_id": eventID}, {"requester": requesters}, err => {
                 if (err) return res.json({success: false, error: err});
+
+                //send the notification to the admin of the event
+                pusher.trigger('general-channel', admin, {
+                    deleted: true
+                });
+
                 return res.json({success: true});
             });
+
+        });
+
+});
+
+
+//handle adding the user requested to the event
+router.post("/allowUserRequest", session_check, (req, res) => {
+
+    const {userID, eventID} = req.body;
+
+
+    //get the events info to remove the requester
+    Event.findOne({"_id": eventID},
+        (err, data) => {
+
+            if (err) return res.json({success: false, error: err});
+
+            //update the requesters section
+            let requests = data.requester;
+            let requesters = [];
+
+            let found = false;
+            for (var i = 0; i < requests.length; i++) {
+                if (requests[i].userID !== userID) {
+                    requesters.push(requests[i]);
+                } else {
+                    found = true;
+                }
+            }
+
+            //update the participants section
+            let participantsAll = data.participants;
+
+            if (!participantsAll.includes(userID)) {
+                participantsAll.push(userID);
+            }
+
+            if (found) {
+
+                //update the event requesters
+                Event.findOneAndUpdate({"_id": eventID}, {
+                    "requester": requesters,
+                    "participants": participantsAll
+                }, err => {
+                    if (err) return res.json({success: false, error: err});
+
+                    //send the notification to the admin of the event
+                    pusher.trigger('general-channel', userID, {
+                        "message": data.adminName + " accepted your request to join " + data.title
+                    });
+                    return res.json({success: true});
+                });
+            } else {
+                if (err) return res.json({success: false, error: "request not found"});
+
+            }
 
         });
 

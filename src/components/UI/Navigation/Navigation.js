@@ -265,6 +265,71 @@ class Navigation extends Component {
 
     }
 
+
+    deleteRequest(admin, userID, eventID) {
+
+        if (this.props.currentUser.user !== null) {
+
+
+            const token = this.props.currentUser.user.token;
+
+            var a = this;
+            //add the room to mongo
+            axios.post('/api/deleteRequest', {
+
+                    admin: admin,
+                    userID: userID,
+                    eventID: eventID,
+
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${JSON.stringify(token)}`
+                    }
+                })
+                .then(function (response) {
+
+                    a.onLoadMenuEvents();
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    };
+
+
+    allowUser(userID, eventID) {
+
+        if (this.props.currentUser.user !== null) {
+
+
+            const token = this.props.currentUser.user.token;
+
+            var a = this;
+            //add the room to mongo
+            axios.post('/api/allowUserRequest', {
+
+                    userID: userID,
+                    eventID: eventID,
+
+                },
+                {
+                    headers: {
+                        'Authorization': `Bearer ${JSON.stringify(token)}`
+                    }
+                })
+                .then(function (response) {
+
+                    // a.onLoadMenuEvents();
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    };
+
     render() {
 
 
@@ -349,7 +414,7 @@ class Navigation extends Component {
                 notifications = this.state.requests.map(
                     s =>
 
-                        s.map((x,i) => {
+                        s.map((x, i) => {
 
                             return (
                                 <Aux key={key++}>
@@ -368,11 +433,13 @@ class Navigation extends Component {
                                         <div className={cls.butts}>
 
                                             <Button variant="contained" color="primary" size={"small"}
+                                                    onClick={() => this.allowUser(x.userID, x.eventID)}
                                                     className={classes.requestButt}>
                                                 Add
                                             </Button>
 
                                             <Button variant="contained" color="secondary" size={"small"}
+                                                    onClick={() => this.deleteRequest(x.admin,x.userID, x.eventID)}
                                                     className={classes.requestButt}>
                                                 Delete
                                             </Button>

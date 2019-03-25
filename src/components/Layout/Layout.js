@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import Aux from '../../hoc/Aux';
 import Navigation from '../UI/Navigation/Navigation';
 import classes from './Layout.scss';
-import {withStyles} from "@material-ui/core";
 import {connect} from "react-redux";
 import Snackbar from '../UI/Navigation/Snackbar/SnackbarUI';
+import * as actionTypes from '../../store/actions';
 
 let channeLoaded = false;
 let channel = null;
@@ -17,7 +17,6 @@ class Layout extends Component {
     };
 
 
-
     render() {
 
 
@@ -28,9 +27,14 @@ class Layout extends Component {
 
             channel.bind(this.props.currentUser.user.user.id, function (data) {
 
-                a.setState(prevState => ({
-                    notifications: [...prevState.notifications, data]
-                }))
+                if (!data.deleted) {
+
+                    a.setState(prevState => ({
+                        notifications: [...prevState.notifications, data]
+                    }));
+                }
+
+                a.props.onIncomingReques();
 
             });
 
@@ -72,13 +76,17 @@ class Layout extends Component {
 //redux store values
 const mapStateToProps = state => {
     return {
-        currentUser: state.user
+        currentUser: state.user,
+        currentRequest: state.requests
     };
 };
 
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+        onIncomingReques: () => dispatch({type: actionTypes.ADD_REQUEST}),
+
+    }
 };
 
 

@@ -91,10 +91,11 @@ class CardEvent extends Component {
         const userID = this.props.currentUser.user.user.id;
         const token = this.props.currentUser.user.token;
         const eventID = this.props.eventID;
+        const admin = this.props.admin;
 
         //add the room to mongo
         axios.post('/api/deleteRequest', {
-
+                admin: admin,
                 userID: userID,
                 eventID: eventID,
 

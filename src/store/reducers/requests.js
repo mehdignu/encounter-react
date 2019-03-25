@@ -1,7 +1,7 @@
 import * as actionTypes from '../actions';
 
 const initialState = {
-    num: 1,
+    incomingRequest: false,
     notifications: []
 };
 
@@ -15,23 +15,18 @@ const requests = (state = initialState, action) => {
 
             return {
                 ...state,
-                notifications: [...state.notifications, action.request]
+                incomingRequest: true
             };
 
-        case actionTypes.INCREMENT:
+
+        case actionTypes.END_REQUEST:
 
 
             return {
                 ...state,
-                num: state.num + 1
+                incomingRequest: false
             };
 
-        case actionTypes.RESET_REQUESTS:
-
-            return {
-                ...state,
-                num: 0
-            };
 
         default:
     }
