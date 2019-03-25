@@ -181,7 +181,7 @@ router.get("/getFeed", (req, res) => {
 
 
 //get Eevnt from id
-router.get("/getEvent",session_check, (req, res) => {
+router.get("/getEvent", session_check, (req, res) => {
 
     var eventID = req.query.eventID;
 
@@ -198,7 +198,7 @@ router.get("/getEvent",session_check, (req, res) => {
 
 
 //get all user Events
-router.get("/getUserEvents",session_check, (req, res) => {
+router.get("/getUserEvents", session_check, (req, res) => {
 
     const userID = req.query.userID;
 
@@ -239,7 +239,7 @@ router.post("/createEvent", session_check, (req, res) => {
 });
 
 //update event
-router.post("/updateEvent",session_check, (req, res) => {
+router.post("/updateEvent", session_check, (req, res) => {
 
     const {eventID, title, desc, loc, date, time} = req.body;
 
@@ -260,7 +260,7 @@ router.post("/updateEvent",session_check, (req, res) => {
 
 
 //delete the event
-router.delete("/deleteEvent",session_check, (req, res) => {
+router.delete("/deleteEvent", session_check, (req, res) => {
 
     const {eventID} = req.body;
 
@@ -276,17 +276,77 @@ router.delete("/deleteEvent",session_check, (req, res) => {
 /* Event Notifications endpoint */
 /* **************************** */
 
-//delete the event
-router.post("/sendRequest",session_check, (req, res) => {
+//handle the request event
+router.post("/sendRequest", session_check, (req, res) => {
 
-    const {admin, userID, eventID, eventName, userName} = req.body;
+    const {userID, eventID, eventName, userName} = req.body;
 
-    pusher.trigger('general-channel', '5c975f4a727a18e5a15b232c', {
-        "message": userName + " want to join " + eventName
-    });
+    //check if the user request already sent
+    Event.findOne({
+            "_id": eventID
+        },
+        (err, data) => {
 
-    return res.json({success: true});
 
+            if (err) return res.json({success: false, error: err});
+
+
+            let requests = data.requester;
+
+            for (var i = 0; i < requests.length; i++) {
+                if (requests[i].userID === userID) {
+                    return res.json({success: false, error: "request already sent"});
+                }
+            }
+
+            const newRequest = {"userID": userID, "userName": userName, "eventName": eventName};
+
+
+            requests.push(newRequest);
+
+            //update the event requesters
+            Event.findOneAndUpdate({"_id": eventID}, {"requester": requests}, err => {
+                if (err) return res.json({success: false, error: err});
+
+                //send the notification to the admin of the event
+                pusher.trigger('general-channel', eventID, {
+                    "message": userName + " want to join " + eventName
+                });
+
+            });
+
+
+            return res.json({success: true});
+        });
+
+
+});
+
+//handle deleting the request event
+router.post("/deleteRequest", session_check, (req, res) => {
+
+    const {userID, eventID} = req.body;
+
+    let requesters = [];
+
+    //get the events info to remove the requester
+    Event.findOne({"_id": eventID},
+        (err, data) => {
+
+            if (err) return res.json({success: false, error: err});
+
+            requesters = data.requester;
+
+            //remove the user from the requests
+            requesters.remove(userID);
+
+            //update the event requesters
+            Event.findOneAndUpdate({"_id": eventID}, {"requester": requesters}, err => {
+                if (err) return res.json({success: false, error: err});
+                return res.json({success: true});
+            });
+
+        });
 
 });
 

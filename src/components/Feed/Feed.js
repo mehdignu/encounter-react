@@ -118,12 +118,15 @@ class Feed extends Component {
                     const eventID = x._id;
                     let allowed = null;
                     let loggedIn = null;
+                    let requested = null;
 
                     if (this.props.currentUser.user !== null) {
 
                         //verify id plz
                         allowed = x.participants.includes(this.props.currentUser.user.user.id);
                         loggedIn = this.props.currentUser.isLoggedIn;
+                        requested = x.requester.includes(this.props.currentUser.user.user.id);
+
                     }
 
 
@@ -144,6 +147,7 @@ class Feed extends Component {
                             allowed={allowed}
                             admin={x.admin}
                             loggedIn={loggedIn}
+                            requested={requested}
                         />
 
 

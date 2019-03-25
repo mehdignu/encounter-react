@@ -12,7 +12,7 @@ const DataSchema = new Schema(
         adminName: String,
         adminPicture: String,
         participants: [],
-        requester: [],
+        requester: [{}],
         pusherID: String
     },
     {timestamps: true}

@@ -4,6 +4,7 @@ const initialState = {
     user: null,
     isLoggedIn: false,
     about: '',
+    requests: []
 
 };
 

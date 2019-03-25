@@ -23,9 +23,10 @@ import LoginBox from '../LoginBox/LoginBox';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../../store/actions';
 import {withRouter} from 'react-router-dom'
+import axios from "axios";
 /* global gapi */
 const drawerWidth = 240;
-
+let channeLoaded = false;
 
 const styles = theme => ({
     root: {
@@ -124,7 +125,9 @@ class Navigation extends Component {
         anchorR: null,
         mobileMoreAnchorEl: null,
         mobileMoreAnchorN: null,
-        loginHidden: true
+        loginHidden: true,
+        requests: [],
+        requestsNum: 0
     };
 
     handleLogin = event => {
@@ -199,6 +202,73 @@ class Navigation extends Component {
         });
     };
 
+
+    componentWillReceiveProps(nextProps, prevState) {
+
+        if (this.props.currentUser.user !== null) {
+
+            this.onLoadMenuEvents();
+
+        }
+    }
+
+    onLoadMenuEvents() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+                a.setState({loading: false});
+
+                if (response.status === 200 && response.data.data) {
+                    a.setState({requestsNum: 0});
+                    response.data.data.map(
+                        x => {
+                            if (x.requester.length > 0) {
+
+                                //get user requests
+
+                                console.log(x.requester);
+
+                                // let newRequest = [];
+                                // newRequest[x._id] = x.requester;
+                                //
+                                // a.setState(prevState => ({
+                                //     requests: {
+                                //         ...prevState.requests,
+                                //         newRequest
+                                //     }
+                                // }));
+                                //
+                                // a.setState({requestsNum: a.state.requestsNum + x.requester.length});
+
+                            }
+
+                        }
+                    );
+
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+    }
+
     render() {
 
 
@@ -216,6 +286,7 @@ class Navigation extends Component {
 
 
         if (!this.props.currentUser.isLoggedIn) {
+
 
             mainMenu = (
 
@@ -256,6 +327,21 @@ class Navigation extends Component {
 
         } else {
 
+            if (this.props.currentUser.user !== null && !channeLoaded) {
+                this.onLoadMenuEvents();
+                channeLoaded = true;
+            }
+
+
+            // let notifications = null;
+            //
+            // console.log(this.state.requests);
+            //
+            // this.state.requests.map(
+            //     x => {
+            //         console.log(x);
+            //     }
+            // );
 
             sideMenu = (
                 <NavMenu/>
@@ -273,7 +359,7 @@ class Navigation extends Component {
                         onClick={this.handleRequestsMenuOpen}
                         color="inherit"
                     >
-                        <Badge badgeContent={this.props.currentRequests.num} color="secondary">
+                        <Badge badgeContent={this.state.requestsNum} color="secondary">
                             <PersonAddIcon/>
                         </Badge>
                     </IconButton>
@@ -368,6 +454,7 @@ class Navigation extends Component {
                     open={isMenuOpenR}
                     onClose={this.handleMenuCloseR}
                 >
+
 
                     <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
                         <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"

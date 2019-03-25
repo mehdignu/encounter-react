@@ -86,6 +86,35 @@ class CardEvent extends Component {
     };
 
 
+    handleDeleteRequest = () => {
+
+        const userID = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+        const eventID = this.props.eventID;
+
+        //add the room to mongo
+        axios.post('/api/deleteRequest', {
+
+                userID: userID,
+                eventID: eventID,
+
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+            })
+            .then(function (response) {
+
+                // a.props.onRequest();
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+
+
     handleJoinRequest = () => {
 
         var a = this;
@@ -204,16 +233,24 @@ class CardEvent extends Component {
                             </Button>
 
                             :
+                            (this.props.requested) ?
 
-                            <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
-                                    className={classes.button}>
-                                Request to join
-                            </Button>
+                                <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                                        className={classes.button}>
+                                    request sent
+                                </Button>
+
+                                :
+
+                                <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                                        className={classes.button}>
+                                    request to join
+                                </Button>
 
 
                         :
 
-                        <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                        <Button onClick={this.handleVisitor} variant="contained" color="primary"
                                 className={classes.button}>
                             Request to join visitor
                         </Button>
