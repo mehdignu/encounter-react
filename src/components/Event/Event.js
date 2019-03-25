@@ -163,6 +163,7 @@ class Event extends Component {
         let particiPantsInfo = <p>loadign participants infos</p>;
 
         let k2 = 0;
+        console.log(this.props.eventData);
         if (this.state.participants.length > 0 && this.props.currentUser.user !== null) {
 
             eventInfo = (
@@ -175,6 +176,7 @@ class Event extends Component {
                     loc={this.state.eventData.location}
                     date={eventDate}
                     time={eventTime}
+                    admin={this.state.eventData.admin === this.props.currentUser.user.user.id}
                     key={k1++}
                 />
             );

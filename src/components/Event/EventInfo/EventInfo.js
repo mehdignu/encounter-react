@@ -11,6 +11,8 @@ import axios from "axios";
 import {withRouter} from 'react-router-dom'
 import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
 import {connect} from "react-redux";
+import Card from "../../Feed/CardEvent/CardEvent";
+import Aux from "../../../hoc/Aux";
 
 
 const styles = theme => ({
@@ -81,6 +83,33 @@ class EventInfo extends React.Component {
 
     };
 
+    onLeave = () => {
+
+
+        var a = this;
+
+        const token = this.props.currentUser.user.token;
+        const userID = this.props.currentUser.user.user.id;
+        const eventID = this.props.eventID;
+
+        axios.post('/api/leaveEvent', {
+
+            userID: userID,
+            eventID: eventID,
+
+        }, {
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+        })
+
+
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    };
+
     render() {
 
         const {classes} = this.props;
@@ -144,18 +173,31 @@ class EventInfo extends React.Component {
 
 
                 <div className={cls.butts}>
-                    <Button variant="outlined" color="primary" className={classes.button}
-                            onClick={this.onEdit}>
-                        Edit Event
-                    </Button>
+
+                    {(this.props.admin) ?
+
+                        <Aux>
+
+                            <Button variant="outlined" color="primary" className={classes.button}
+                                    onClick={this.onEdit}>
+                                Edit Event
+                            </Button>
 
 
-                    <Divider/>
+                            < Divider/>
 
-                    <Button href="/" variant="outlined" color="secondary" className={classes.button}
-                            onClick={this.onDelete}>
-                        Delete Event
-                    </Button>
+                            < Button href="/" variant="outlined" color="secondary" className={classes.button}
+                                     onClick={this.onDelete}>
+                                Delete Event
+                            </Button>
+                        </Aux>
+                        :
+
+                        < Button href="/" variant="outlined" color="secondary" className={classes.button}
+                                 onClick={this.onLeave}>
+                            Leave Event
+                        </Button>
+                    }
 
                 </div>
 

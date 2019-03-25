@@ -202,7 +202,7 @@ router.get("/getUserEvents", session_check, (req, res) => {
 
     const userID = req.query.userID;
 
-    Event.find({"admin": userID},
+    Event.find({"participants": userID},
         (err, data) => {
 
             if (err) return res.json({success: false, error: err});
@@ -256,6 +256,53 @@ router.post("/updateEvent", session_check, (req, res) => {
         if (err) return res.json({success: false, error: err});
         return res.json({success: true});
     });
+});
+
+
+//leave event
+router.post("/leaveEvent", session_check, (req, res) => {
+
+    const {userID, eventID} = req.body;
+
+
+    //get the events info to remove the requester
+    Event.findOne({"_id": eventID},
+        (err, data) => {
+
+            if (err) return res.json({success: false, error: err});
+
+
+            //update the participants section
+            let participantsAll = data.participants;
+            var found = false;
+
+            if (participantsAll.includes(userID)) {
+                var index = participantsAll.indexOf(userID);
+                if (index > -1) {
+                    found = true;
+                    participantsAll.splice(index, 1);
+                }
+            }
+
+            if (found) {
+
+                //update the event requesters
+                Event.findOneAndUpdate({"_id": eventID}, {
+                    "participants": participantsAll
+                }, err => {
+                    if (err) return res.json({success: false, error: err});
+
+
+                    return res.json({success: true});
+                });
+            } else {
+                if (err) return res.json({success: false, error: "user not found"});
+
+            }
+
+        });
+
+
 });
 
 
