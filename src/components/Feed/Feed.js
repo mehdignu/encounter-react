@@ -5,12 +5,9 @@ import Grid from '@material-ui/core/Grid';
 import Hidden from '@material-ui/core/Hidden';
 import {withStyles} from "@material-ui/core";
 import axios from "axios";
-import * as actionTypes from "../../store/actions";
 import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
-import Snackbar from '../UI/Navigation/Snackbar/SnackbarUI';
 
-/* global gapi */
 
 const styles = theme => ({
     root: {
@@ -19,15 +16,10 @@ const styles = theme => ({
 
 });
 
-let channel = null;
-let channeLoaded = false;
-
 class Feed extends Component {
 
     state = {
         events: [],
-        loading: true,
-        notifications: [],
 
     };
 
@@ -39,7 +31,6 @@ class Feed extends Component {
         var a = this;
         axios.get('/api/getFeed')
             .then(function (response) {
-                a.setState({loading: false});
 
                 if (response.status === 200) {
 
@@ -57,54 +48,17 @@ class Feed extends Component {
 
     render() {
 
-        if (window.pusher !== undefined && !channeLoaded && this.state.events.length !== 0 && this.props.currentUser.user !== null) {
-            var a = this;
-
-            channel = window.pusher.subscribe('general-channel');
-
-            this.state.events
-
-                .filter(x => x.admin === this.props.currentUser.user.user.id)
-
-                .map(
-                    x => {
-
-                        return (
-                            channel.bind(x._id, function (data) {
-
-                                a.setState(prevState => ({
-                                    notifications: [...prevState.notifications, data]
-                                }))
-
-                            })
-                        );
-                    }
-                );
-
-
-            channeLoaded = true;
-
-        }
 
 
         const {classes} = this.props;
 
         let key = 0;
-        let key2 = 0;
         let eventsFeed = <p>loading events</p>;
-        let not = null;
 
 
         if (this.state.events.length !== 0) {
 
 
-            if (this.state.notifications) {
-
-                not = this.state.notifications.map(function (x) {
-
-                    return <Snackbar msg={x.message} key={key2++}/>
-                });
-            }
 
             eventsFeed = this.state.events.map(
                 x => {
@@ -177,7 +131,6 @@ class Feed extends Component {
                     <Grid item xs>
 
                         <Aux>
-                            {not}
 
                             {eventsFeed}
 

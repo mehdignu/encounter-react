@@ -96,7 +96,7 @@ class NavMenu extends Component {
 
     componentWillReceiveProps(nextProps, prevState) {
 
-        if (this.props.currentUser.user !== null ) {
+        if (this.props.currentUser.user !== null) {
 
             this.onLoadMenuEvents();
 
@@ -107,8 +107,8 @@ class NavMenu extends Component {
         channeLoaded = false
     }
 
-    onLoadMenuEvents() {
 
+    onLoadMenuEvents() {
 
         var a = this;
         const userId = this.props.currentUser.user.user.id;

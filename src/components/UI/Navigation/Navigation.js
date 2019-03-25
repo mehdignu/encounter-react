@@ -349,8 +349,7 @@ class Navigation extends Component {
                 notifications = this.state.requests.map(
                     s =>
 
-                        s.map(x => {
-                            console.log(x);
+                        s.map((x,i) => {
 
                             return (
                                 <Aux key={key++}>
@@ -381,6 +380,7 @@ class Navigation extends Component {
                                         </div>
 
                                     </MenuItem>
+
                                     <Divider/>
                                 </Aux>
                             );

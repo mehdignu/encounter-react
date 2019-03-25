@@ -279,7 +279,7 @@ router.delete("/deleteEvent", session_check, (req, res) => {
 //handle the request event
 router.post("/sendRequest", session_check, (req, res) => {
 
-    const {userID, eventID, eventName, userName, userPic} = req.body;
+    const {admin, userID, eventID, eventName, userName, userPic} = req.body;
 
     //check if the user request already sent
     Event.findOne({
@@ -309,7 +309,7 @@ router.post("/sendRequest", session_check, (req, res) => {
                 if (err) return res.json({success: false, error: err});
 
                 //send the notification to the admin of the event
-                pusher.trigger('general-channel', eventID, {
+                pusher.trigger('general-channel', admin, {
                     "message": userName + " want to join " + eventName
                 });
                 return res.json({success: true});
