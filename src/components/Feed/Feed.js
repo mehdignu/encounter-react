@@ -16,6 +16,8 @@ const styles = theme => ({
 
 });
 
+let lock = false;
+
 class Feed extends Component {
 
     state = {
@@ -23,10 +25,27 @@ class Feed extends Component {
 
     };
 
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        if (!lock) {
+            this.onLoadFeed();
+            lock = true;
+        }
+
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        this.onLoadFeed();
+    }
+
+
 
     componentDidMount() {
 
+        this.onLoadFeed();
 
+    }
+
+    onLoadFeed() {
         //get all th events to be displayed on the feed
         var a = this;
         axios.get('/api/getFeed')
@@ -42,12 +61,9 @@ class Feed extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-
     }
 
-
     render() {
-
 
 
         const {classes} = this.props;
@@ -57,7 +73,6 @@ class Feed extends Component {
 
 
         if (this.state.events.length !== 0) {
-
 
 
             eventsFeed = this.state.events.map(
@@ -156,7 +171,8 @@ class Feed extends Component {
 //redux store values
 const mapStateToProps = state => {
     return {
-        currentUser: state.user
+        currentUser: state.user,
+        currentRequest: state.requests
     };
 };
 

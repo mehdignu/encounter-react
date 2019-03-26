@@ -306,6 +306,10 @@ router.post("/leaveEvent", session_check, (req, res) => {
                 }, err => {
                     if (err) return res.json({success: false, error: err});
 
+                    pusher.trigger('general-channel', userID, {
+                        deleted: true
+                    });
+
 
                     return res.json({success: true});
                 });

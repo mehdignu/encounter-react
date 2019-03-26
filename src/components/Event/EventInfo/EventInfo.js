@@ -103,13 +103,9 @@ class EventInfo extends React.Component {
                 'Authorization': `Bearer ${JSON.stringify(token)}`
             }
         }).then(
-            a.props.onIncomingReques()
-        ).then(
-
             a.props.history.push('/')
 
         )
-
 
             .catch(function (error) {
                 console.log(error);
