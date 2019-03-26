@@ -127,7 +127,9 @@ class Navigation extends Component {
         mobileMoreAnchorN: null,
         loginHidden: true,
         requests: [],
-        requestsNum: 0
+        requestsNum: 0,
+        infos: [],
+        infosNum: 0,
     };
 
     handleLogin = event => {
@@ -161,6 +163,9 @@ class Navigation extends Component {
 
     handleMenuCloseN = () => {
         this.setState({anchorN: null});
+        this.setState({infos: []});
+        this.setState({infosNum: 0});
+        this.clearInfos();
     };
 
     handleMenuCloseR = () => {
@@ -208,8 +213,61 @@ class Navigation extends Component {
         if (this.props.currentUser.user !== null) {
 
             this.onLoadMenuEvents();
+            this.onLoadMenuInfos();
 
         }
+    }
+
+
+    onLoadMenuInfos() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+
+        axios.get('/api/getUserInfos', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.setState({infosNum: 0});
+                    a.setState({infos: []});
+
+                    response.data.data.map(
+                        x => {
+
+                            if (x.infos.length > 0) {
+
+                                //get user requests
+
+                                a.setState({
+                                    infos: [...a.state.infos, x.infos]
+                                });
+
+                                a.setState({infosNum: a.state.infosNum + x.infos.length});
+
+                            }
+
+                        }
+                    );
+
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
     }
 
     onLoadMenuEvents() {
@@ -262,6 +320,32 @@ class Navigation extends Component {
                 console.log(error);
             });
 
+
+    }
+
+
+
+    clearInfos() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+        axios.post('/api/clearInfos', {
+
+            userID: userId
+
+        }, {
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+        }).then(
+
+        )
+
+            .catch(function (error) {
+                console.log(error);
+            });
 
     }
 
@@ -321,7 +405,7 @@ class Navigation extends Component {
                 })
                 .then(function (response) {
 
-                    // a.onLoadMenuEvents();
+                    a.onLoadMenuEvents();
 
                 })
                 .catch(function (error) {
@@ -355,6 +439,23 @@ class Navigation extends Component {
 
                 </Typography>
 
+
+            </MenuItem>
+
+        );
+
+
+        let infos = (
+            <MenuItem onClick={this.handleMenuClose}>
+
+
+
+                <Typography>
+
+
+                    no notifications to show
+
+                </Typography>
 
             </MenuItem>
 
@@ -404,6 +505,7 @@ class Navigation extends Component {
 
             if (this.props.currentUser.user !== null && !channeLoaded) {
                 this.onLoadMenuEvents();
+                this.onLoadMenuInfos();
                 channeLoaded = true;
             }
 
@@ -455,6 +557,40 @@ class Navigation extends Component {
                 );
             }
 
+
+
+            if (this.state.infos.length !== 0) {
+
+
+                let key = 0;
+                infos = this.state.infos.map(
+                    s =>
+
+                        s.map((x, i) => {
+
+                            return (
+                                <Aux key={key++}>
+
+                                    <MenuItem onClick={this.handleMenuClose}>
+
+                                        <Avatar alt="Remy Sharp" src={x.adminPic}
+                                                className={cls.requestUsrImg}/>
+
+                                        <Typography>
+
+                                            {x.adminName} has accepted your request to join {x.eventTitle}
+
+                                        </Typography>
+
+                                    </MenuItem>
+
+                                    <Divider/>
+                                </Aux>
+                            );
+                        })
+                );
+            }
+
             sideMenu = (
                 <NavMenu/>
 
@@ -483,7 +619,7 @@ class Navigation extends Component {
                         onClick={this.handleNotificationsMenuOpen}
                         color="inherit"
                     >
-                        <Badge badgeContent={17} color="secondary">
+                        <Badge badgeContent={this.state.infosNum} color="secondary">
                             <NotificationsIcon/>
                         </Badge>
                     </IconButton>
@@ -543,15 +679,8 @@ class Navigation extends Component {
                     onClose={this.handleMenuCloseN}
                 >
 
-                    <MenuItem onClick={this.handleMenuClose}>
+                    {infos}
 
-
-                        User 1 has accepted your request to join some cool some cool event
-                    </MenuItem>
-                    <Divider/>
-
-                    <MenuItem onClick={this.handleMenuClose}>User 3 has
-                        accepted your request to join some cool event</MenuItem>
 
 
                 </Menu>

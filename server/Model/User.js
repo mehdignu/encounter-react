@@ -3,13 +3,14 @@ const Schema = mongoose.Schema;
 
 const DataSchema = new Schema(
     {
-        userId:'',
+        userId: '',
         name: String,
         image: String,
         email: String,
-        about: String
+        about: String,
+        infos: [{}],
     },
-    { timestamps: true }
+    {timestamps: true}
 );
 
 module.exports = mongoose.model("User", DataSchema);

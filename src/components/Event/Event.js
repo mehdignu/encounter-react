@@ -163,7 +163,6 @@ class Event extends Component {
         let particiPantsInfo = <p>loadign participants infos</p>;
 
         let k2 = 0;
-        console.log(this.props.eventData);
         if (this.state.participants.length > 0 && this.props.currentUser.user !== null) {
 
             eventInfo = (

@@ -210,6 +210,20 @@ router.get("/getUserEvents", session_check, (req, res) => {
         });
 });
 
+
+//get all user Events
+router.get("/getUserInfos", session_check, (req, res) => {
+
+    const userID = req.query.userID;
+
+    User.find({"userId": userID},
+        (err, data) => {
+
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
+});
+
 //add event to the database
 router.post("/createEvent", session_check, (req, res) => {
 
@@ -376,6 +390,23 @@ router.post("/sendRequest", session_check, (req, res) => {
 
 });
 
+
+//clearInfos
+router.post("/clearInfos", session_check, (req, res) => {
+
+    const {userID} = req.body;
+
+    //check if the user request already sent
+    User.findOneAndUpdate({"userId": userID}, {"infos": []}, err => {
+
+        if (err) return res.json({success: false, error: err});
+
+        return res.json({success: true});
+
+    });
+
+});
+
 //handle deleting the request event
 router.post("/deleteRequest", session_check, (req, res) => {
 
@@ -421,13 +452,20 @@ router.post("/allowUserRequest", session_check, (req, res) => {
     const {userID, eventID} = req.body;
 
 
-    //get the events info to remove the requester
+    //get the event to remove the user from requester and add him to the participants
     Event.findOne({"_id": eventID},
         (err, data) => {
 
+            //acceptance message
+            const eventTitle = data.title;
+
+            let adminName = '';
+            let adminPic = '';
+            let msg = '';
+
             if (err) return res.json({success: false, error: err});
 
-            //update the requesters section
+            //update the requesters section - remove the user from the requesters
             let requests = data.requester;
             let requesters = [];
 
@@ -437,6 +475,8 @@ router.post("/allowUserRequest", session_check, (req, res) => {
                     requesters.push(requests[i]);
                 } else {
                     found = true;
+                    adminName = requests[i].userName;
+                    adminPic = requests[i].userPic;
                 }
             }
 
@@ -447,7 +487,7 @@ router.post("/allowUserRequest", session_check, (req, res) => {
                 participantsAll.push(userID);
             }
 
-            if (found) {
+            if (found === true) {
 
                 //update the event requesters
                 Event.findOneAndUpdate({"_id": eventID}, {
@@ -456,11 +496,42 @@ router.post("/allowUserRequest", session_check, (req, res) => {
                 }, err => {
                     if (err) return res.json({success: false, error: err});
 
-                    //send the notification to the admin of the event
-                    pusher.trigger('general-channel', userID, {
-                        "message": data.adminName + " accepted your request to join " + data.title
-                    });
-                    return res.json({success: true});
+
+                    //persist the notification into the admin database
+                    User.findOne({"userId": userID},
+                        (err, data) => {
+
+                            if (err) return res.json({success: false, error: "cant update the user success message"});
+
+                            let infos = [];
+
+                            const accepted = {
+                                "eventTitle": eventTitle,
+                                "adminName": adminName,
+                                "adminPic": adminPic
+                            }
+
+                            msg = adminName + " accepted your request to join " + eventTitle
+
+
+                            infos = data.infos;
+                            infos.push(accepted);
+
+
+                            //update the user with the new notification info
+                            User.findOneAndUpdate({"userId": userID}, {"infos": infos}, err => {
+                                if (err) return res.json({success: false, error: err});
+
+                                //send the notification to the admin of the event
+                                pusher.trigger('general-channel', userID, {
+                                    "message": msg
+                                });
+                                return res.json({success: true});
+
+                            });
+
+                        });
+
                 });
             } else {
                 if (err) return res.json({success: false, error: "request not found"});

@@ -13,6 +13,7 @@ import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
 import {connect} from "react-redux";
 import Card from "../../Feed/CardEvent/CardEvent";
 import Aux from "../../../hoc/Aux";
+import * as actionTypes from "../../../store/actions";
 
 
 const styles = theme => ({
@@ -101,7 +102,13 @@ class EventInfo extends React.Component {
             headers: {
                 'Authorization': `Bearer ${JSON.stringify(token)}`
             }
-        })
+        }).then(
+            a.props.onIncomingReques()
+        ).then(
+
+            a.props.history.push('/')
+
+        )
 
 
             .catch(function (error) {
@@ -186,14 +193,14 @@ class EventInfo extends React.Component {
 
                             < Divider/>
 
-                            < Button href="/" variant="outlined" color="secondary" className={classes.button}
+                            < Button variant="outlined" color="secondary" className={classes.button}
                                      onClick={this.onDelete}>
                                 Delete Event
                             </Button>
                         </Aux>
                         :
 
-                        < Button href="/" variant="outlined" color="secondary" className={classes.button}
+                        < Button variant="outlined" color="secondary" className={classes.button}
                                  onClick={this.onLeave}>
                             Leave Event
                         </Button>
@@ -220,6 +227,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+        onIncomingReques: () => dispatch({type: actionTypes.ADD_REQUEST}),
 
 
     }
