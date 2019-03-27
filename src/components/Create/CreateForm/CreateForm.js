@@ -103,28 +103,31 @@ class CreateForm extends Component {
 
     handleUploadFile = (event) => {
 
+        const fileName = event.target.files[0].name;
 
         const data = new FormData();
         if (event.target.files[0]) {
             this.setState({disable: true});
 
-            if (event.target.files[0].name.length > 10) {
-                this.setState({uploadName: event.target.files[0].name.substring(0, 10) + '...'})
-            } else {
-                this.setState({uploadName: event.target.files[0].name})
-            }
+                this.setState({uploadName: 'Thumbnail is uploading...'})
+
         }
         data.append('file', event.target.files[0]);
         data.append('name', 'some value user types');
         data.append('description', 'some value user types');
         // '/files' is your node.js route that triggers our middleware
-        console.log(event.target.files[0].name);
         axios.post('/api/files', data).then((response) => {
 
             this.setState({disable: false});
 
             if (response.data.secure_url)
                 this.setState({uploadVal: response.data.secure_url});
+
+            if (fileName.length > 10) {
+                this.setState({uploadName: fileName.substring(0, 10) + '...'})
+            } else {
+                this.setState({uploadName: fileName})
+            }
 
         });
 
@@ -315,12 +318,12 @@ class CreateForm extends Component {
 
                     <div className={classes.butts}>
 
-                        <Button variant="contained" color="primary" className={classes.button} disabled={this.state.disable}
+                        <Button variant="contained" color="primary" className={classes.button}
                                 onClick={this.handleCreation}>
                             Create
                         </Button>
 
-                        <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button}>
+                        <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button} >
                             Back
                         </Button>
                     </div>
