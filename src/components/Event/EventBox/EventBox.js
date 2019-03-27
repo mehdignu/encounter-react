@@ -27,6 +27,7 @@ class EventBox extends Component {
 
 
     componentDidMount() {
+        console.log('boo');
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
             userId: this.props.currentUser.user.user.id,
@@ -42,7 +43,7 @@ class EventBox extends Component {
 
                 return currentUser.subscribeToRoom({
                     roomId: this.props.pusherID,
-                    messageLimit: 50,
+                    messageLimit: 20,
                     hooks: {
                         onMessage: message => {
                             this.setState({
@@ -52,9 +53,7 @@ class EventBox extends Component {
                     }
                 })
             })
-            .then(currentRoom => {
 
-            })
             .catch(error => console.log(error))
 
 

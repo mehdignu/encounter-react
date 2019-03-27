@@ -13,7 +13,8 @@ const DataSchema = new Schema(
         adminPicture: String,
         participants: [],
         requester: [{}],
-        pusherID: String
+        pusherID: String,
+        eventImg: String
     },
     {timestamps: true}
 );

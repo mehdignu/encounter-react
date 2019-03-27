@@ -157,6 +157,7 @@ class CardEvent extends Component {
     render() {
         const {classes} = this.props;
 
+        const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
 
         return (
 
@@ -181,7 +182,7 @@ class CardEvent extends Component {
                     />
                     <CardMedia
                         className={classes.media}
-                        image="/static/images/cards/paella.jpg"
+                        image={imgDefault}
                         title="Paella dish"
                     />
                     <CardContent>

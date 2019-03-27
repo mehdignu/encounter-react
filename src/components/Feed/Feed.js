@@ -121,6 +121,7 @@ class Feed extends Component {
                             admin={x.admin}
                             loggedIn={loggedIn}
                             requested={requested}
+                            eventImg={x.eventImg}
                         />
 
 

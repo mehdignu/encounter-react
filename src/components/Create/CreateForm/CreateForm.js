@@ -13,6 +13,7 @@ import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
 import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-pickers';
 import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 
 const styles = theme => ({
     container: {
@@ -51,11 +52,37 @@ const styles = theme => ({
         alignItems: 'center',
         width: '100%'
 
+    }, rightIcon: {
+        marginLeft: theme.spacing.unit,
     },
     grid: {
         width: '60%',
         margin: 'auto',
     },
+    contained: {
+        margin: theme.spacing.unit,
+        width: '100%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        display: 'flex',
+        flexWrap: 'wrap',
+        paddingBottom: '0.5em'
+
+    },
+    buttonUpload: {
+        margin: theme.spacing.unit,
+        width: '100%',
+        alignItems: 'center',
+
+    },
+    butts: {
+        display: 'flex',
+        flexWrap: 'wrap',
+        margin: theme.spacing.unit,
+        width: '100%',
+        alignItems: 'center',
+        paddingTop: '1em'
+    }
 });
 
 let chatManager = null;
@@ -68,10 +95,41 @@ class CreateForm extends Component {
         location: '',
         selectedDate: new Date(),
         selectedTime: new Date(),
+        uploadName: 'Thumbnail',
+        uploadVal: '',
+        disable: false
 
     };
 
+    handleUploadFile = (event) => {
 
+
+        const data = new FormData();
+        if (event.target.files[0]) {
+            this.setState({disable: true});
+
+            if (event.target.files[0].name.length > 10) {
+                this.setState({uploadName: event.target.files[0].name.substring(0, 10) + '...'})
+            } else {
+                this.setState({uploadName: event.target.files[0].name})
+            }
+        }
+        data.append('file', event.target.files[0]);
+        data.append('name', 'some value user types');
+        data.append('description', 'some value user types');
+        // '/files' is your node.js route that triggers our middleware
+        console.log(event.target.files[0].name);
+        axios.post('/api/files', data).then((response) => {
+
+            this.setState({disable: false});
+
+            if (response.data.secure_url)
+                this.setState({uploadVal: response.data.secure_url});
+
+        });
+
+
+    };
 
 
     handleChange = name => event => {
@@ -103,6 +161,7 @@ class CreateForm extends Component {
             const adminName = this.props.currentUser.user.user.name;
             const adminPicture = this.props.currentUser.user.user.pic;
             const token = this.props.currentUser.user.token;
+            const eventImg = this.state.uploadVal;
 
             //add the room to pusher
             chatManager.connect()
@@ -122,6 +181,7 @@ class CreateForm extends Component {
                                     adminName: adminName,
                                     adminPicture: adminPicture,
                                     pusherID: x.id,
+                                    eventImg: eventImg
 
                                 },
                                 {
@@ -214,6 +274,23 @@ class CreateForm extends Component {
                         required
                     />
 
+
+                    <input
+                        accept="image/*"
+                        className={classes.input}
+                        id="outlined-button-file"
+                        multiple
+                        type="file"
+                        onChange={e => this.handleUploadFile(e)}
+                    />
+                    <label htmlFor="outlined-button-file" className={classes.contained}>
+                        <Button variant="outlined" component="span" className={classes.buttonUpload}>
+                            {this.state.uploadName}
+                            <CloudUploadIcon className={classes.rightIcon}/>
+
+                        </Button>
+                    </label>
+
                     <MuiPickersUtilsProvider utils={MomentUtils}>
 
                         <Grid container className={classes.grid} justify="space-around">
@@ -222,26 +299,31 @@ class CreateForm extends Component {
                                 label="Date"
                                 value={this.state.selectedDate}
                                 onChange={this.handleDateChange}
+                                required={true}
+
                             />
                             <TimePicker
                                 margin="normal"
                                 label="Time"
                                 value={this.state.selectedTime}
                                 onChange={this.handleTimeChange}
+                                required={true}
+
                             />
                         </Grid>
                     </MuiPickersUtilsProvider>
 
+                    <div className={classes.butts}>
 
-                    <Button variant="contained" color="primary" className={classes.button}
-                            onClick={this.handleCreation}>
-                        Create
-                    </Button>
+                        <Button variant="contained" color="primary" className={classes.button} disabled={this.state.disable}
+                                onClick={this.handleCreation}>
+                            Create
+                        </Button>
 
-                    <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button}>
-                        Back
-                    </Button>
-
+                        <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button}>
+                            Back
+                        </Button>
+                    </div>
                 </form>
 
             </Paper>

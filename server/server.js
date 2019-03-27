@@ -13,6 +13,13 @@ const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
 const session_check = require("./middleware");
+
+const multer = require("multer");
+const cloudinary = require("cloudinary");
+const fileUploadMiddleware = require("./fileUploadMiddleware");
+
+
+
 /* ************************** */
 /* App Configurations */
 /* ************************** */
@@ -135,6 +142,11 @@ router.post("/updateUser", session_check, (req, res) => {
 
     User.findOneAndUpdate({"userId": userID}, {"about": about}, err => {
         if (err) return res.json({success: false, error: err});
+
+        pusher.trigger('general-channel', userID, {
+            "message": "user about is updated"
+        });
+
         return res.json({success: true});
     });
 });
@@ -229,7 +241,7 @@ router.post("/createEvent", session_check, (req, res) => {
 
     let newEvent = new Event();
 
-    const {title, desc, loc, date, time, admin, adminName, adminPicture, pusherID} = req.body;
+    const {title, desc, loc, date, time, admin, adminName, adminPicture, pusherID, eventImg} = req.body;
 
 
     newEvent.title = title;
@@ -243,6 +255,7 @@ router.post("/createEvent", session_check, (req, res) => {
     newEvent.adminPicture = adminPicture;
     newEvent.requester = [];
     newEvent.pusherID = pusherID;
+    newEvent.eventImg = eventImg;
 
 
     newEvent.save((err, data) => {
@@ -546,6 +559,26 @@ router.post("/allowUserRequest", session_check, (req, res) => {
 
 });
 
+
+/* your servrer init and express code here */
+
+cloudinary.config({
+    cloud_name: 'drtbzzsis',
+    api_key: '839589289496339',
+    api_secret: 'vn8Yl0z3k9_o74lm3avOEWBBc4s'
+});
+
+/**
+ * Multer config for file upload
+ */
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+router.post('/files', upload.single('file'), fileUploadMiddleware, (req, res) => {
+
+    return res.json({success: true, data: res});
+
+});
 
 /* **************************** */
 /*     API Configuration        */

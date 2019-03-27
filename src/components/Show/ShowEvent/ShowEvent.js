@@ -16,7 +16,7 @@ const ShowEvent = (props) => (
 
         <CardMedia
             className={cls.eventMedia}
-            image="https://www.w3schools.com/howto/img_nature_wide.jpg"
+            image="https://www.lastminute.com/hotels/img/city/New-York-NY-US.jpg"
             title="Paella dish"
         />
 
