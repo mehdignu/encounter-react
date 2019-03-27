@@ -17,7 +17,7 @@ function Encounter(props) {
         <Switch>
             <Route path="/edit_profile" exact component={EditProfile} />
             <Route path="/user" exact component={ShowProfile} />
-            <Route path="/show" exact component={Show} />
+            <Route path="/show:id" exact component={Show} />
             <Route path="/notifications" exact component={Notifications} />
             <Route path="/requests" exact component={Requests} />
             <Route path="/event/:id" component={Event} />

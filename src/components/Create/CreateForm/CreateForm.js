@@ -150,7 +150,7 @@ class CreateForm extends Component {
 
     handleCreation = (e) => {
 
-        if (this.state.title.length !== 0 && this.state.description.length !== 0) {
+        if (this.state.title.length !== 0 && this.state.description.length !== 0 && !this.state.disable) {
 
 
             var a = this;

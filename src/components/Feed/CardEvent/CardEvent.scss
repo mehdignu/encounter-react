@@ -21,9 +21,28 @@
   height: 50px;
 }
 
-@media (max-width: 600px) {
+
+
+@media (max-width: 800px) {
   .eventDate {
     padding-top: 1em;
     text-align: center;
   }
+  .desc p{
+    margin-top: 8em;
+  }
+}
+
+@media (max-width: 400px) {
+  .eventDate {
+    padding-top: 1em;
+    text-align: center;
+  }
+  .desc p{
+    margin-top: 8em;
+  }
+}
+
+.desc{
+  margin-top: 2em;
 }

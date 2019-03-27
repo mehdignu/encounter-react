@@ -174,7 +174,7 @@ class CardEvent extends Component {
                                     className={classes.avatar}/>
                         }
                         action={
-                            <CardMenu/>
+                            <CardMenu eventID={this.props.eventID}/>
 
                         }
                         title={this.props.adminName}
@@ -210,15 +210,17 @@ class CardEvent extends Component {
                             </IconButton>
 
                             <Typography paragraph>
-                                {this.props.time}
+                                {this.props.date}<br/>
+                                at {this.props.time}
                             </Typography>
 
                         </div>
 
-                        <Typography component="p">
+                        <div className={cls.desc}>
+                        <Typography component="p" >
                             {this.props.description}
                         </Typography>
-
+                        </div>
 
                     </CardContent>
                     <CardActions className={classes.actions} disableActionSpacing>
