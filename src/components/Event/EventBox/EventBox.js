@@ -8,6 +8,7 @@ import EventMsg from "../EventMsg/EventMsg";
 import {ClipLoader} from 'react-spinners';
 import {css} from '@emotion/core';
 import * as actionTypes from '../../../store/actions';
+import Aux from "../../../hoc/Aux";
 
 let chatManager = null;
 const override = css`
@@ -74,7 +75,6 @@ class EventBox extends Component {
                     this.setState({loading: false});
                 this.setState({inputDisable: false});
                 this.props.onUnLock();
-
             }
         )
 
@@ -82,12 +82,19 @@ class EventBox extends Component {
 
     }
 
+    scrollToBottom = () => {
+        this.messagesEnd.scrollIntoView();
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        this.scrollToBottom();
+
+    }
 
     handleTextChange(e) {
 
 
         if (e.keyCode === 13) {
-
 
             this.state.currentPusherUser.sendMessage({
                 text: e.target.value,
@@ -116,8 +123,6 @@ class EventBox extends Component {
         }
 
 
-
-
         chat = this.state.messages
             .map((message, index) => {
 
@@ -138,6 +143,10 @@ class EventBox extends Component {
 
             });
 
+        if(this.messagesEnd){
+            this.scrollToBottom();
+
+        }
 
         return (
 
@@ -148,7 +157,13 @@ class EventBox extends Component {
 
                     <ul className={cls.chatbox}>
 
-                        {chat.length > 0 ? chat :
+                        {chat.length > 0 ?
+                            <Aux>
+                                {chat}
+
+
+                            </Aux>
+                            :
 
                             <div className={cls.spinne}>
                                 <div className='sweet-loading'>
@@ -164,8 +179,12 @@ class EventBox extends Component {
 
                         }
 
+                        <div style={{float: "left", clear: "both"}}
+                             ref={(el) => {
+                                 this.messagesEnd = el;
+                             }}>
+                        </div>
                     </ul>
-
 
 
                     <input placeholder="Type a message"

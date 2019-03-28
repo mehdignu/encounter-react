@@ -14,6 +14,7 @@ import Grid from '@material-ui/core/Grid';
 import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-pickers';
 import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import * as actionTypes from "../../../store/actions";
 
 const styles = theme => ({
     container: {
@@ -353,7 +354,8 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+        onLock: () => dispatch({type: actionTypes.LOCK}),
+        onUnLock: () => dispatch({type: actionTypes.UNLOCK}),
 
 
     }

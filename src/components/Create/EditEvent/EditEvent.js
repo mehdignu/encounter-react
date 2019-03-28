@@ -65,6 +65,7 @@ class CreateForm extends Component {
         location: '',
         selectedDate: new Date(),
         selectedTime: new Date(),
+        disable: false,
 
         eventID: '',
 
@@ -85,7 +86,8 @@ class CreateForm extends Component {
 
     handleUpdate = () => {
 
-        if (this.state.title.length !== 0 && this.state.description.length !== 0) {
+        if (this.state.title.length !== 0 && this.state.description.length !== 0 && !this.state.disable) {
+            this.setState({disable: true});
 
             var a = this;
 
@@ -112,7 +114,8 @@ class CreateForm extends Component {
                     headers: {
                         'Authorization': `Bearer ${JSON.stringify(token)}`
                     }
-                })
+                }).then(a.setState({disable: false}))
+
                 .then(function (response) {
 
                     if (response.status === 200)
