@@ -1,15 +1,26 @@
 import React, {Component} from 'react';
 import cls from './EventBox.scss';
 import Paper from "@material-ui/core/Paper";
-import axios from "axios";
 import {ChatManager, TokenProvider} from '@pusher/chatkit-client'
-import {default as Chatkit} from '@pusher/chatkit-server';
-import * as actionTypes from "../../../store/actions";
 import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import EventMsg from "../EventMsg/EventMsg";
+import {ClipLoader} from 'react-spinners';
+import {css} from '@emotion/core';
 
 let chatManager = null;
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    margin: auto;
+    padding: auto;
+`;
+
+const spinne = css`
+    margin: auto;
+    padding: auto;
+`;
 
 class EventBox extends Component {
 
@@ -22,12 +33,12 @@ class EventBox extends Component {
         messages: [],
         users: [],
         currentRoom: {users: []},
+        loading: true
 
     };
 
 
     componentDidMount() {
-        console.log('boo');
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
             userId: this.props.currentUser.user.user.id,
@@ -52,7 +63,9 @@ class EventBox extends Component {
                         },
                     }
                 })
-            })
+            }).then(
+            this.setState({loaded: true})
+        )
 
             .catch(error => console.log(error))
 
@@ -85,10 +98,43 @@ class EventBox extends Component {
     }
 
     render() {
+        let chat = (
+            <div className='sweet-loading'>
+                <ClipLoader
+                    css={override}
+                    sizeUnit={"px"}
+                    size={150}
+                    color={'#123abc'}
+                    loading={this.state.loading}
+                />
+            </div>
+        );
 
         if (this.props.currentUser === null) {
             return null;
         }
+
+
+        chat = this.state.messages
+            .map((message, index) => {
+
+            const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
+
+            if (sender) {
+
+                return (
+                    <EventMsg
+                        key={index}
+                        msgUser={sender.name}
+                        msgTime={message.createdAt}
+                        msgText={message.text}
+                        msgImg={sender.userImg}
+                    />
+                );
+            }
+
+        });
+
 
 
         return (
@@ -100,25 +146,21 @@ class EventBox extends Component {
 
                     <ul className={cls.chatbox}>
 
-                        {this.state.messages.map((message, index) => {
+                        {chat.length > 0 ? chat :
 
-                            const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
-
-                            if (sender) {
-
-
-                                return (
-                                    <EventMsg
-                                        key={index}
-                                        msgUser={sender.name}
-                                        msgTime={message.createdAt}
-                                        msgText={message.text}
-                                        msgImg={sender.userImg}
+                            <div className={cls.spinne}>
+                                <div className='sweet-loading'>
+                                    <ClipLoader
+                                        css={override}
+                                        sizeUnit={"px"}
+                                        size={50}
+                                        color={'#123abc'}
+                                        loading={this.state.loading}
                                     />
-                                );
-                            }
+                                </div>
+                            </div>
 
-                        })}
+                        }
 
 
                     </ul>

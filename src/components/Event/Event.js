@@ -137,7 +137,7 @@ class Event extends Component {
 
         //load events info
         let eventInfo = <p>loadign event infos</p>;
-        let eventChat = <p>loadign chat</p>;
+        let eventChat = '';
 
         let k1 = 0;
 

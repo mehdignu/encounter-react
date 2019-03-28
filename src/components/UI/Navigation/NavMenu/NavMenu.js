@@ -14,14 +14,9 @@ import MenuIcon from '@material-ui/icons/Menu';
 import Explicit from '@material-ui/icons/Explicit';
 import {withStyles} from '@material-ui/core/styles';
 import {NavLink, withRouter} from "react-router-dom";
-import Collapse from '@material-ui/core/Collapse';
-import ExpandLess from '@material-ui/icons/ExpandLess';
-import ExpandMore from '@material-ui/icons/ExpandMore';
 import cls from './NavMenu.scss';
 import axios from "axios";
 import {connect} from "react-redux";
-import MomentUtils from "@date-io/moment";
-import CardEvent from "../../../Feed/Feed";
 import moment from 'moment';
 
 

@@ -11,7 +11,6 @@ import axios from "axios";
 import {withRouter} from 'react-router-dom'
 import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
 import {connect} from "react-redux";
-import Card from "../../Feed/CardEvent/CardEvent";
 import Aux from "../../../hoc/Aux";
 import * as actionTypes from "../../../store/actions";
 
