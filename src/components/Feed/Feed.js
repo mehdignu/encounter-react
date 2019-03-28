@@ -83,9 +83,9 @@ class Feed extends Component {
                 .map(
                 x => {
 
-                    const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("MMMM Do YYYY");
+                    const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("dddd, MMMM Do YYYY");
                     const eventTime = new MomentUtils({locale: "de"}).date(x.time).format("H:mm a");
-                    const eventCreationDate = new MomentUtils({locale: "de"}).date(x.time).format("MMMM Do YYYY");
+                    const eventCreationDate = new MomentUtils({locale: "de"}).date(x.time).toNow(true);
                     const eventID = x._id;
                     let allowed = null;
                     let loggedIn = null;

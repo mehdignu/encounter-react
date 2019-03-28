@@ -30,86 +30,89 @@ class EventInfo extends React.Component {
 
 
     onDelete = (e) => {
-        var a = this;
-        e.preventDefault();
+        if (!this.props.locker.locked) {
 
-        const token = this.props.currentUser.user.token;
-        axios.delete('/api/deleteEvent',
-            {
+            var a = this;
+            e.preventDefault();
 
-                data: {eventID: this.props.eventID},
+            const token = this.props.currentUser.user.token;
+            axios.delete('/api/deleteEvent',
+                {
 
-                headers: {
-                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                    data: {eventID: this.props.eventID},
+
+                    headers: {
+                        'Authorization': `Bearer ${JSON.stringify(token)}`
+                    }
+
                 }
+            )
+                .then(function (response) {
 
-            }
-        )
-            .then(function (response) {
+                    if (response.status === 200) {
 
-                if (response.status === 200) {
+                        chatManager.connect()
+                            .then(currentUser => {
+                                currentUser.deleteRoom({roomId: a.props.pusherID})
+                                    .then(() => {
+                                        console.log(`Deleted room with ID: `);
 
-                    chatManager.connect()
-                        .then(currentUser => {
-                            currentUser.deleteRoom({roomId: a.props.pusherID})
-                                .then(() => {
-                                    console.log(`Deleted room with ID: `);
+                                        a.props.history.push('/');
 
-                                    a.props.history.push('/');
-
-                                })
-                                .catch(err => {
-                                    console.log(`Error deleted room  ${err}`)
-                                })
-                        })
-                        .catch(err => {
-                            console.log('Error on connection', err)
-                        });
-                }
+                                    })
+                                    .catch(err => {
+                                        console.log(`Error deleted room  ${err}`)
+                                    })
+                            })
+                            .catch(err => {
+                                console.log('Error on connection', err)
+                            });
+                    }
 
 
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
     };
 
 
     onEdit = () => {
-        //TODO - check if the user is the owner of the event before edit
+        if (!this.props.locker.locked) {
+            this.props.history.push('/eventForm/edit/' + this.props.eventID);
+        }
 
-        this.props.history.push('/eventForm/edit/' + this.props.eventID);
 
     };
 
     onLeave = () => {
 
+        if (!this.props.locker.locked) {
 
-        var a = this;
+            var a = this;
 
-        const token = this.props.currentUser.user.token;
-        const userID = this.props.currentUser.user.user.id;
-        const eventID = this.props.eventID;
+            const token = this.props.currentUser.user.token;
+            const userID = this.props.currentUser.user.user.id;
+            const eventID = this.props.eventID;
 
-        axios.post('/api/leaveEvent', {
+            axios.post('/api/leaveEvent', {
 
-            userID: userID,
-            eventID: eventID,
+                userID: userID,
+                eventID: eventID,
 
-        }, {
-            headers: {
-                'Authorization': `Bearer ${JSON.stringify(token)}`
-            }
-        }).then(
-            a.props.history.push('/')
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+            }).then(
+                a.props.history.push('/')
+            )
 
-        )
-
-            .catch(function (error) {
-                console.log(error);
-            });
-
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
     };
 
     render() {
@@ -214,6 +217,7 @@ class EventInfo extends React.Component {
 const mapStateToProps = state => {
     return {
         currentUser: state.user,
+        locker: state.locker,
 
     };
 };

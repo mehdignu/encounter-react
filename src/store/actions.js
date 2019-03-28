@@ -11,3 +11,6 @@ export const ADD_REQUEST = 'ADD_REQUEST';
 
 export const INCREMENT = 'INCREMENT';
 export const RESET_REQUESTS = 'RESET_REQUESTS';
+
+export const LOCK = 'LOCK';
+export const UNLOCK = 'UNLOCK';

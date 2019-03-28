@@ -109,7 +109,7 @@ class CreateForm extends Component {
         if (event.target.files[0]) {
             this.setState({disable: true});
 
-                this.setState({uploadName: 'Thumbnail is uploading...'})
+            this.setState({uploadName: 'Thumbnail is uploading...'})
 
         }
         data.append('file', event.target.files[0]);
@@ -152,6 +152,8 @@ class CreateForm extends Component {
 
         if (this.state.title.length !== 0 && this.state.description.length !== 0 && !this.state.disable) {
 
+            this.setState({disable: true});
+
 
             var a = this;
 
@@ -193,6 +195,7 @@ class CreateForm extends Component {
                                     }
 
                                 })
+                                .then(a.setState({disable: false}))
                                 .then(function (response) {
 
 
@@ -323,7 +326,7 @@ class CreateForm extends Component {
                             Create
                         </Button>
 
-                        <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button} >
+                        <Button onClick={this.goHome} variant="outlined" color="primary" className={classes.button}>
                             Back
                         </Button>
                     </div>

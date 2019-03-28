@@ -7,6 +7,7 @@ import {withRouter} from "react-router-dom";
 import EventMsg from "../EventMsg/EventMsg";
 import {ClipLoader} from 'react-spinners';
 import {css} from '@emotion/core';
+import * as actionTypes from '../../../store/actions';
 
 let chatManager = null;
 const override = css`
@@ -33,12 +34,15 @@ class EventBox extends Component {
         messages: [],
         users: [],
         currentRoom: {users: []},
-        loading: true
+        loading: true,
+        inputDisable: true
 
     };
 
 
     componentDidMount() {
+        this.props.onLock();
+
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
             userId: this.props.currentUser.user.user.id,
@@ -68,12 +72,13 @@ class EventBox extends Component {
             }).then(() => {
                 if (this.state.messages.length === 0)
                     this.setState({loading: false});
+                this.setState({inputDisable: false});
+                this.props.onUnLock();
 
             }
         )
 
             .catch(error => console.log(error))
-
 
     }
 
@@ -102,22 +107,15 @@ class EventBox extends Component {
         })
     }
 
+
     render() {
-        let chat = (
-            <div className='sweet-loading'>
-                <ClipLoader
-                    css={override}
-                    sizeUnit={"px"}
-                    size={150}
-                    color={'#123abc'}
-                    loading={this.state.loading}
-                />
-            </div>
-        );
+        let chat = '';
 
         if (this.props.currentUser === null) {
             return null;
         }
+
+
 
 
         chat = this.state.messages
@@ -166,8 +164,8 @@ class EventBox extends Component {
 
                         }
 
-
                     </ul>
+
 
 
                     <input placeholder="Type a message"
@@ -176,6 +174,7 @@ class EventBox extends Component {
                            onSubmit={this.handleTextChange.bind(this)}
                            onKeyDown={this.handleTextChange.bind(this)}
                            onChange={this.handleChange.bind(this)}
+                           disabled={this.state.inputDisable}
                     />
 
 
@@ -193,9 +192,20 @@ class EventBox extends Component {
 const mapStateToProps = state => {
     return {
         currentUser: state.user,
+        lock: state.locker,
 
     };
 };
 
 
-export default connect(mapStateToProps, null)(withRouter(EventBox));
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        onLock: () => dispatch({type: actionTypes.LOCK}),
+        onUnLock: () => dispatch({type: actionTypes.UNLOCK}),
+
+
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(EventBox));

@@ -22,6 +22,7 @@ import EventMsg from "../../Event/EventBox/EventBox";
 import {connect} from "react-redux";
 import axios from "axios";
 import * as actionTypes from "../../../store/actions";
+import moment from "moment";
 
 const styles = theme => ({
     card: {
@@ -183,7 +184,7 @@ class CardEvent extends Component {
                     <CardMedia
                         className={classes.media}
                         image={imgDefault}
-                        title="Paella dish"
+                        title={this.props.adminName}
                     />
                     <CardContent>
 
@@ -210,8 +211,8 @@ class CardEvent extends Component {
                             </IconButton>
 
                             <Typography paragraph>
-                                {this.props.date}<br/>
-                                at {this.props.time}
+                                <b>Date: </b> {this.props.date}<br/>
+                                <b>Time: </b> {this.props.time}
                             </Typography>
 
                         </div>

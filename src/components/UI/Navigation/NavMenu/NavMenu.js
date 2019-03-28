@@ -211,10 +211,6 @@ class NavMenu extends Component {
 
 
         }
-
-        //TODO - finish enter event with id
-
-
         const drawer = (
             <div>
                 <Divider/>

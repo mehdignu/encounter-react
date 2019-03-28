@@ -65,6 +65,7 @@ const styles = theme => ({
         width: 'auto',
         float: 'left',
         textAlign: 'left',
+        cursor: 'pointer',
         [theme.breakpoints.down('sm')]: {
             // marginLeft: theme.spacing.unit,
             // width: 'auto',
@@ -188,8 +189,11 @@ class Navigation extends Component {
 
 
     handleHomeButton = () => {
-        this.props.history.push('/');
-        this.handleMenuClose();
+        if (!this.props.locker.locked) {
+            this.props.history.push('/');
+            this.handleMenuClose();
+        }
+
     };
 
     handleLogout = () => {
@@ -324,7 +328,6 @@ class Navigation extends Component {
     }
 
 
-
     clearInfos() {
 
         var a = this;
@@ -449,7 +452,6 @@ class Navigation extends Component {
             <MenuItem onClick={this.handleMenuClose}>
 
 
-
                 <Typography>
 
 
@@ -541,7 +543,7 @@ class Navigation extends Component {
                                             </Button>
 
                                             <Button variant="contained" color="secondary" size={"small"}
-                                                    onClick={() => this.deleteRequest(x.admin,x.userID, x.eventID)}
+                                                    onClick={() => this.deleteRequest(x.admin, x.userID, x.eventID)}
                                                     className={classes.requestButt}>
                                                 Delete
                                             </Button>
@@ -556,7 +558,6 @@ class Navigation extends Component {
                         })
                 );
             }
-
 
 
             if (this.state.infos.length !== 0) {
@@ -682,7 +683,6 @@ class Navigation extends Component {
                     {infos}
 
 
-
                 </Menu>
 
 
@@ -793,6 +793,7 @@ const mapStateToProps = state => {
     return {
         currentUser: state.user,
         currentRequests: state.requests,
+        locker: state.locker
 
     };
 };

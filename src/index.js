@@ -7,6 +7,7 @@ import {BrowserRouter} from 'react-router-dom';
 import {createStore, combineReducers} from 'redux'
 import userReducer from './store/reducers/user'
 import requestsReducer from './store/reducers/requests'
+import lockerReducer from './store/reducers/locker'
 import {Provider} from 'react-redux'
 import {offline} from '@redux-offline/redux-offline';
 import config from '@redux-offline/redux-offline/lib/config';
@@ -14,7 +15,8 @@ import { RESET_STATE } from "@redux-offline/redux-offline/lib/constants";
 
 const rootReducer = combineReducers({
     user: userReducer,
-    requests: requestsReducer
+    requests: requestsReducer,
+    locker: lockerReducer
 });
 
 const store = createStore(rootReducer, offline(config));
