@@ -7,6 +7,8 @@ import {withStyles} from "@material-ui/core";
 import axios from "axios";
 import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
+import moment from 'moment';
+
 
 
 const styles = theme => ({
@@ -75,7 +77,10 @@ class Feed extends Component {
         if (this.state.events.length !== 0) {
 
 
-            eventsFeed = this.state.events.map(
+            eventsFeed = this.state.events
+
+                .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
+                .map(
                 x => {
 
                     const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("MMMM Do YYYY");

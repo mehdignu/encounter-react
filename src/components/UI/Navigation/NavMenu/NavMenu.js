@@ -22,6 +22,8 @@ import axios from "axios";
 import {connect} from "react-redux";
 import MomentUtils from "@date-io/moment";
 import CardEvent from "../../../Feed/Feed";
+import moment from 'moment';
+
 
 const drawerWidth = 240;
 let channeLoaded = false;
@@ -145,6 +147,7 @@ class NavMenu extends Component {
 
         let key = 0;
         let userEvents = <p>loading events</p>;
+        let userArchivedEvents = <p>loading archived events</p>;
 
         if (this.props.currentUser.user !== null && !channeLoaded) {
             this.onLoadMenuEvents();
@@ -154,7 +157,42 @@ class NavMenu extends Component {
 
         if (this.state.events.length !== 0) {
 
-            userEvents = this.state.events.map(
+            userEvents = this.state.events
+
+
+                .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
+
+                .map(
+
+
+
+                x => {
+
+                    const eventID = x._id;
+
+                    return (
+
+                        <NavLink className={cls.link} exact
+                                 to={{pathname: '/event/' + eventID}} key={key++}>
+                            <ListItem button className={classes.nested}>
+                                <ListItemIcon>
+                                    <Explicit/>
+                                </ListItemIcon>
+                                <ListItemText inset primary={x.title}/>
+                            </ListItem>
+                        </NavLink>
+
+
+                    );
+                }
+            );
+
+            userArchivedEvents = this.state.events
+
+
+                .filter(x => moment({locale: "de"}).diff(x.date, 'hours') > 0)
+
+                .map(
                 x => {
 
                     const eventID = x._id;
@@ -185,21 +223,19 @@ class NavMenu extends Component {
         const drawer = (
             <div>
                 <Divider/>
-                <List>
+                <List className={cls.lis}>
 
                     <ListItem button onClick={this.handleOpenCreate} key={'create'}>
                         <ListItemIcon><AddCircle/></ListItemIcon>
                         <ListItemText primary={'create '}/>
                     </ListItem>
 
-                    <ListItem button onClick={this.handleClick}>
+                    <ListItem button>
                         <ListItemIcon>
                             <EventAvailable/>
                         </ListItemIcon>
                         <ListItemText inset primary="Upcoming events" className={cls.listText}/>
-                        {this.state.open ? <ExpandLess className={cls.arrow}/> : <ExpandMore className={cls.arrow}/>}
                     </ListItem>
-                    <Collapse in={this.state.open} timeout="auto" unmountOnExit>
 
                         <List component="div">
 
@@ -208,7 +244,28 @@ class NavMenu extends Component {
 
                         </List>
 
-                    </Collapse>
+
+                </List>
+
+
+                <Divider/>
+                <List className={cls.lis}>
+
+
+                    <ListItem button>
+                        <ListItemIcon>
+                            <EventAvailable/>
+                        </ListItemIcon>
+                        <ListItemText inset primary="Archived events" className={cls.listText}/>
+                    </ListItem>
+
+                        <List component="div">
+
+
+                            {userArchivedEvents}
+
+                        </List>
+
 
                 </List>
 

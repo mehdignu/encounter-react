@@ -7,6 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
+import Aux from "../CardMenu/CardMenu";
+import {Helmet} from "react-helmet";
 
 class ShareDialog extends React.Component {
     state = {
@@ -26,22 +28,27 @@ class ShareDialog extends React.Component {
 
         return (
             <div>
-                {/*<Button variant="outlined" color="primary" onClick={this.handleClickOpen}>*/}
-                    {/*Open responsive dialog*/}
-                {/*</Button>*/}
+
                 <Dialog
-                    fullScreen={fullScreen}
+                    // fullScreen={fullScreen}
                     open={this.state.open}
                     onClose={this.handleClose}
                     aria-labelledby="responsive-dialog-title"
                 >
-                    <DialogTitle id="responsive-dialog-title">{"Use Google's location service?"}</DialogTitle>
+                    <div className="fb-share-button"
+                         data-href="https://google.com"
+                         data-layout="button_count">
+                    </div>
+                    <DialogTitle id="responsive-dialog-title">{"Share your Favorite Event"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            Let Google help apps determine location. This means sending anonymous location data to
-                            Google, even when no apps are running.
+                            share with facebook
                         </DialogContentText>
+
+
                     </DialogContent>
+
+
                     <DialogActions>
                         <Button onClick={this.handleClose} color="primary">
                             Disagree

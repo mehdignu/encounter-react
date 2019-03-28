@@ -9,6 +9,7 @@ import ShareIcon from '@material-ui/icons/Share';
 import cls from './CardMenu.scss';
 import Aux from '../../../hoc/Aux';
 import ShareDialog from '../ShareDialog/ShareDialog';
+import FacebookShare from "../Social/FacebookShare";
 
 const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
 let share = false;
@@ -20,7 +21,6 @@ function CardMenu(props) {
 
             <WithState>
                 {({anchorEl, updateAnchorEl}) => {
-                    console.log(share);
 
                     const open = Boolean(anchorEl);
 
@@ -39,7 +39,8 @@ function CardMenu(props) {
                     return (
                         <Aux>
 
-                            {share ? <ShareDialog open={true}/> : null}
+                            {share ? (<Aux> <FacebookShare/> <ShareDialog open={share} /> </Aux>) : null}
+
 
                             <IconButton
                                 aria-owns={open ? 'render-props-menu' : undefined}
