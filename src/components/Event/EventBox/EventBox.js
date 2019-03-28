@@ -45,7 +45,6 @@ class EventBox extends Component {
             tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
         });
 
-
         chatManager
             .connect()
             .then(currentUser => {
@@ -56,15 +55,21 @@ class EventBox extends Component {
                     roomId: this.props.pusherID,
                     messageLimit: 20,
                     hooks: {
+
                         onMessage: message => {
+
                             this.setState({
                                 messages: [...this.state.messages, message],
                             })
+
                         },
                     }
                 })
-            }).then(
-            this.setState({loaded: true})
+            }).then(() => {
+                if (this.state.messages.length === 0)
+                    this.setState({loading: false});
+
+            }
         )
 
             .catch(error => console.log(error))
@@ -118,23 +123,22 @@ class EventBox extends Component {
         chat = this.state.messages
             .map((message, index) => {
 
-            const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
+                const sender = this.props.participants.filter(x => x.userID === message.senderId)[0];
 
-            if (sender) {
+                if (sender) {
 
-                return (
-                    <EventMsg
-                        key={index}
-                        msgUser={sender.name}
-                        msgTime={message.createdAt}
-                        msgText={message.text}
-                        msgImg={sender.userImg}
-                    />
-                );
-            }
+                    return (
+                        <EventMsg
+                            key={index}
+                            msgUser={sender.name}
+                            msgTime={message.createdAt}
+                            msgText={message.text}
+                            msgImg={sender.userImg}
+                        />
+                    );
+                }
 
-        });
-
+            });
 
 
         return (
