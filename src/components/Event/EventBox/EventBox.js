@@ -11,6 +11,7 @@ import * as actionTypes from '../../../store/actions';
 import Aux from "../../../hoc/Aux";
 
 let chatManager = null;
+
 const override = css`
     display: block;
     margin: 0 auto;
@@ -26,6 +27,7 @@ const spinne = css`
 
 class EventBox extends Component {
 
+    _isMounted = false;
 
     state = {
         currentPusherUser: null,
@@ -41,9 +43,18 @@ class EventBox extends Component {
     };
 
 
-    componentDidMount() {
-        this.props.onLock();
+    componentWillUnmount() {
+        this._isMounted = false
+    }
 
+    componentDidMount() {
+        this._isMounted = true;
+
+        this.onLoad();
+    }
+
+    onLoad = () => {
+        // this.props.onLock();
         chatManager = new ChatManager({
             instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
             userId: this.props.currentUser.user.user.id,
@@ -53,42 +64,46 @@ class EventBox extends Component {
         chatManager
             .connect()
             .then(currentUser => {
+                if (this._isMounted) {
 
-                this.setState({currentPusherUser: currentUser});
+                    this.setState({currentPusherUser: currentUser});
 
-                return currentUser.subscribeToRoom({
-                    roomId: this.props.pusherID,
-                    messageLimit: 20,
-                    hooks: {
+                    return currentUser.subscribeToRoom({
+                            roomId: this.props.pusherID,
+                            messageLimit: 20,
+                            hooks: {
+                                onMessage: message => {
+                                    this.setState({
+                                        messages: [...this.state.messages, message],
+                                    })
 
-                        onMessage: message => {
+                                },
+                            }
+                        }
+                    )
+                }
+            })
+            .then(() => {
+                    if (this.state.messages.length === 0)
+                        this.setState({loading: false});
+                    this.setState({inputDisable: false});
+                    // this.props.onUnLock();
+                }
+            )
 
-                            this.setState({
-                                messages: [...this.state.messages, message],
-                            })
+            .catch(error => {
+                // this.props.onUnLock();
+                console.log(error);
+            })
 
-                        },
-                    }
-                })
-            }).then(() => {
-                if (this.state.messages.length === 0)
-                    this.setState({loading: false});
-                this.setState({inputDisable: false});
-                this.props.onUnLock();
-            }
-        )
-
-            .catch(error => console.log(error))
-
-    }
+    };
 
     scrollToBottom = () => {
         this.messagesEnd.scrollIntoView();
-    }
+    };
 
     componentDidUpdate(prevProps, prevState, snapshot) {
         this.scrollToBottom();
-
     }
 
     handleTextChange(e) {
@@ -143,7 +158,7 @@ class EventBox extends Component {
 
             });
 
-        if(this.messagesEnd){
+        if (this.messagesEnd) {
             this.scrollToBottom();
 
         }
@@ -220,8 +235,8 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        onLock: () => dispatch({type: actionTypes.LOCK}),
-        onUnLock: () => dispatch({type: actionTypes.UNLOCK}),
+        // onLock: () => dispatch({type: actionTypes.LOCK}),
+        // onUnLock: () => dispatch({type: actionTypes.UNLOCK}),
 
 
     }

@@ -33,13 +33,14 @@ function CardMenu(props) {
                     const handleShare = () => {
                         share = true;
                         updateAnchorEl(null);
+
                     };
 
 
                     return (
                         <Aux>
 
-                            {share ? (<Aux> <FacebookShare/> <ShareDialog open={share} /> </Aux>) : null}
+                            {share ? (<Aux> <ShareDialog open={share} EventID={props.eventID}/> </Aux>) : null}
 
 
                             <IconButton

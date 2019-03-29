@@ -42,7 +42,7 @@ class ShareDialog extends React.Component {
                     <DialogTitle id="responsive-dialog-title">{"Share your Favorite Event"}</DialogTitle>
                     <DialogContent>
                         <DialogContentText>
-                            share with facebook
+                          encounter.social/event/{this.props.EventID}
                         </DialogContentText>
 
 

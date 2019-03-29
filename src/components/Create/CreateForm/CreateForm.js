@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import {withStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Paper from "@material-ui/core/Paper";
@@ -15,6 +14,9 @@ import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-picke
 import {ChatManager, TokenProvider} from "@pusher/chatkit-client";
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import * as actionTypes from "../../../store/actions";
+import {ClipLoader} from 'react-spinners';
+import {css} from '@emotion/core';
+import cls from "../../Event/EventBox/EventBox.scss";
 
 const styles = theme => ({
     container: {
@@ -86,6 +88,19 @@ const styles = theme => ({
     }
 });
 
+const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    margin: auto;
+    padding: auto;
+`;
+
+const spinne = css`
+    margin: auto;
+    padding: auto;
+`;
+
 let chatManager = null;
 let channeLoaded = false;
 
@@ -98,7 +113,9 @@ class CreateForm extends Component {
         selectedTime: new Date(),
         uploadName: 'Thumbnail',
         uploadVal: '',
-        disable: false
+        disable: false,
+        loading: false,
+
 
     };
 
@@ -154,6 +171,7 @@ class CreateForm extends Component {
         if (this.state.title.length !== 0 && this.state.description.length !== 0 && !this.state.disable) {
 
             this.setState({disable: true});
+            this.setState({loading: true});
 
 
             var a = this;
@@ -197,6 +215,7 @@ class CreateForm extends Component {
 
                                 })
                                 .then(a.setState({disable: false}))
+                                .then(a.setState({loading: false}))
                                 .then(function (response) {
 
 
@@ -244,12 +263,24 @@ class CreateForm extends Component {
 
             <Paper className={classes.root} elevation={1}>
 
-
+                <div className={cls.spinne}>
+                    <div className='sweet-loading'>
+                        <ClipLoader
+                            css={override}
+                            sizeUnit={"px"}
+                            size={70}
+                            color={'#123abc'}
+                            loading={this.state.loading}
+                        />
+                    </div>
+                </div>
                 <form className={classes.container} autoComplete="off">
 
                     <Typography variant="h4">
                         Create new Encounter
                     </Typography>
+
+
 
                     <TextField
                         id="standard-name"
