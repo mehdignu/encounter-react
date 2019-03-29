@@ -82,6 +82,9 @@ class NavMenu extends Component {
 
     handleClick = () => {
         this.setState(state => ({open: !state.open}));
+        if (this.state.mobileOpen === true)
+            this.setState({mobileOpen: false});
+
     };
 
 
@@ -168,7 +171,7 @@ class NavMenu extends Component {
                     return (
 
                         <NavLink className={cls.link} exact
-                                 to={{pathname: '/event/' + eventID}} key={key++}>
+                                 to={{pathname: '/event/' + eventID}} key={key++} onClick={this.handleClick}>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <Explicit/>
@@ -195,7 +198,7 @@ class NavMenu extends Component {
                     return (
 
                         <NavLink className={cls.link} exact
-                                 to={{pathname: '/event/' + eventID}} key={key++}>
+                                 to={{pathname: '/event/' + eventID}} key={key++} onClick={this.handleClick}>
                             <ListItem button className={classes.nested}>
                                 <ListItemIcon>
                                     <Explicit/>

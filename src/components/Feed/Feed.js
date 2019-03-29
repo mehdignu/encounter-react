@@ -86,6 +86,7 @@ class Feed extends Component {
                     const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("dddd, MMMM Do YYYY");
                     const eventTime = new MomentUtils({locale: "de"}).date(x.time).format("H:mm a");
                     const eventCreationDate = new MomentUtils({locale: "de"}).date(x.time).toNow(true);
+                    const participantsCount = x.participants.length;
                     const eventID = x._id;
                     let allowed = null;
                     let loggedIn = null;
@@ -127,6 +128,7 @@ class Feed extends Component {
                             loggedIn={loggedIn}
                             requested={requested}
                             eventImg={x.eventImg}
+                            participantsCount={participantsCount}
                         />
 
 

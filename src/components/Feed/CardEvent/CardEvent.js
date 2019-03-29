@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import PlaceIcon from '@material-ui/icons/Place';
+import GroupIcon from '@material-ui/icons/Group';
 import AccessIcon from '@material-ui/icons/AccessTime';
 import Button from '@material-ui/core/Button';
 import 'typeface-roboto';
@@ -205,15 +206,34 @@ class CardEvent extends Component {
                                 {this.props.locat}
                             </Typography>
 
+
                             <IconButton aria-label="Event time" disabled={true}>
                                 <AccessIcon/>
 
                             </IconButton>
 
                             <Typography paragraph>
-                                <b>Date: </b> {this.props.date}<br/>
-                                <b>Time: </b> {this.props.time}
+                               {this.props.date}  <br/>
+                              {this.props.time}
                             </Typography>
+
+                        </div>
+
+
+                        <div className={cls.mainInfo2}>
+
+                            <IconButton aria-label="Event place" disabled={true} className={classes.straightButt}>
+
+
+                                <GroupIcon/>
+
+
+                            </IconButton>
+                            <Typography paragraph>
+                                {this.props.participantsCount} attending
+                            </Typography>
+
+
 
                         </div>
 

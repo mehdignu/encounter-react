@@ -21,6 +21,24 @@
   height: 50px;
 }
 
+.mainInfo2 {
+  display: flex;
+  //align-items: center;
+  //justify-content: center;
+
+}
+
+
+
+.mainInfo2 p{
+  margin-top: 12px;
+  padding-right: 21px;
+  max-width: 157px;
+  max-height: 38px;
+  width: 500px;
+  //height: 50px;
+}
+
 
 
 @media (max-width: 800px) {
@@ -39,7 +57,7 @@
     text-align: center;
   }
   .desc p{
-    margin-top: 8em;
+    margin-top: 2em;
   }
 }
 
