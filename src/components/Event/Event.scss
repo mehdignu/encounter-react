@@ -5,3 +5,117 @@
   padding: 18px;
   background-color: red;
 }
+
+
+.infosButton {
+  width: 33px;
+  height: 33px;
+  padding: 0;
+  top: 11%;
+  /* left: 38%; */
+  font-size: 0.875rem;
+  /* min-width: 0; */
+  box-sizing: border-box;
+  /* min-height: 36px; */
+
+}
+
+.lis {
+  padding: 0;
+  margin: 0;
+  min-height: 113px;
+}
+
+.infos {
+  padding: 8px !important;
+
+}
+
+
+.content {
+  display: block;
+  flex-wrap: wrap;
+  height: 83vh;
+  padding: 18px;
+  position: relative;
+}
+
+.title {
+
+  font-size: 0.9rem;
+  display: flex;
+  font-weight: 500 !important;
+
+}
+
+.membersTitle {
+  font-size: 0.9rem;
+  font-weight: 500 !important;
+  padding-bottom: 10px;
+  text-align: center !important;
+
+}
+
+
+.mainInfo {
+  display: block;
+
+}
+
+.title {
+}
+
+.intro {
+  padding: 5px;
+}
+
+.placeInfo {
+  display: flex;
+}
+
+.timeInfo {
+  display: flex;
+}
+
+.timeInfo button {
+  padding-left: 0;
+}
+
+.placeInfo button {
+  padding-left: 0;
+}
+
+.content .butts {
+  padding: 0;
+  margin: 0;
+  bottom: 1em;
+  width: 90%;
+  left: 5px;
+  position: absolute;
+  padding-top: 10px;
+}
+
+.butts Button {
+  margin-top: 10px;
+  width: 100%;
+}
+
+.mainInfo p {
+  padding-top: 18px;
+  padding-right: 21px;
+  //max-width: 157px;
+  //max-height: 38px;
+  //width: 500px;
+  //height: 50px;
+}
+
+.straightButt {
+  padding-left: 0;
+
+}
+
+
+.description {
+  padding-bottom: 1em;
+
+}

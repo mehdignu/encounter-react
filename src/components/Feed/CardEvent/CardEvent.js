@@ -72,7 +72,9 @@ const styles = theme => ({
 class CardEvent extends Component {
     state = {
         expanded: false,
-        eventID: this.props.eventID
+        eventID: this.props.eventID,
+        requested: this.props.requested,
+        allowed: this.props.allowed
     };
 
     handleExpandClick = () => {
@@ -89,6 +91,8 @@ class CardEvent extends Component {
 
 
     handleDeleteRequest = () => {
+
+        this.setState({requested: false});
 
         const userID = this.props.currentUser.user.user.id;
         const token = this.props.currentUser.user.token;
@@ -119,6 +123,8 @@ class CardEvent extends Component {
 
 
     handleJoinRequest = () => {
+
+        this.setState({requested: true});
 
         var a = this;
         const eventName = this.props.title;
@@ -158,6 +164,10 @@ class CardEvent extends Component {
 
     render() {
         const {classes} = this.props;
+
+        if(this.props === null){
+            return null;
+        }
 
         const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
 
@@ -213,8 +223,8 @@ class CardEvent extends Component {
                             </IconButton>
 
                             <Typography paragraph>
-                               {this.props.date}  <br/>
-                              {this.props.time}
+                                {this.props.date} <br/>
+                                {this.props.time}
                             </Typography>
 
                         </div>
@@ -234,13 +244,12 @@ class CardEvent extends Component {
                             </Typography>
 
 
-
                         </div>
 
                         <div className={cls.desc}>
-                        <Typography component="p" >
-                            {this.props.description}
-                        </Typography>
+                            <Typography component="p">
+                                {this.props.description}
+                            </Typography>
                         </div>
 
                     </CardContent>
@@ -252,7 +261,7 @@ class CardEvent extends Component {
 
                     {(this.props.loggedIn) ?
 
-                        (this.props.allowed) ?
+                        (this.state.allowed) ?
 
                             <Button onClick={this.handleEventJoin} variant="contained" color="primary"
                                     className={classes.button}>
@@ -260,7 +269,7 @@ class CardEvent extends Component {
                             </Button>
 
                             :
-                            (this.props.requested) ?
+                            (this.state.requested) ?
 
                                 <Button onClick={this.handleDeleteRequest} variant="contained" color="primary"
                                         className={classes.button}>
