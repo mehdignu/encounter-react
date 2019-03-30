@@ -27,6 +27,7 @@ class Feed extends Component {
 
     };
 
+
     componentWillUpdate(nextProps, nextState, nextContext) {
         if (!lock) {
             this.onLoadFeed();
@@ -90,7 +91,8 @@ class Feed extends Component {
                     const eventID = x._id;
                     let allowed = null;
                     let loggedIn = null;
-                    let requested = null;
+                    let requested = false;
+
 
                     if (this.props.currentUser.user !== null) {
 
@@ -104,6 +106,8 @@ class Feed extends Component {
                                 break;
                             }
                         }
+                        console.log(allowed);
+                        console.log(requested);
 
 
                     }

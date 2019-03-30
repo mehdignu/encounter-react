@@ -165,9 +165,9 @@ class CardEvent extends Component {
     render() {
         const {classes} = this.props;
 
-        if(this.props === null){
+        if(this.props === null)
             return null;
-        }
+
 
         const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
 
@@ -261,7 +261,7 @@ class CardEvent extends Component {
 
                     {(this.props.loggedIn) ?
 
-                        (this.state.allowed) ?
+                        (this.props.allowed) ?
 
                             <Button onClick={this.handleEventJoin} variant="contained" color="primary"
                                     className={classes.button}>
@@ -269,7 +269,7 @@ class CardEvent extends Component {
                             </Button>
 
                             :
-                            (this.state.requested) ?
+                            (this.props.requested) ?
 
                                 <Button onClick={this.handleDeleteRequest} variant="contained" color="primary"
                                         className={classes.button}>

@@ -33,6 +33,9 @@ import Button from "@material-ui/core/Button";
 
 const drawerWidth = 240;
 let chatManager = null;
+let channeLoaded = false;
+
+
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -93,7 +96,7 @@ const styles = theme => ({
     },
 
 });
-let channeLoaded = false;
+
 
 class Event extends Component {
 
@@ -204,10 +207,88 @@ class Event extends Component {
         }
     }
 
+    onDelete = (e) => {
+
+        var a = this;
+        e.preventDefault();
+
+        const token = this.props.currentUser.user.token;
+        axios.delete('/api/deleteEvent',
+            {
+
+                data: {eventID: this.state.eventData._id},
+
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+
+            }
+        )
+            .then(function (response) {
+
+                if (response.status === 200) {
+
+                    chatManager.connect()
+                        .then(currentUser => {
+                            currentUser.deleteRoom({roomId: a.state.eventData.pusherID})
+                                .then(() => {
+                                    console.log(`Deleted room with ID: `);
+
+                                    a.props.history.push('/');
+
+                                })
+                                .catch(err => {
+                                    console.log(`Error deleted room  ${err}`)
+                                })
+                        })
+                        .catch(err => {
+                            console.log('Error on connection', err)
+                        });
+                }
+
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+
+
+    onLeave = () => {
+
+
+        var a = this;
+
+        const token = this.props.currentUser.user.token;
+        const userID = this.props.currentUser.user.user.id;
+        const eventID = this.state.eventData._id;
+
+        axios.post('/api/leaveEvent', {
+
+            userID: userID,
+            eventID: eventID,
+
+        }, {
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+        }).then(
+            a.props.history.push('/')
+        )
+
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
+
+    onEdit = () => {
+        this.props.history.push('/eventForm/edit/' + this.state.eventData._id);
+    };
 
     render() {
 
         const {classes, theme} = this.props;
+
 
         //load events info
         let eventInfo = <p>loadign event infos</p>;
@@ -219,6 +300,13 @@ class Event extends Component {
 
         if (this.props.currentUser.user !== null && !channeLoaded) {
             this.fetchEventInfos();
+
+            chatManager = new ChatManager({
+                instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+                userId: this.props.currentUser.user.user.id,
+                tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+            });
+
             channeLoaded = true;
         }
 
@@ -253,6 +341,7 @@ class Event extends Component {
                     time={eventTime}
                     admin={isAdmin}
                     key={k1++}
+                    onEdit={this.onEdit.bind(this)}
                 />
             );
 
@@ -369,12 +458,12 @@ class Event extends Component {
 
                             <div className={cls.butts}>
 
-                                {(this.isAdmin) ?
+                                {(isAdmin) ?
 
                                     <Aux>
 
                                         <Button variant="outlined" color="primary" className={classes.button}
-                                                onClick={this.onEdit}>
+                                                onClick={this.onEdit.bind(this)}>
                                             Edit Event
                                         </Button>
 
@@ -382,14 +471,14 @@ class Event extends Component {
                                         < Divider/>
 
                                         < Button variant="outlined" color="secondary" className={classes.button}
-                                                 onClick={this.onDelete}>
+                                                 onClick={this.onDelete.bind(this)}>
                                             Delete Event
                                         </Button>
                                     </Aux>
                                     :
 
                                     < Button variant="outlined" color="secondary" className={classes.button}
-                                             onClick={this.onLeave}>
+                                             onClick={this.onLeave.bind(this)}>
                                         Leave Event
                                     </Button>
                                 }
@@ -400,8 +489,6 @@ class Event extends Component {
 
 
                     </List>
-
-
 
 
                 </div>

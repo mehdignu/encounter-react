@@ -161,29 +161,33 @@ class NavMenu extends Component {
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
 
                 .map(
+                    x => {
+
+                        const eventID = x._id;
+
+                        let eventTitle = '';
+                        if (x.title.length > 20) {
+                            eventTitle = x.title.substring(0, 15) + '...';
+                        } else {
+                            eventTitle = x.title;
+                        }
+
+                        return (
+
+                            <NavLink className={cls.link} exact
+                                     to={{pathname: '/event/' + eventID}} key={key++} onClick={this.handleClick}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <Explicit/>
+                                    </ListItemIcon>
+                                    <ListItemText inset primary={eventTitle}/>
+                                </ListItem>
+                            </NavLink>
 
 
-
-                x => {
-
-                    const eventID = x._id;
-
-                    return (
-
-                        <NavLink className={cls.link} exact
-                                 to={{pathname: '/event/' + eventID}} key={key++} onClick={this.handleClick}>
-                            <ListItem button className={classes.nested}>
-                                <ListItemIcon>
-                                    <Explicit/>
-                                </ListItemIcon>
-                                <ListItemText inset primary={x.title}/>
-                            </ListItem>
-                        </NavLink>
-
-
-                    );
-                }
-            );
+                        );
+                    }
+                );
 
             userArchivedEvents = this.state.events
 
@@ -191,26 +195,26 @@ class NavMenu extends Component {
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') > 0)
 
                 .map(
-                x => {
+                    x => {
 
-                    const eventID = x._id;
+                        const eventID = x._id;
 
-                    return (
+                        return (
 
-                        <NavLink className={cls.link} exact
-                                 to={{pathname: '/event/' + eventID}} key={key++} onClick={this.handleClick}>
-                            <ListItem button className={classes.nested}>
-                                <ListItemIcon>
-                                    <Explicit/>
-                                </ListItemIcon>
-                                <ListItemText inset primary={x.title}/>
-                            </ListItem>
-                        </NavLink>
+                            <NavLink className={cls.link} exact
+                                     to={{pathname: '/event/' + eventID}} key={key++} onClick={this.handleClick}>
+                                <ListItem button className={classes.nested}>
+                                    <ListItemIcon>
+                                        <Explicit/>
+                                    </ListItemIcon>
+                                    <ListItemText inset primary={x.title}/>
+                                </ListItem>
+                            </NavLink>
 
 
-                    );
-                }
-            );
+                        );
+                    }
+                );
 
 
         }
@@ -231,12 +235,12 @@ class NavMenu extends Component {
                         <ListItemText inset primary="Upcoming events" className={cls.listText}/>
                     </ListItem>
 
-                        <List component="div">
+                    <List component="div">
 
 
-                            {userEvents}
+                        {userEvents}
 
-                        </List>
+                    </List>
 
 
                 </List>
@@ -253,12 +257,12 @@ class NavMenu extends Component {
                         <ListItemText inset primary="Archived events" className={cls.listText}/>
                     </ListItem>
 
-                        <List component="div">
+                    <List component="div">
 
 
-                            {userArchivedEvents}
+                        {userArchivedEvents}
 
-                        </List>
+                    </List>
 
 
                 </List>

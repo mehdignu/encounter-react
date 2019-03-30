@@ -29,105 +29,10 @@ let channeLoaded = false;
 class EventInfo extends React.Component {
 
 
-    onDelete = (e) => {
-        if (!this.props.locker.locked) {
-
-            var a = this;
-            e.preventDefault();
-
-            const token = this.props.currentUser.user.token;
-            axios.delete('/api/deleteEvent',
-                {
-
-                    data: {eventID: this.props.eventID},
-
-                    headers: {
-                        'Authorization': `Bearer ${JSON.stringify(token)}`
-                    }
-
-                }
-            )
-                .then(function (response) {
-
-                    if (response.status === 200) {
-
-                        chatManager.connect()
-                            .then(currentUser => {
-                                currentUser.deleteRoom({roomId: a.props.pusherID})
-                                    .then(() => {
-                                        console.log(`Deleted room with ID: `);
-
-                                        a.props.history.push('/');
-
-                                    })
-                                    .catch(err => {
-                                        console.log(`Error deleted room  ${err}`)
-                                    })
-                            })
-                            .catch(err => {
-                                console.log('Error on connection', err)
-                            });
-                    }
-
-
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-    };
-
-
-    onEdit = () => {
-        if (!this.props.locker.locked) {
-            this.props.history.push('/eventForm/edit/' + this.props.eventID);
-        }
-
-
-    };
-
-    onLeave = () => {
-
-        if (!this.props.locker.locked) {
-
-            var a = this;
-
-            const token = this.props.currentUser.user.token;
-            const userID = this.props.currentUser.user.user.id;
-            const eventID = this.props.eventID;
-
-            axios.post('/api/leaveEvent', {
-
-                userID: userID,
-                eventID: eventID,
-
-            }, {
-                headers: {
-                    'Authorization': `Bearer ${JSON.stringify(token)}`
-                }
-            }).then(
-                a.props.history.push('/')
-            )
-
-                .catch(function (error) {
-                    console.log(error);
-                });
-        }
-    };
 
     render() {
 
         const {classes} = this.props;
-
-        if (this.props.currentUser.user !== null && !channeLoaded) {
-
-            chatManager = new ChatManager({
-                instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-                userId: this.props.currentUser.user.user.id,
-                tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
-            });
-            channeLoaded = true;
-        }
 
         return (
             <Paper className={cls.content} elevation={1}>
@@ -184,7 +89,7 @@ class EventInfo extends React.Component {
                         <Aux>
 
                             <Button variant="outlined" color="primary" className={classes.button}
-                                    onClick={this.onEdit}>
+                                    onClick={this.props.onEdit}>
                                 Edit Event
                             </Button>
 
@@ -192,14 +97,14 @@ class EventInfo extends React.Component {
                             < Divider/>
 
                             < Button variant="outlined" color="secondary" className={classes.button}
-                                     onClick={this.onDelete}>
+                                     onClick={this.props.onDelete}>
                                 Delete Event
                             </Button>
                         </Aux>
                         :
 
                         < Button variant="outlined" color="secondary" className={classes.button}
-                                 onClick={this.onLeave}>
+                                 onClick={this.props.onLeave}>
                             Leave Event
                         </Button>
                     }

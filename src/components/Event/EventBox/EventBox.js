@@ -70,7 +70,7 @@ class EventBox extends Component {
 
                     return currentUser.subscribeToRoom({
                             roomId: this.props.pusherID,
-                            messageLimit: 20,
+                            messageLimit: 100,
                             hooks: {
                                 onMessage: message => {
                                     this.setState({
