@@ -37,7 +37,6 @@ class Feed extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.onLoadFeed();
-        console.log('boo');
     }
 
 
@@ -108,7 +107,6 @@ class Feed extends Component {
                             }
                         }
 
-                        console.log(requested);
 
 
                         return (

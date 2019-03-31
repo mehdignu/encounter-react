@@ -68,6 +68,7 @@ const styles = theme => ({
     },
 });
 
+let lock = false;
 
 class NavMenu extends Component {
     state = {
@@ -103,8 +104,10 @@ class NavMenu extends Component {
         }
     }
 
+
     componentWillUnmount() {
-        channeLoaded = false
+        channeLoaded = false;
+
     }
 
 

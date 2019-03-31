@@ -255,7 +255,6 @@ class Event extends Component {
 
 
     onLeave = () => {
-        console.log('de');
 
         var a = this;
 

@@ -135,7 +135,7 @@ class Navigation extends Component {
     handleLogin = event => {
 
 
-        if(!this.props.logBox.hidden){
+        if (!this.props.logBox.hidden) {
             this.props.onLogHide();
 
         } else {
@@ -168,10 +168,12 @@ class Navigation extends Component {
     };
 
     handleMenuCloseN = () => {
+
         this.setState({anchorN: null});
         this.setState({infos: []});
         this.setState({infosNum: 0});
         this.clearInfos();
+
     };
 
     handleMenuCloseR = () => {
@@ -219,7 +221,7 @@ class Navigation extends Component {
 
     componentWillReceiveProps(nextProps, prevState) {
 
-        if (this.props.currentUser.user !== null) {
+        if (this.props.currentUser.user !== null && this.state.anchorN === null && this.state.anchorR === null) {
 
             this.onLoadMenuEvents();
             this.onLoadMenuInfos();
@@ -347,14 +349,17 @@ class Navigation extends Component {
             headers: {
                 'Authorization': `Bearer ${JSON.stringify(token)}`
             }
-        }).then(
+        })
 
-        )
+        //     .then(
+        //     a.setState({infosNum: 0})
+        // ).then(
+        //     a.setState({infos: []})
+        // )
 
             .catch(function (error) {
                 console.log(error);
             });
-
     }
 
 
@@ -598,7 +603,7 @@ class Navigation extends Component {
             }
 
             sideMenu = (
-                <NavMenu/>
+                <NavMenu {...this.props} />
 
             );
 
