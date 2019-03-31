@@ -9,6 +9,10 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import withMobileDialog from '@material-ui/core/withMobileDialog';
 import Aux from "../CardMenu/CardMenu";
 import {Helmet} from "react-helmet";
+import * as actionTypes from "../../../store/actions";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
 
 //this to make sure that the sharedialog component
 //renders one time - i will refactor
@@ -17,7 +21,7 @@ let boo = false;
 
 class ShareDialog extends React.Component {
     state = {
-        open: this.props.open,
+        open: false,
     };
 
     componentWillUnmount() {
@@ -30,63 +34,67 @@ class ShareDialog extends React.Component {
 
     handleClose = () => {
         this.setState({open: false});
+        this.props.onHideShare();
     };
 
 
     render() {
-        const {fullScreen} = this.props;
 
 
-        if (!boo) {
 
-            boo = true;
-
+        if(this.props.dialog === undefined){
+            return null;
+        }
             return (
                 <div>
 
                     <Dialog
-                        // fullScreen={fullScreen}
-                        open={this.state.open}
+                        open={this.props.dialog.show}
                         onClose={this.handleClose}
-                        aria-labelledby="responsive-dialog-title"
+                        aria-labelledby="form-dialog-title"
                     >
-
-                        <DialogTitle id="responsive-dialog-title">{"Share your Favorite Event"}</DialogTitle>
+                        <DialogTitle id="form-dialog-title">Share your favorite Event</DialogTitle>
                         <DialogContent>
                             <DialogContentText>
-                                encounter.social/event/{this.props.EventID}
+                                Copy the Event Link below and share it with your friends !
                             </DialogContentText>
-
-
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Event Link"
+                                type="email"
+                                value={"/showEvent/" + this.props.dialog.eventID}
+                                fullWidth
+                            />
                         </DialogContent>
 
-
-                        <DialogActions>
-                            <Button onClick={this.handleClose} color="primary">
-                                Disagree
-                            </Button>
-                            <Button onClick={this.handleClose} color="primary" autoFocus>
-                                Agree
-                            </Button>
-                        </DialogActions>
                     </Dialog>
                 </div>
             );
-        } else {
-            return null;
-        }
     }
 }
 
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+        currentRequests: state.requests,
+        logBox: state.login,
+        dialog: state.dialog
 
-ShareDialog
-    .propTypes = {
-    fullScreen: PropTypes.bool.isRequired,
+
+    };
 };
 
-export default withMobileDialog()
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
 
-(
-    ShareDialog
-)
-;
+        onHideShare: () => dispatch({type: actionTypes.HIDE_SHARE}),
+
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ShareDialog));

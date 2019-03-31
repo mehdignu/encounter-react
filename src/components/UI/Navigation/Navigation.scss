@@ -23,7 +23,7 @@
    min-width: 0;
    padding-right: 5px;
  }
- 
+
  .menu ul {
    padding: 0;
  }
@@ -34,6 +34,34 @@
   display: inline-flex;
 
 }
+
+.link {
+  text-decoration: none;
+  padding-right: 3px;
+  color: black;
+
+}
+
+/* A link that has not been visited */
+.link a {
+  color: black;
+}
+
+/* A link that has been visited */
+.link a:visited {
+  color: black;
+}
+
+/* A link that is hovered on */
+.link a:hover {
+  color: black;
+}
+
+/* A link that is selected */
+.link a:active {
+  color: black;
+}
+
   .menuItem p{
 
   float: left;

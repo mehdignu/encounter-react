@@ -22,7 +22,7 @@ import Avatar from "@material-ui/core/Avatar";
 import LoginBox from '../LoginBox/LoginBox';
 import {connect} from 'react-redux';
 import * as actionTypes from '../../../store/actions';
-import {withRouter} from 'react-router-dom'
+import {NavLink, withRouter} from 'react-router-dom'
 import axios from "axios";
 /* global gapi */
 const drawerWidth = 240;
@@ -170,7 +170,8 @@ class Navigation extends Component {
     handleMenuCloseN = () => {
 
         this.setState({anchorN: null});
-        this.clearInfos();
+        if (this.props.currentUser.infos.length > 0)
+            this.clearInfos();
 
     };
 
@@ -399,6 +400,7 @@ class Navigation extends Component {
 
 
     }
+
     onLoadFeed() {
         //get all th events to be displayed on the feed
 
@@ -559,12 +561,18 @@ class Navigation extends Component {
                                 <Aux key={key++}>
 
                                     <MenuItem onClick={this.handleMenuClose} className={cls.menuItem}>
+
+
                                         <Avatar alt="Remy Sharp" src={x.userPic}
                                                 className={cls.requestUsrImg}/>
 
                                         <Typography>
+                                            <NavLink exact
+                                                     to={{pathname: '/user/' + x.userID}} className={cls.link}>
+                                                {x.userName}
+                                            </NavLink>
 
-                                            {x.userName} want to join {x.eventName}
+                                            want to join {x.eventName}
 
                                         </Typography>
 

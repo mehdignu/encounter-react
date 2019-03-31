@@ -18,7 +18,7 @@ import 'typeface-roboto';
 import Aux from '../../../hoc/Aux';
 import cls from './CardEvent.scss';
 import CardMenu from "../../UI/CardMenu/CardMenu";
-import {withRouter} from 'react-router-dom'
+import {NavLink, withRouter} from 'react-router-dom'
 import EventMsg from "../../Event/EventBox/EventBox";
 import {connect} from "react-redux";
 import axios from "axios";
@@ -203,6 +203,7 @@ class CardEvent extends Component {
                 <hr align="left"/>
 
                 <Card className={classes.card}>
+
                     <CardHeader
                         avatar={
                             <Avatar alt={this.props.adminName} src={this.props.adminPicture}

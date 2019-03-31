@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
 import Grid from '@material-ui/core/Grid';
 import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-pickers';
+import * as actionTypes from "../../../store/actions";
 
 const styles = theme => ({
     container: {
@@ -66,7 +67,6 @@ class CreateForm extends Component {
         selectedDate: new Date(),
         selectedTime: new Date(),
         disable: false,
-
         eventID: '',
 
     };
@@ -83,6 +83,55 @@ class CreateForm extends Component {
     handleTimeChange = date => {
         this.setState({selectedTime: date});
     };
+
+    onLoadFeed() {
+        //get all th events to be displayed on the feed
+
+        var a = this;
+        axios.get('/api/getFeed')
+            .then(function (response) {
+
+                if (response.status === 200) {
+
+
+                    a.props.resetFeed();
+                    a.props.getFeed(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    menuEvents() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.props.onSaveUserEvents(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
 
     handleUpdate = () => {
 
@@ -115,7 +164,8 @@ class CreateForm extends Component {
                         'Authorization': `Bearer ${JSON.stringify(token)}`
                     }
                 }).then(a.setState({disable: false}))
-
+                .then(a.onLoadFeed())
+                .then(a.menuEvents())
                 .then(function (response) {
 
                     if (response.status === 200)
@@ -284,6 +334,9 @@ const mapDispatchToProps = dispatch => {
     return {
         // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
 
+        getFeed: (feed) => dispatch({type: actionTypes.GET_FEED, feed: feed}),
+        resetFeed: () => dispatch({type: actionTypes.RESET_FEED}),
+        onSaveUserEvents: (events) => dispatch({type: actionTypes.STORE_USER_EVENTS, events: events}),
 
     }
 };

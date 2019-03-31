@@ -56,10 +56,7 @@ class EditProfile extends React.Component {
         this.setState({[name]: event.target.value});
     };
 
-    componentDidMount() {
 
-
-    }
 
 
     onDelete = (e) => {

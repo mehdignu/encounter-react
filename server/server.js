@@ -117,7 +117,7 @@ router.get("/getUserEvent", session_check, (req, res) => {
 
     var userID = req.query.userID;
 
-    User.findOne({"userId": userID}, {name: 1, userId: 1, image: 1, _id: 0},
+    User.findOne({"userId": userID}, {name: 1, userId: 1, image: 1, about: 1, _id: 0},
         (err, data) => {
             if (err) return res.json({success: false, error: err});
             return res.json({success: true, data: data});
@@ -612,3 +612,9 @@ app.use("/api", router);
 
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
+
+app.on('unhandledRejection', (reason, promise) => {
+    console.log('Unhandled Rejection at:', reason.stack || reason)
+    // Recommended: send the information to sentry.io
+    // or whatever crash reporting service you use
+})

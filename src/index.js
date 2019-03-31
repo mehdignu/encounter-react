@@ -9,6 +9,7 @@ import userReducer from './store/reducers/user'
 import requestsReducer from './store/reducers/requests'
 import lockerReducer from './store/reducers/locker'
 import loginReducer from './store/reducers/login'
+import dialogReducer from './store/reducers/dialog'
 import {Provider} from 'react-redux'
 import {offline} from '@redux-offline/redux-offline';
 import config from '@redux-offline/redux-offline/lib/config';
@@ -19,6 +20,7 @@ const rootReducer = combineReducers({
     requests: requestsReducer,
     locker: lockerReducer,
     login: loginReducer,
+    dialog: dialogReducer,
 });
 
 const store = createStore(rootReducer, offline(config));

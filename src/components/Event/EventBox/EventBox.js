@@ -208,7 +208,7 @@ class EventBox extends Component {
                            onSubmit={this.handleTextChange.bind(this)}
                            onKeyDown={this.handleTextChange.bind(this)}
                            onChange={this.handleChange.bind(this)}
-                           disabled={this.state.inputDisable}
+                           // disabled={this.state.inputDisable}
                     />
 
 

@@ -22,6 +22,9 @@ export const INCREMENT = 'INCREMENT';
 export const LOCK = 'LOCK';
 export const UNLOCK = 'UNLOCK';
 
+export const SHOW_SHARE = 'SHOW_SHARE';
+export const HIDE_SHARE = 'HIDE_SHARE';
+
 
 export const SHOW = 'SHOW';
 export const HIDE = 'HIDE';

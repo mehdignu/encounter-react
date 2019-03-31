@@ -9,6 +9,10 @@ import Avatar from "@material-ui/core/Avatar";
 import {withStyles} from '@material-ui/core/styles';
 import PropTypes from "prop-types";
 import {Divider} from "@material-ui/core";
+import axios from "axios";
+import * as actionTypes from "../../../store/actions";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
 const styles = theme => ({
 
@@ -29,18 +33,21 @@ const styles = theme => ({
         padding: theme.spacing.unit,
         width: '90%',
         height: '200px',
+        textAlign: 'center',
+        paddingTop: '10px'
     },
     button: {
         margin: theme.spacing.unit,
         width: '100%'
     },
 });
+let lock = false;
 
 class ShowProfile extends React.Component {
 
     state = {
 
-        description: '',
+        userToShow: null
 
     };
 
@@ -49,26 +56,69 @@ class ShowProfile extends React.Component {
     };
 
 
-    componentDidMount() {
-        // Call our fetch function below once the component mounts
-        this.callBackendAPI()
-            .then(res => this.setState({ description: res.express }))
-            .catch(err => console.log(err));
-    }
-    // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-    callBackendAPI = async () => {
-        const response = await fetch('/user');
-        const body = await response.json();
+    onLoadUser() {
 
-        if (response.status !== 200) {
-            throw Error(body.message)
+        var a = this;
+        const token = this.props.currentUser.user.token;
+
+        //get the participant
+        axios.get('/api/getUserEvent', {
+            params: {
+                userID: a.props.match.params.id
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+        })
+            .then(function (response) {
+
+
+                    const userParticipant = {
+
+                        name: response.data.data.name,
+                        userID: response.data.data.userId,
+                        userImg: response.data.data.image,
+                        userAbout: response.data.data.about,
+                    };
+
+                    a.setState({
+                        userToShow: userParticipant
+                    })
+                }
+            ).catch(function (error) {
+            console.log(error);
+        });
+
+    }
+
+    componentWillUpdate(nextProps, nextState, nextContext) {
+        if (this.props.match.params.id !== nextProps.match.params.id) {
+
+            this.onLoadUser();
+
         }
-        return body;
-    };
+    }
+
+    componentDidMount() {
+        if (this.props.currentUser.user !== null) {
+            this.onLoadUser();
+        }
+    }
 
 
     render() {
         const {classes} = this.props;
+
+        if (this.props.match.params.id !== null && this.props.currentUser.user !== null && !lock) {
+
+            this.onLoadUser();
+            lock = true;
+        }
+
+        if (this.state.userToShow === null || this.props.match.params.id === null) {
+            return null;
+        }
+
 
         return (
 
@@ -86,36 +136,22 @@ class ShowProfile extends React.Component {
 
                         <div className={cls.mainInfos}>
 
-                            <Avatar alt="Remy Sharp" src="https://www.w3schools.com/howto/img_avatar.png"
+                            <Avatar alt="Remy Sharp" src={this.state.userToShow.userImg}
                                     className={classes.bigAvatar}/>
 
 
                             <Typography variant="h4" className={cls.eventDate}>
-                                Mehdi Dridi
+                                {this.state.userToShow.name}
 
                             </Typography>
 
                         </div>
 
-                        <Typography variant="h5" className={cls.eventDate}>
-                            im cool af
+                        <Typography variant="h5" className={classes.textField}>
+                            {this.state.userToShow.userAbout}
 
                         </Typography>
 
-
-                        <div className={cls.butts}>
-                            <Button type="submit" variant="contained" color="primary" className={classes.button}>
-                                Save changes
-                            </Button>
-
-
-                            <Divider/>
-
-                            <Button href="/" variant="outlined" color="secondary" className={classes.button}>
-                                delete account
-                            </Button>
-
-                        </div>
 
                     </Paper>
 
@@ -138,5 +174,18 @@ class ShowProfile extends React.Component {
 ShowProfile.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
 
-export default withStyles(styles)(ShowProfile);
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {}
+};
+
+export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(ShowProfile)));
+

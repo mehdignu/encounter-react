@@ -166,6 +166,56 @@ class CreateForm extends Component {
         this.setState({selectedTime: date});
     };
 
+
+    onLoadFeed() {
+        //get all th events to be displayed on the feed
+
+        var a = this;
+        axios.get('/api/getFeed')
+            .then(function (response) {
+
+                if (response.status === 200) {
+
+
+                    a.props.resetFeed();
+                    a.props.getFeed(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+    menuEvents() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.props.onSaveUserEvents(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
     handleCreation = (e) => {
 
         if (this.state.title.length !== 0 && this.state.description.length !== 0 && !this.state.disable) {
@@ -216,6 +266,8 @@ class CreateForm extends Component {
                                 })
                                 .then(a.setState({disable: false}))
                                 .then(a.setState({loading: false}))
+                                .then(a.onLoadFeed())
+                                .then(a.menuEvents())
                                 .then(function (response) {
 
 
@@ -279,7 +331,6 @@ class CreateForm extends Component {
                     <Typography variant="h4">
                         Create new Encounter
                     </Typography>
-
 
 
                     <TextField
@@ -388,6 +439,9 @@ const mapDispatchToProps = dispatch => {
         onLock: () => dispatch({type: actionTypes.LOCK}),
         onUnLock: () => dispatch({type: actionTypes.UNLOCK}),
 
+        getFeed: (feed) => dispatch({type: actionTypes.GET_FEED, feed: feed}),
+        resetFeed: () => dispatch({type: actionTypes.RESET_FEED}),
+        onSaveUserEvents: (events) => dispatch({type: actionTypes.STORE_USER_EVENTS, events: events}),
 
     }
 };

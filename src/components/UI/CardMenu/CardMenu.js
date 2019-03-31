@@ -1,4 +1,4 @@
-import React,   { useState, useRef, useEffect }  from 'react';
+import React, {useState, useRef, useEffect, Component} from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import toRenderProps from 'recompose/toRenderProps';
@@ -8,18 +8,33 @@ import MoreVertIcon from '@material-ui/icons/MoreVert';
 import ShareIcon from '@material-ui/icons/Share';
 import cls from './CardMenu.scss';
 import Aux from '../../../hoc/Aux';
-import ShareDialog from '../ShareDialog/ShareDialog';
 import FacebookShare from "../Social/FacebookShare";
+import * as actionTypes from "../../../store/actions";
+import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
+import Dialog from "@material-ui/core/Dialog";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import TextField from "@material-ui/core/TextField";
+import DialogActions from "@material-ui/core/DialogActions";
+import Button from "@material-ui/core/Button";
 
 const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
 let share = false;
 let EventID = null;
-function CardMenu(props) {
 
-    const wrapperRef = useRef(null);
-    const [isVisible, setIsVisible] = useState(true);
+class CardMenu extends Component {
 
-    share = false;
+
+
+
+
+    render(){
+        if(this.props.dialog === null){
+            return null;
+        }
 
     return (
         <Aux>
@@ -29,6 +44,17 @@ function CardMenu(props) {
 
                     const open = Boolean(anchorEl);
 
+
+                   const handleClickOpen = () => {
+                        this.setState({ open: true });
+                    };
+
+                    const handleClosed = () => {
+                        this.setState({ open: false });
+                    };
+
+
+
                     const handleClose = () => {
                         share = false;
                         updateAnchorEl(null);
@@ -36,18 +62,16 @@ function CardMenu(props) {
 
                     const handleShare = () => {
 
-                        EventID = props.eventID;
+                        EventID = this.props.eventID;
                         share = true;
                         updateAnchorEl(null);
+                        share = true;
+                        this.props.onShare(EventID);
 
                     };
 
-
                     return (
                         <Aux>
-
-                            {share ? (<Aux> <ShareDialog open={share} EventID={EventID} /> </Aux>) : null}
-
 
                             <IconButton
                                 aria-owns={open ? 'render-props-menu' : undefined}
@@ -62,7 +86,7 @@ function CardMenu(props) {
                             <Menu
                                 disableAutoFocusItem={true}
                                 id="render-props-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
-                                <MenuItem onClick={handleShare}>
+                                <MenuItem onClick={ handleShare}>
                                     <ShareIcon/>
                                     Share
                                 </MenuItem>
@@ -75,5 +99,29 @@ function CardMenu(props) {
         </Aux>
     );
 }
+}
 
-export default CardMenu;
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+        currentRequests: state.requests,
+        logBox: state.login,
+        dialog: state.dialog
+
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+
+        onShare: (eventID) => dispatch({type: actionTypes.SHOW_SHARE, eventID: eventID}),
+
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(CardMenu));
+

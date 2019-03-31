@@ -208,6 +208,37 @@ class Event extends Component {
         }
     }
 
+
+    menuEvents() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.props.onSaveUserEvents(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
     onDelete = (e) => {
 
         var a = this;
@@ -232,6 +263,8 @@ class Event extends Component {
                     chatManager.connect()
                         .then(currentUser => {
                             currentUser.deleteRoom({roomId: a.state.eventData.pusherID})
+                                .then(a.onLoadFeed())
+                                .then(a.menuEvents())
                                 .then(() => {
                                     console.log(`Deleted room with ID: `);
 
@@ -607,6 +640,7 @@ const mapDispatchToProps = dispatch => {
 
         getFeed: (feed) => dispatch({type: actionTypes.GET_FEED, feed: feed}),
         resetFeed: () => dispatch({type: actionTypes.RESET_FEED}),
+        onSaveUserEvents: (events) => dispatch({type: actionTypes.STORE_USER_EVENTS, events: events}),
 
 
     }

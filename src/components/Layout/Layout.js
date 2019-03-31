@@ -4,8 +4,10 @@ import Navigation from '../UI/Navigation/Navigation';
 import classes from './Layout.scss';
 import {connect} from "react-redux";
 import Snackbar from '../UI/Navigation/Snackbar/SnackbarUI';
+
 import * as actionTypes from '../../store/actions';
 import axios from "axios";
+import ShareDialog from "../UI/ShareDialog/ShareDialog";
 
 let channeLoaded = false;
 let channel = null;
@@ -210,6 +212,7 @@ class Layout extends Component {
 
                 {not}
 
+                <ShareDialog/>
 
                 <Navigation {...this.props} />
 
