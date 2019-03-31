@@ -1,4 +1,4 @@
-import React from 'react';
+import React,   { useState, useRef, useEffect }  from 'react';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import toRenderProps from 'recompose/toRenderProps';
@@ -13,8 +13,13 @@ import FacebookShare from "../Social/FacebookShare";
 
 const WithState = toRenderProps(withState('anchorEl', 'updateAnchorEl', null));
 let share = false;
-
+let EventID = null;
 function CardMenu(props) {
+
+    const wrapperRef = useRef(null);
+    const [isVisible, setIsVisible] = useState(true);
+
+    share = false;
 
     return (
         <Aux>
@@ -26,11 +31,12 @@ function CardMenu(props) {
 
                     const handleClose = () => {
                         share = false;
-
                         updateAnchorEl(null);
                     };
 
                     const handleShare = () => {
+
+                        EventID = props.eventID;
                         share = true;
                         updateAnchorEl(null);
 
@@ -40,7 +46,7 @@ function CardMenu(props) {
                     return (
                         <Aux>
 
-                            {share ? (<Aux> <ShareDialog open={share} EventID={props.eventID}/> </Aux>) : null}
+                            {share ? (<Aux> <ShareDialog open={share} EventID={EventID} /> </Aux>) : null}
 
 
                             <IconButton
@@ -49,7 +55,6 @@ function CardMenu(props) {
                                 onClick={event => {
                                     updateAnchorEl(event.currentTarget);
                                     share = false;
-
                                 }}
                             >
                                 <MoreVertIcon className={cls.butt}/>

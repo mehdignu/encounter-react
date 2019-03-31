@@ -81,6 +81,7 @@ const styles = theme => ({
 
 });
 
+
 class CardEvent extends Component {
     state = {
         expanded: false,
@@ -142,8 +143,6 @@ class CardEvent extends Component {
 
     handleJoinRequest = () => {
 
-        this.setState({requested: true});
-
         var a = this;
         const eventName = this.props.title;
         const admin = this.props.admin;
@@ -188,8 +187,12 @@ class CardEvent extends Component {
             return null;
 
 
-
         const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
+
+        const allowed = this.props.allowed;
+        const requested = this.props.requested;
+        const loggedIn = this.props.loggedIn;
+
 
         return (
 
@@ -279,9 +282,9 @@ class CardEvent extends Component {
                     </CardActions>
 
 
-                    {(this.props.loggedIn) ?
+                    {(loggedIn) ?
 
-                        (this.props.allowed) ?
+                        (allowed) ?
 
                             <Button onClick={this.handleEventJoin} variant="contained" color="primary"
                                     className={classes.Joinbutton}>
@@ -289,7 +292,7 @@ class CardEvent extends Component {
                             </Button>
 
                             :
-                            (this.props.requested) ?
+                            (requested) ?
 
                                 <Button onClick={this.handleDeleteRequest} variant="contained" color="secondary"
                                         className={classes.Sentbutton}>

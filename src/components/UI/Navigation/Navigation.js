@@ -429,9 +429,8 @@ class Navigation extends Component {
 
     render() {
 
-
         const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;
-        const {classes} = this.props;
+        const {classes, ...other} = this.props;
         const isMenuOpen = Boolean(anchorEl);
         const isMenuOpenN = Boolean(anchorN);
         const isMenuOpenR = Boolean(anchorR);
@@ -603,7 +602,7 @@ class Navigation extends Component {
             }
 
             sideMenu = (
-                <NavMenu {...this.props} />
+                <NavMenu {...other} />
 
             );
 
