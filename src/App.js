@@ -4,9 +4,6 @@ import Encounter from './containers/Encounter/Encounter';
 
 class App extends Component {
 
-    componentWillMount() {
-
-    }
 
     render() {
         return (
@@ -16,5 +13,6 @@ class App extends Component {
         );
     }
 }
+
 
 export default App;

@@ -8,6 +8,7 @@ import axios from "axios";
 import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
+import * as actionTypes from "../../store/actions";
 
 
 const styles = theme => ({
@@ -21,32 +22,6 @@ let lock = false;
 
 class Feed extends Component {
 
-    state = {
-        events: [],
-
-    };
-
-
-    componentWillUpdate(nextProps, nextState, nextContext) {
-        if (!lock) {
-            this.onLoadFeed();
-            lock = true;
-        }
-
-    }
-
-    componentWillReceiveProps(nextProps, nextContext) {
-        this.onLoadFeed();
-    }
-
-
-
-    componentDidMount() {
-
-        this.onLoadFeed();
-
-    }
-
     onLoadFeed() {
         //get all th events to be displayed on the feed
 
@@ -56,8 +31,9 @@ class Feed extends Component {
 
                 if (response.status === 200) {
 
-                    a.setState({events: response.data.data});
 
+                    a.props.resetFeed();
+                    a.props.getFeed(response.data.data);
                 }
 
             })
@@ -65,6 +41,12 @@ class Feed extends Component {
                 console.log(error);
             });
     }
+
+    componentDidMount() {
+        this.onLoadFeed();
+
+    }
+
 
     render() {
 
@@ -74,11 +56,10 @@ class Feed extends Component {
         let key = 0;
         let eventsFeed = <p>loading events</p>;
 
+        if (this.props.currentUser.feed.length !== 0) {
 
-        if (this.state.events.length !== 0) {
 
-
-            eventsFeed = this.state.events
+            eventsFeed = this.props.currentUser.feed
 
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
                 .map(
@@ -186,6 +167,9 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
+
+        getFeed: (feed) => dispatch({type: actionTypes.GET_FEED, feed: feed}),
+        resetFeed: () => dispatch({type: actionTypes.RESET_FEED}),
 
     }
 };

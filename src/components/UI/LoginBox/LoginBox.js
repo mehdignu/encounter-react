@@ -175,6 +175,11 @@ class LoginBox extends Component {
                                         a.props.onLogHide();
                                         a.props.onFetchUser(payload, response.data.data.about);
 
+                                        //get main user notifications and infos
+                                        // a.menuEvents();
+                                        // a.userRequests();
+                                        // a.userNotifications();
+
                                     }
                                 })
                                 .catch(function (error) {
@@ -192,6 +197,39 @@ class LoginBox extends Component {
 
         });
     };
+
+
+
+
+    menuEvents() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.props.onSaveUserEvents(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
 
     render() {
 
@@ -245,6 +283,12 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
     return {
         onFetchUser: (user, about) => dispatch({type: actionTypes.STORE_USER, user: user, about: about}),
+        onSaveUserEvents: (events) => dispatch({type: actionTypes.STORE_USER_EVENTS, events: events}),
+        onFetchUserRequests: (requester) => dispatch({type: actionTypes.GET_REQUESTS, requester: requester}),
+        onFetchUserNotifications: (notification) => dispatch({
+            type: actionTypes.GET_NOTIFICATIONS,
+            notification: notification
+        }),
         onLoginIn: () => dispatch({type: actionTypes.USER_SIGNEDIN}),
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
         onLogHide: () => dispatch({type: actionTypes.HIDE}),

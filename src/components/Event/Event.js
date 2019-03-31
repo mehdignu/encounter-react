@@ -30,6 +30,7 @@ import PlaceIcon from '@material-ui/icons/Place';
 import AccessIcon from '@material-ui/icons/AccessTime';
 import Aux from "../../hoc/Aux";
 import Button from "@material-ui/core/Button";
+import * as actionTypes from "../../store/actions";
 
 const drawerWidth = 240;
 let chatManager = null;
@@ -253,6 +254,25 @@ class Event extends Component {
             });
     };
 
+    onLoadFeed() {
+        //get all th events to be displayed on the feed
+
+        var a = this;
+        axios.get('/api/getFeed')
+            .then(function (response) {
+
+                if (response.status === 200) {
+
+
+                    a.props.resetFeed();
+                    a.props.getFeed(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
     onLeave = () => {
 
@@ -272,6 +292,12 @@ class Event extends Component {
                 'Authorization': `Bearer ${JSON.stringify(token)}`
             }
         }).then(
+            a.onLoadFeed()
+
+
+    )
+
+            .then(
             a.props.history.push('/')
         )
 
@@ -578,7 +604,9 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        // onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
+
+        getFeed: (feed) => dispatch({type: actionTypes.GET_FEED, feed: feed}),
+        resetFeed: () => dispatch({type: actionTypes.RESET_FEED}),
 
 
     }

@@ -151,12 +151,12 @@ class Navigation extends Component {
     };
 
     handleNotificationsMenuOpen = event => {
-        this.props.onRequestsCheck();
+        // this.props.onRequestsCheck();
         this.setState({anchorN: event.currentTarget});
     };
 
     handleRequestsMenuOpen = event => {
-        this.props.onRequestsCheck();
+        // this.props.onRequestsCheck();
         this.setState({anchorR: event.currentTarget});
     };
 
@@ -170,8 +170,6 @@ class Navigation extends Component {
     handleMenuCloseN = () => {
 
         this.setState({anchorN: null});
-        this.setState({infos: []});
-        this.setState({infosNum: 0});
         this.clearInfos();
 
     };
@@ -206,6 +204,7 @@ class Navigation extends Component {
     handleLogout = () => {
         var auth2 = gapi.auth2.getAuthInstance();
 
+        channeLoaded = false;
 
         var a = this;
 
@@ -217,122 +216,6 @@ class Navigation extends Component {
 
         });
     };
-
-
-    componentWillReceiveProps(nextProps, prevState) {
-
-        if (this.props.currentUser.user !== null && this.state.anchorN === null && this.state.anchorR === null) {
-
-            this.onLoadMenuEvents();
-            this.onLoadMenuInfos();
-
-        }
-    }
-
-
-    onLoadMenuInfos() {
-
-        var a = this;
-        const userId = this.props.currentUser.user.user.id;
-        const token = this.props.currentUser.user.token;
-
-
-        axios.get('/api/getUserInfos', {
-            params: {
-                userID: userId
-            },
-            headers: {
-                'Authorization': `Bearer ${JSON.stringify(token)}`
-            }
-
-        })
-            .then(function (response) {
-
-
-                if (response.status === 200 && response.data.data) {
-
-                    a.setState({infosNum: 0});
-                    a.setState({infos: []});
-
-                    response.data.data.map(
-                        x => {
-
-                            if (x.infos.length > 0) {
-
-                                //get user requests
-
-                                a.setState({
-                                    infos: [...a.state.infos, x.infos]
-                                });
-
-                                a.setState({infosNum: a.state.infosNum + x.infos.length});
-
-                            }
-
-                        }
-                    );
-
-                }
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-    }
-
-    onLoadMenuEvents() {
-
-        var a = this;
-        const userId = this.props.currentUser.user.user.id;
-        const token = this.props.currentUser.user.token;
-
-
-        axios.get('/api/getUserEvents', {
-            params: {
-                userID: userId
-            },
-            headers: {
-                'Authorization': `Bearer ${JSON.stringify(token)}`
-            }
-
-        })
-            .then(function (response) {
-
-                a.setState({loading: false});
-
-                if (response.status === 200 && response.data.data) {
-
-                    a.setState({requestsNum: 0});
-                    a.setState({requests: []});
-
-                    response.data.data.map(
-                        x => {
-
-                            if (x.requester.length > 0) {
-
-                                //get user requests
-
-                                a.setState({
-                                    requests: [...a.state.requests, x.requester]
-                                });
-
-                                a.setState({requestsNum: a.state.requestsNum + x.requester.length});
-
-                            }
-
-                        }
-                    );
-
-                }
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-
-    }
 
 
     clearInfos() {
@@ -349,13 +232,10 @@ class Navigation extends Component {
             headers: {
                 'Authorization': `Bearer ${JSON.stringify(token)}`
             }
-        })
+        }).then(
+            a.props.onResetNotifications()
+        )
 
-        //     .then(
-        //     a.setState({infosNum: 0})
-        // ).then(
-        //     a.setState({infos: []})
-        // )
 
             .catch(function (error) {
                 console.log(error);
@@ -386,7 +266,8 @@ class Navigation extends Component {
                 })
                 .then(function (response) {
 
-                    a.onLoadMenuEvents();
+                    a.userRequests();
+
 
                 })
                 .catch(function (error) {
@@ -418,7 +299,7 @@ class Navigation extends Component {
                 })
                 .then(function (response) {
 
-                    a.onLoadMenuEvents();
+                    a.userRequests();
 
                 })
                 .catch(function (error) {
@@ -426,6 +307,148 @@ class Navigation extends Component {
                 });
         }
     };
+
+    userNotifications() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+
+        axios.get('/api/getUserInfos', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+                    a.props.onResetNotifications();
+
+
+                    response.data.data.map(
+                        x => {
+
+                            if (x.infos.length > 0) {
+
+                                //get user notifications
+                                a.props.onFetchUserNotifications(x.infos);
+
+                            }
+
+                        }
+                    );
+
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
+
+    userRequests() {
+
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.props.onResetRequests();
+
+
+                    response.data.data.map(
+                        x => {
+
+                            if (x.requester.length > 0) {
+
+                                //get user requests
+
+                                a.props.onFetchUserRequests(x.requester);
+                            }
+
+                        }
+                    );
+
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+
+    }
+    onLoadFeed() {
+        //get all th events to be displayed on the feed
+
+        var a = this;
+        axios.get('/api/getFeed')
+            .then(function (response) {
+
+                if (response.status === 200) {
+
+
+                    a.props.resetFeed();
+                    a.props.getFeed(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
+
+
+    menuEvents() {
+
+        var a = this;
+        const userId = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+
+        axios.get('/api/getUserEvents', {
+            params: {
+                userID: userId
+            },
+            headers: {
+                'Authorization': `Bearer ${JSON.stringify(token)}`
+            }
+
+        })
+            .then(function (response) {
+
+
+                if (response.status === 200 && response.data.data) {
+
+                    a.props.onSaveUserEvents(response.data.data);
+                }
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    }
 
     render() {
 
@@ -515,16 +538,19 @@ class Navigation extends Component {
         } else {
 
             if (this.props.currentUser.user !== null && !channeLoaded) {
-                this.onLoadMenuEvents();
-                this.onLoadMenuInfos();
+                this.menuEvents();
+                this.userRequests();
+                this.userNotifications();
+                this.onLoadFeed();
+
                 channeLoaded = true;
             }
 
-            if (this.state.requests.length !== 0) {
+            if (this.props.currentUser.requests.length !== 0) {
 
 
                 let key = 0;
-                notifications = this.state.requests.map(
+                notifications = this.props.currentUser.requests.map(
                     s =>
 
                         s.map((x, i) => {
@@ -569,11 +595,11 @@ class Navigation extends Component {
             }
 
 
-            if (this.state.infos.length !== 0) {
+            if (this.props.currentUser.infos.length !== 0) {
 
 
                 let key = 0;
-                infos = this.state.infos.map(
+                infos = this.props.currentUser.infos.map(
                     s =>
 
                         s.map((x, i) => {
@@ -617,7 +643,7 @@ class Navigation extends Component {
                         onClick={this.handleRequestsMenuOpen}
                         color="inherit"
                     >
-                        <Badge badgeContent={this.state.requestsNum} color="secondary">
+                        <Badge badgeContent={this.props.currentUser.requests.length} color="secondary">
                             <PersonAddIcon/>
                         </Badge>
                     </IconButton>
@@ -629,7 +655,7 @@ class Navigation extends Component {
                         onClick={this.handleNotificationsMenuOpen}
                         color="inherit"
                     >
-                        <Badge badgeContent={this.state.infosNum} color="secondary">
+                        <Badge badgeContent={this.props.currentUser.infos.length} color="secondary">
                             <NotificationsIcon/>
                         </Badge>
                     </IconButton>
@@ -813,10 +839,18 @@ const mapDispatchToProps = dispatch => {
     return {
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
         onLogOutReset: () => dispatch({type: actionTypes.RESET}),
-        onRequestsCheck: () => dispatch({type: actionTypes.RESET_REQUESTS}),
         onLogShow: () => dispatch({type: actionTypes.SHOW}),
         onLogHide: () => dispatch({type: actionTypes.HIDE}),
-
+        onSaveUserEvents: (events) => dispatch({type: actionTypes.STORE_USER_EVENTS, events: events}),
+        onFetchUserRequests: (requester) => dispatch({type: actionTypes.GET_REQUESTS, requester: requester}),
+        onResetRequests: () => dispatch({type: actionTypes.RESET_REQUESTS}),
+        onResetNotifications: () => dispatch({type: actionTypes.RESET_NOTIFICATIONS}),
+        onFetchUserNotifications: (notification) => dispatch({
+            type: actionTypes.GET_NOTIFICATIONS,
+            notification: notification
+        }),
+        getFeed: (feed) => dispatch({type: actionTypes.GET_FEED, feed: feed}),
+        resetFeed: () => dispatch({type: actionTypes.RESET_FEED}),
 
     }
 };

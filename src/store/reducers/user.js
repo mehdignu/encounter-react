@@ -4,7 +4,10 @@ const initialState = {
     user: null,
     isLoggedIn: false,
     about: '',
-    requests: []
+    requests: [],
+    infos: [],
+    events: [],
+    feed: [],
 
 };
 
@@ -46,6 +49,59 @@ const user = (state = initialState, action) => {
             };
 
 
+        case actionTypes.STORE_USER_EVENTS:
+
+            return {
+                ...state,
+                events: action.events
+            };
+
+        case actionTypes.GET_REQUESTS:
+
+            return {
+                ...state,
+                requests: [...state.requests, action.requester]
+            };
+
+
+        case actionTypes.RESET_REQUESTS:
+
+            return {
+                ...state,
+                requests: []
+            };
+
+
+        case actionTypes.GET_FEED:
+
+            return {
+                ...state,
+                feed: action.feed
+            };
+
+
+        case actionTypes.RESET_FEED:
+
+            return {
+                ...state,
+                feed: []
+            };
+
+        case actionTypes.GET_NOTIFICATIONS:
+
+            return {
+                ...state,
+                infos: [...state.infos, action.notification]
+            };
+
+        case actionTypes.RESET_NOTIFICATIONS:
+
+            return {
+                ...state,
+                infos: []
+            };
+
+
         case actionTypes.RESET:
 
             return {
@@ -53,7 +109,9 @@ const user = (state = initialState, action) => {
                 user: null,
                 isLoggedIn: false,
                 about: '',
-                events: []
+                requests: [],
+                infos: [],
+                events: [],
 
             };
 

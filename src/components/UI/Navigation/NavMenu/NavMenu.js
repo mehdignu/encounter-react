@@ -68,7 +68,6 @@ const styles = theme => ({
     },
 });
 
-let lock = false;
 
 class NavMenu extends Component {
     state = {
@@ -95,52 +94,11 @@ class NavMenu extends Component {
             this.setState({mobileOpen: false});
     };
 
-    componentWillReceiveProps(nextProps, prevState) {
-
-        if (this.props.currentUser.user !== null) {
-
-            this.onLoadMenuEvents();
-
-        }
-    }
-
-
     componentWillUnmount() {
         channeLoaded = false;
-
     }
 
 
-    onLoadMenuEvents() {
-
-        var a = this;
-        const userId = this.props.currentUser.user.user.id;
-        const token = this.props.currentUser.user.token;
-
-        axios.get('/api/getUserEvents', {
-            params: {
-                userID: userId
-            },
-            headers: {
-                'Authorization': `Bearer ${JSON.stringify(token)}`
-            }
-
-        })
-            .then(function (response) {
-
-                a.setState({loading: false});
-
-                if (response.status === 200 && response.data.data) {
-
-                    a.setState({events: response.data.data});
-                }
-
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-
-    }
 
 
     render() {
@@ -151,15 +109,15 @@ class NavMenu extends Component {
         let userArchivedEvents = <p>loading archived events</p>;
 
         if (this.props.currentUser.user !== null && !channeLoaded) {
-            this.onLoadMenuEvents();
+
+
             channeLoaded = true;
         }
 
 
-        if (this.state.events.length !== 0) {
+        if (this.props.currentUser.events.length !== 0) {
 
-            userEvents = this.state.events
-
+            userEvents = this.props.currentUser.events
 
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
 
@@ -192,7 +150,7 @@ class NavMenu extends Component {
                     }
                 );
 
-            userArchivedEvents = this.state.events
+            userArchivedEvents = this.props.currentUser.events
 
 
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') > 0)
