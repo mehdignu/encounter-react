@@ -8,6 +8,7 @@ import Snackbar from '../UI/Navigation/Snackbar/SnackbarUI';
 import * as actionTypes from '../../store/actions';
 import axios from "axios";
 import ShareDialog from "../UI/ShareDialog/ShareDialog";
+import Footer from "./Footer/Footer";
 
 let channeLoaded = false;
 let channel = null;
@@ -211,7 +212,6 @@ class Layout extends Component {
 
 
                 {not}
-
                 <ShareDialog/>
 
                 <Navigation {...this.props} />
@@ -220,6 +220,7 @@ class Layout extends Component {
                 <main className={classes.Content}>
                     {this.props.children}
                 </main>
+
             </Aux>
         );
     };

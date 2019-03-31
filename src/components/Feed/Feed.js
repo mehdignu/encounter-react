@@ -9,6 +9,8 @@ import {connect} from "react-redux";
 import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 import * as actionTypes from "../../store/actions";
+import Footer from "../Layout/Footer/Footer";
+import Typography from "@material-ui/core/Typography";
 
 
 const styles = theme => ({
@@ -89,7 +91,6 @@ class Feed extends Component {
                         }
 
 
-
                         return (
 
 
@@ -121,36 +122,40 @@ class Feed extends Component {
 
 
         return (
+            <Aux>
+                <div className={classes.root}>
+                    <Grid container spacing={24}>
+                        <Hidden smDown>
 
-            <div className={classes.root}>
-                <Grid container spacing={24}>
-                    <Hidden smDown>
+                            <Grid item xs>
 
+
+                            </Grid>
+                        </Hidden>
                         <Grid item xs>
 
+                            <Aux>
 
+                                {eventsFeed}
+
+
+                            </Aux>
                         </Grid>
-                    </Hidden>
-                    <Grid item xs>
+                        <Hidden smDown>
 
-                        <Aux>
+                            <Grid item xs>
 
-                            {eventsFeed}
+                                main page ads
 
-                        </Aux>
+                            </Grid>
+                        </Hidden>
                     </Grid>
-                    <Hidden smDown>
+                </div>
 
-                        <Grid item xs>
-
-                            main page ads
-
-                        </Grid>
-                    </Hidden>
-                </Grid>
-            </div>
+                <Footer/>
 
 
+            </Aux>
         );
     };
 
