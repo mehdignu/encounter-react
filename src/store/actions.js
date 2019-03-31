@@ -14,3 +14,7 @@ export const RESET_REQUESTS = 'RESET_REQUESTS';
 
 export const LOCK = 'LOCK';
 export const UNLOCK = 'UNLOCK';
+
+
+export const SHOW = 'SHOW';
+export const HIDE = 'HIDE';

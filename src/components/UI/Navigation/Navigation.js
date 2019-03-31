@@ -126,7 +126,6 @@ class Navigation extends Component {
         anchorR: null,
         mobileMoreAnchorEl: null,
         mobileMoreAnchorN: null,
-        loginHidden: true,
         requests: [],
         requestsNum: 0,
         infos: [],
@@ -135,8 +134,14 @@ class Navigation extends Component {
 
     handleLogin = event => {
 
-        this.setState({loginHidden: !this.state.loginHidden})
 
+        if(!this.props.logBox.hidden){
+            this.props.onLogHide();
+
+        } else {
+            this.props.onLogShow();
+
+        }
 
     };
 
@@ -745,7 +750,7 @@ class Navigation extends Component {
 
             <Aux>
 
-                <LoginBox hidden={this.state.loginHidden}/>
+                <LoginBox/>
 
                 <div className={classes.root}>
 
@@ -793,7 +798,8 @@ const mapStateToProps = state => {
     return {
         currentUser: state.user,
         currentRequests: state.requests,
-        locker: state.locker
+        locker: state.locker,
+        logBox: state.login,
 
     };
 };
@@ -804,6 +810,8 @@ const mapDispatchToProps = dispatch => {
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT, loggedin: false}),
         onLogOutReset: () => dispatch({type: actionTypes.RESET}),
         onRequestsCheck: () => dispatch({type: actionTypes.RESET_REQUESTS}),
+        onLogShow: () => dispatch({type: actionTypes.SHOW}),
+        onLogHide: () => dispatch({type: actionTypes.HIDE}),
 
 
     }

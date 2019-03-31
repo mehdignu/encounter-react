@@ -29,6 +29,9 @@ let channeLoaded = false;
 class EventInfo extends React.Component {
 
 
+    componentDidMount() {
+    }
+
 
     render() {
 

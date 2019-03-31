@@ -155,7 +155,7 @@ class Event extends Component {
                         for (let i = 0; i < participantsFetched.length; i++) {
 
                             //get the participant
-                            axios.get('/api/getUser', {
+                            axios.get('/api/getUserEvent', {
                                 params: {
                                     userID: participantsFetched[i]
                                 },
@@ -255,7 +255,7 @@ class Event extends Component {
 
 
     onLeave = () => {
-
+        console.log('de');
 
         var a = this;
 
@@ -342,6 +342,8 @@ class Event extends Component {
                     admin={isAdmin}
                     key={k1++}
                     onEdit={this.onEdit.bind(this)}
+                    onLeave={this.onLeave.bind(this)}
+                    onDelete={this.onDelete.bind(this)}
                 />
             );
 

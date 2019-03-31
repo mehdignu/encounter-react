@@ -10,7 +10,6 @@ import MomentUtils from '@date-io/moment';
 import moment from 'moment';
 
 
-
 const styles = theme => ({
     root: {
         flexGrow: 1,
@@ -38,6 +37,7 @@ class Feed extends Component {
 
     componentWillReceiveProps(nextProps, nextContext) {
         this.onLoadFeed();
+        console.log('boo');
     }
 
 
@@ -50,6 +50,7 @@ class Feed extends Component {
 
     onLoadFeed() {
         //get all th events to be displayed on the feed
+
         var a = this;
         axios.get('/api/getFeed')
             .then(function (response) {
@@ -82,64 +83,60 @@ class Feed extends Component {
 
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
                 .map(
-                x => {
+                    x => {
 
-                    const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("dddd, MMMM Do YYYY");
-                    const eventTime = new MomentUtils({locale: "de"}).date(x.time).format("H:mm a");
-                    const eventCreationDate = new MomentUtils({locale: "de"}).date(x.time).toNow(true);
-                    const participantsCount = x.participants.length;
-                    const eventID = x._id;
-                    let allowed = null;
-                    let loggedIn = null;
-                    let requested = false;
+                        const eventDate = new MomentUtils({locale: "de"}).date(x.date).format("dddd, MMMM Do YYYY");
+                        const eventTime = new MomentUtils({locale: "de"}).date(x.time).format("H:mm a");
+                        const eventCreationDate = new MomentUtils({locale: "de"}).date(x.time).toNow(true);
+                        const participantsCount = x.participants.length;
+                        const eventID = x._id;
+                        let allowed = false;
+                        let loggedIn = false;
+                        let requested = false;
 
+                        if (this.props.currentUser.user !== null) {
 
-                    if (this.props.currentUser.user !== null) {
+                            //verify id plz
+                            allowed = x.participants.includes(this.props.currentUser.user.user.id);
+                            loggedIn = this.props.currentUser.isLoggedIn;
 
-                        //verify id plz
-                        allowed = x.participants.includes(this.props.currentUser.user.user.id);
-                        loggedIn = this.props.currentUser.isLoggedIn;
-
-                        for (var i = 0; i < x.requester.length; i++) {
-                            if (x.requester[i].userID === this.props.currentUser.user.user.id) {
-                                requested = true;
-                                break;
+                            for (var i = 0; i < x.requester.length; i++) {
+                                if (x.requester[i].userID === this.props.currentUser.user.user.id) {
+                                    requested = true;
+                                    break;
+                                }
                             }
                         }
-                        console.log(allowed);
+
                         console.log(requested);
 
 
+                        return (
+
+
+                            <CardEvent
+                                key={key++}
+                                eventID={eventID}
+                                title={x.title}
+                                description={x.description}
+                                locat={x.location}
+                                date={eventDate}
+                                time={eventTime}
+                                eventCreationDate={eventCreationDate}
+                                adminName={x.adminName}
+                                adminPicture={x.adminPicture}
+                                allowed={allowed}
+                                admin={x.admin}
+                                loggedIn={loggedIn}
+                                requested={requested}
+                                eventImg={x.eventImg}
+                                participantsCount={participantsCount}
+                            />
+
+
+                        );
                     }
-
-
-                    return (
-
-
-                        <CardEvent
-                            key={key++}
-                            eventID={eventID}
-                            title={x.title}
-                            description={x.description}
-                            locat={x.location}
-                            date={eventDate}
-                            time={eventTime}
-                            eventCreationDate={eventCreationDate}
-                            adminName={x.adminName}
-                            adminPicture={x.adminPicture}
-                            allowed={allowed}
-                            admin={x.admin}
-                            loggedIn={loggedIn}
-                            requested={requested}
-                            eventImg={x.eventImg}
-                            participantsCount={participantsCount}
-                        />
-
-
-                    );
-                }
-            );
-
+                );
 
         }
 
@@ -190,7 +187,9 @@ const mapStateToProps = state => {
 
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
-    return {}
+    return {
+
+    }
 };
 
 

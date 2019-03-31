@@ -9,6 +9,8 @@ import axios from "axios";
 import {connect} from 'react-redux'
 import * as actionTypes from '../../../store/actions';
 import {default as Chatkit} from "@pusher/chatkit-server";
+import Typography from "@material-ui/core/Typography";
+import MenuItem from "@material-ui/core/MenuItem";
 /* global gapi */
 
 const styles = theme => ({
@@ -37,6 +39,7 @@ const styles = theme => ({
     form: {
         width: '100%', // Fix IE 11 issue.
         marginTop: theme.spacing.unit,
+
     },
     submit: {
         marginTop: theme.spacing.unit * 3,
@@ -81,10 +84,7 @@ class LoginBox extends Component {
      */
     handleClickOutside(event) {
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-
-            //TODO - hide the login box when clicked outside of the component
-            // console.log('clicked outside of the component');
-
+            this.props.onLogHide();
         }
     }
 
@@ -172,7 +172,7 @@ class LoginBox extends Component {
                                         console.log('user exist');
 
                                         a.props.onLoginIn();
-
+                                        a.props.onLogHide();
                                         a.props.onFetchUser(payload, response.data.data.about);
 
                                     }
@@ -197,7 +197,10 @@ class LoginBox extends Component {
 
         const {classes} = this.props;
 
-        const showLoginodal = this.props.hidden ? cls.modalClosed : cls.modalOpen;
+        if (this.props.logBox === null) {
+            return null;
+        }
+        const showLoginodal = this.props.logBox.hidden ? cls.modalClosed : cls.modalOpen;
 
 
         return (
@@ -208,11 +211,14 @@ class LoginBox extends Component {
                             <LockOutlinedIcon/>
                         </Avatar>
 
-                        <form className={classes.form}>
 
-                            <div className="g-signin2" onClick={this.onSignIn}
-                                 data-onsuccess="onSignIn"/>
+                        <form className={cls.form}>
 
+                            <div className={cls.g}>
+
+                                <div className="g-signin2" onClick={this.onSignIn} data-width="230" data-height="50"
+                                     data-onsuccess="onSignIn"/>
+                            </div>
                         </form>
                     </Paper>
 
@@ -230,6 +236,7 @@ LoginBox.propTypes = {
 const mapStateToProps = state => {
     return {
         currentUser: state.user,
+        logBox: state.login,
 
     };
 };
@@ -240,6 +247,7 @@ const mapDispatchToProps = dispatch => {
         onFetchUser: (user, about) => dispatch({type: actionTypes.STORE_USER, user: user, about: about}),
         onLoginIn: () => dispatch({type: actionTypes.USER_SIGNEDIN}),
         onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
+        onLogHide: () => dispatch({type: actionTypes.HIDE}),
 
 
     }

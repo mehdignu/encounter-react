@@ -57,6 +57,18 @@ const styles = theme => ({
     avatar: {
         backgroundColor: red[500],
     },
+    Joinbutton: {
+        width: '100%',
+    },
+    Sentbutton: {
+        width: '100%',
+    },
+    Requestbutton: {
+        width: '100%',
+    },
+    Visitorbutton: {
+        width: '100%',
+    },
     button: {
         width: '100%',
     },
@@ -72,9 +84,9 @@ const styles = theme => ({
 class CardEvent extends Component {
     state = {
         expanded: false,
-        eventID: this.props.eventID,
-        requested: this.props.requested,
-        allowed: this.props.allowed
+        eventID: false,
+        requested: false,
+        allowed: false
     };
 
     handleExpandClick = () => {
@@ -82,11 +94,17 @@ class CardEvent extends Component {
     };
 
     handleEventJoin = () => {
-        this.props.history.push('/event/' + this.state.eventID);
+        this.props.history.push('/event/' + this.props.eventID);
     };
 
     handleVisitor = () => {
-        console.log('bo');
+        if (!this.props.logBox.hidden) {
+            this.props.onLogHide();
+
+        } else {
+            this.props.onLogShow();
+
+        }
     };
 
 
@@ -162,11 +180,13 @@ class CardEvent extends Component {
 
     };
 
+
     render() {
         const {classes} = this.props;
 
-        if(this.props === null)
+        if (this.props === null)
             return null;
+
 
 
         const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
@@ -264,22 +284,22 @@ class CardEvent extends Component {
                         (this.props.allowed) ?
 
                             <Button onClick={this.handleEventJoin} variant="contained" color="primary"
-                                    className={classes.button}>
+                                    className={classes.Joinbutton}>
                                 join event
                             </Button>
 
                             :
                             (this.props.requested) ?
 
-                                <Button onClick={this.handleDeleteRequest} variant="contained" color="primary"
-                                        className={classes.button}>
+                                <Button onClick={this.handleDeleteRequest} variant="contained" color="secondary"
+                                        className={classes.Sentbutton}>
                                     request sent
                                 </Button>
 
                                 :
 
                                 <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
-                                        className={classes.button}>
+                                        className={classes.Requestbutton}>
                                     request to join
                                 </Button>
 
@@ -287,8 +307,8 @@ class CardEvent extends Component {
                         :
 
                         <Button onClick={this.handleVisitor} variant="contained" color="primary"
-                                className={classes.button}>
-                            Request to join visitor
+                                className={classes.Visitorbutton}>
+                            Request to join
                         </Button>
                     }
 
@@ -309,6 +329,8 @@ const mapStateToProps = state => {
     return {
         currentUser: state.user,
         currentRequests: state.requests,
+        logBox: state.login,
+
 
     };
 };
@@ -316,9 +338,13 @@ const mapStateToProps = state => {
 //dispatch actions that are going to be executed in the redux store
 const mapDispatchToProps = dispatch => {
     return {
-        onRequest: () => dispatch({type: actionTypes.INCREMENT})
+        onRequest: () => dispatch({type: actionTypes.INCREMENT}),
+        onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
+        onLogShow: () => dispatch({type: actionTypes.SHOW}),
+        onLogHide: () => dispatch({type: actionTypes.HIDE}),
 
     }
 };
+
 
 export default withStyles(styles)(connect(mapStateToProps, mapDispatchToProps)(withRouter(CardEvent)));

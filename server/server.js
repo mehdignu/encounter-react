@@ -113,6 +113,18 @@ router.get("/getUser", session_check, (req, res) => {
 });
 
 
+router.get("/getUserEvent", session_check, (req, res) => {
+
+    var userID = req.query.userID;
+
+    User.findOne({"userId": userID}, {name: 1, userId: 1, image: 1, _id: 0},
+        (err, data) => {
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
+});
+
+
 //add user to the database
 router.post("/addUser", session_check, (req, res) => {
 
@@ -397,6 +409,11 @@ router.post("/sendRequest", session_check, (req, res) => {
                 pusher.trigger('general-channel', admin, {
                     "message": userName + " want to join " + eventName
                 });
+
+                //send the notification to the user to update his butt
+                pusher.trigger('general-channel', userID, {
+                    "deleted" : true
+                });
                 return res.json({success: true});
 
             });
@@ -453,6 +470,11 @@ router.post("/deleteRequest", session_check, (req, res) => {
                 //send the notification to the admin of the event
                 pusher.trigger('general-channel', admin, {
                     deleted: true
+                });
+
+                //send the notification to the user to update his butt
+                pusher.trigger('general-channel', userID, {
+                    "deleted" : true
                 });
 
                 return res.json({success: true});
