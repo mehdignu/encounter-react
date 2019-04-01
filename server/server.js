@@ -25,7 +25,7 @@ const fileUploadMiddleware = require(__dirname+"/fileUploadMiddleware");
 /* App Configurations */
 /* ************************** */
 
-const API_PORT = 5000;
+const API_PORT = process.env.PORT || 3000;
 const app = express();
 const router = express.Router();
 
