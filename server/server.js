@@ -636,11 +636,17 @@ router.post('/files', upload.single('file'), fileUploadMiddleware, (req, res) =>
 /*     API Configuration        */
 /* **************************** */
 
-app.use(express.static(path.join(__dirname + '/app/build/index.html')));
+// app.use(express.static(path.join(__dirname + '/app/build/index.html')));
+// app.get('*', (req, res) => {
+//     res.sendFile(path.resolve(__dirname + '/app/build/index.html'));
+// });
 
 app.use("/api", router);
+app.use(express.static(path.join(__dirname, '/../build')));
+
+
 app.get('*', (req, res) => {
-    res.sendFile(path.resolve(__dirname + '/app/build/index.html'));
+    res.sendFile(path.join(__dirname + '/../build/index.html'));
 });
 
 // launch our backend into a port
