@@ -1,6 +1,6 @@
 const fs = require('fs');
-const publicKEY = fs.readFileSync('./keys/public.key', 'utf8');
-const tokenizer = require('./tokenizer.js');
+const publicKEY = fs.readFileSync(__dirname+'/keys/public.key', 'utf8');
+const tokenizer = require(__dirname + '/tokenizer.js');
 
 const checkToken = (req) => {
     //get the http header 'authorization'

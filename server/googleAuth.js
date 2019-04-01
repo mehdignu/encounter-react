@@ -1,4 +1,4 @@
-const credentials = require('./credentials.json');
+const credentials = require(__dirname+'/credentials.json');
 const GOOGLE_CLIENT_ID = credentials.client_id;
 const {OAuth2Client} = require('google-auth-library');
 var client = new OAuth2Client(GOOGLE_CLIENT_ID, '', '');

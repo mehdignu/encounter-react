@@ -7,8 +7,8 @@ const Event = require("./Model/Event");
 const Chatkit = require('@pusher/chatkit-server');
 const Pusher = require('pusher');
 const cors = require('cors');
-const googleAuth = require('./googleAuth.js');
-const tokenizer = require('./tokenizer.js');
+const googleAuth = require(__dirname+'/googleAuth.js');
+const tokenizer = require(__dirname+'/tokenizer.js');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
 const privateKEY = fs.readFileSync(__dirname+'/keys/private.key', 'utf8');
@@ -17,7 +17,7 @@ const path = require('path');
 
 const multer = require("multer");
 const cloudinary = require("cloudinary");
-const fileUploadMiddleware = require("./fileUploadMiddleware");
+const fileUploadMiddleware = require(__dirname+"/fileUploadMiddleware");
 
 
 
