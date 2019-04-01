@@ -30,12 +30,12 @@ const app = express();
 const router = express.Router();
 
 // this is our MongoDB database
-const dbRoute = "mongodb+srv://mehdi:CPagj5pN6U4jVAf@cluster0-wwkwm.mongodb.net/encounter?retryWrites=true";
+const dbRoute = "mongodb+srv://mehdi:CPagj5pN6U4jVAf@cluster0-wwkwm.mongodb.net/encounter";
 
 // connects our back end code with the database
 mongoose.connect(
-    dbRoute,
-    {useNewUrlParser: true}
+    dbRoute
+    // {useNewUrlParser: true}
 );
 
 //chat manager
