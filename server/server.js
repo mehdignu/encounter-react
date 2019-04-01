@@ -635,14 +635,13 @@ router.post('/files', upload.single('file'), fileUploadMiddleware, (req, res) =>
 /* **************************** */
 /*     API Configuration        */
 /* **************************** */
-app.use(express.static('build'));
 
+
+// append /api for our http requests
+app.use("/api", router);
 app.get('*', (req, res) => {
     res.sendFile(path.resolve(__dirname + '/app/build/index.html'));
 });
-// append /api for our http requests
-app.use("/api", router);
-
 // launch our backend into a port
 app.listen(API_PORT, () => console.log(`LISTENING ON PORT ${API_PORT}`));
 
