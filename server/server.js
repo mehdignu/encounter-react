@@ -635,15 +635,11 @@ router.post('/files', upload.single('file'), fileUploadMiddleware, (req, res) =>
 /* **************************** */
 /*     API Configuration        */
 /* **************************** */
-
-app.use(express.static(path.join(__dirname, '/../build')));
-
+app.use(express.static('build'));
 
 app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname + '/../build/index.html'));
+    res.sendFile(path.resolve(__dirname + '/app/build/index.html'));
 });
-
-
 
 // append /api for our http requests
 app.use("/api", router);
