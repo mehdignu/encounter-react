@@ -113,6 +113,15 @@ router.get("/getUser", session_check, (req, res) => {
 });
 
 
+router.get("/getUserID", session_check, (req, res) => {
+
+    var userID = req.query.userID;
+
+    if (err) return res.json({success: false, error: err});
+    return res.json({success: true, userID: userID});
+});
+
+
 router.get("/getUserEvent", session_check, (req, res) => {
 
     var userID = req.query.userID;
@@ -219,6 +228,26 @@ router.get("/getEvent", session_check, (req, res) => {
             return res.json({success: true, data: data});
         });
 });
+
+
+//get Eevnt from id to Show
+router.get("/getEventToShow", (req, res) => {
+
+    var eventID = req.query.eventID;
+
+    Event.findOne({
+            "_id": eventID
+        },{participants: 0, requester : 0, pusherID: 0 },
+        (err, data) => {
+
+
+            if (err) return res.json({success: false, error: err});
+            return res.json({success: true, data: data});
+        });
+});
+
+
+
 
 
 //get all user Events

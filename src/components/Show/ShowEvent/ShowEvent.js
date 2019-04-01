@@ -7,76 +7,224 @@ import PlaceIcon from '@material-ui/icons/Place';
 import AccessIcon from '@material-ui/icons/AccessTime';
 import CardMedia from "@material-ui/core/CardMedia";
 import Button from '@material-ui/core/Button';
+import Card from "@material-ui/core/Card";
+import axios from "axios";
+import * as actionTypes from "../../../store/actions";
+import {withStyles} from "@material-ui/core";
+import {connect} from "react-redux";
+import {withRouter} from "react-router-dom";
 
 
-const ShowEvent = (props) => (
+class ShowEvent extends React.Component {
 
-    <Paper className={cls.content} elevation={1}>
+    handleEventJoin = () => {
+        this.props.history.push('/event/' + this.props.eventID);
+    };
 
+    handleVisitor = () => {
+        if (!this.props.logBox.hidden) {
+            this.props.onLogHide();
 
-        <CardMedia
-            className={cls.eventMedia}
-            image="https://www.lastminute.com/hotels/img/city/New-York-NY-US.jpg"
-            title="Paella dish"
-        />
+        } else {
+            this.props.onLogShow();
 
-        <Typography variant="h3" className={cls.title}>
-            Event Title
-        </Typography>
-
-
-        <div className={cls.mainInfo}>
-
-            <div className={cls.placeInfo}>
-
-                <IconButton aria-label="Event place" disabled={true} className={cls.straightButt}>
+        }
+    };
 
 
-                    <PlaceIcon/>
+    handleDeleteRequest = () => {
+
+        this.setState({requested: false});
+
+        const userID = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+        const eventID = this.props.eventID;
+        const admin = this.props.admin;
+
+        //add the room to mongo
+        axios.post('/api/deleteRequest', {
+                admin: admin,
+                userID: userID,
+                eventID: eventID,
+
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+            })
+            .then(function (response) {
+
+                // a.this.props.onRequest();
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    };
 
 
-                </IconButton>
-                <Typography paragraph>
-                    Aristotelessteig 6, 10318 Berlin
+    handleJoinRequest = () => {
+
+        var a = this;
+        const eventName = this.props.title;
+        const admin = this.props.admin;
+        const userID = this.props.currentUser.user.user.id;
+        const token = this.props.currentUser.user.token;
+        const eventID = this.props.eventID;
+        const userName = this.props.currentUser.user.user.name;
+        const userPic = this.props.currentUser.user.user.pic;
+
+        //add the room to mongo
+        axios.post('/api/sendRequest', {
+
+                admin: admin,
+                userID: userID,
+                eventID: eventID,
+                eventName: eventName,
+                userName: userName,
+                userPic: userPic
+
+            },
+            {
+                headers: {
+                    'Authorization': `Bearer ${JSON.stringify(token)}`
+                }
+            })
+            .then(function (response) {
+
+                // a.this.props.onRequest();
+
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+
+    };
+
+
+    render() {
+
+
+        return (
+
+            <Paper className={cls.content} elevation={1}>
+
+
+                <CardMedia
+                    className={cls.eventMedia}
+                    image={this.props.image}
+                    title="Paella dish"
+                />
+
+                <Typography variant="h5" className={cls.title}>
+                    {this.props.title}
                 </Typography>
 
-            </div>
 
-            <div className={cls.timeInfo}>
+                <div className={cls.mainInfo}>
+
+                    <div className={cls.placeInfo}>
+
+                        <IconButton aria-label="Event place" disabled={true} className={cls.straightButt}>
 
 
-                <IconButton aria-label="Event time" disabled={true}>
-                    <AccessIcon/>
+                            <PlaceIcon/>
 
-                </IconButton>
 
-                <Typography paragraph>
-                    13th February 2019 10:00 AM
+                        </IconButton>
+
+                        <Typography paragraph>
+
+                            {this.props.loc}
+
+                        </Typography>
+
+                    </div>
+
+                    <div className={cls.timeInfo}>
+
+
+                        <IconButton aria-label="Event time" disabled={true}>
+                            <AccessIcon/>
+
+                        </IconButton>
+
+                        <Typography paragraph>
+                            {this.props.date} at {this.props.time}
+                        </Typography>
+                    </div>
+                </div>
+
+
+                <Typography className={cls.description}>
+
+                    {this.props.description}
                 </Typography>
-            </div>
-        </div>
 
 
-        <Typography className={cls.description}>
+                {(this.props.loggedIn) ?
 
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolore, maiores voluptates. Animi aut beatae
-            dignissimos dolor in, incidunt itaque natus nemo nobis quisquam repellat sapiente sequi soluta, tempore,
-            vero? Incidunt!
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aut blanditiis culpa dolor
-            dolorum error est, facere iure molestias nobis optio, qui ratione tempore veritatis voluptatum. Atque,
-            perferendis.
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet animi architecto aut blanditiis culpa dolor
-            dolorum error est, facere iure molestias nobis optio, qui ratione tempore veritatis voluptatum. Atque,
-            perferendis.
-        </Typography>
+                    (this.props.allowed) ?
+
+                        <Button onClick={this.handleEventJoin} variant="contained" color="primary"
+                                className={cls.joinButt}>
+                            join event
+                        </Button>
+
+                        :
+                        (this.props.requested) ?
+
+                            <Button onClick={this.handleDeleteRequest} variant="contained" color="secondary"
+                                    className={cls.joinButt}>
+                                request sent
+                            </Button>
+
+                            :
+
+                            <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
+                                    className={cls.joinButt}>
+                                request to join
+                            </Button>
 
 
-        <Button variant="contained" color="primary" className={cls.joinButt}>
-            Join the encounter
-        </Button>
+                    :
 
-    </Paper>
+                    <Button onClick={this.handleVisitor} variant="contained" color="primary"
+                            className={cls.joinButt}>
+                        Request to join
+                    </Button>
+                }
 
-);
+            </Paper>
 
-export default ShowEvent;
+        )
+    }
+}
+
+
+
+//redux store values
+const mapStateToProps = state => {
+    return {
+        currentUser: state.user,
+        currentRequests: state.requests,
+        logBox: state.login,
+
+
+    };
+};
+
+//dispatch actions that are going to be executed in the redux store
+const mapDispatchToProps = dispatch => {
+    return {
+        onRequest: () => dispatch({type: actionTypes.INCREMENT}),
+        onLogOut: () => dispatch({type: actionTypes.USER_SIGNEDOUT}),
+        onLogShow: () => dispatch({type: actionTypes.SHOW}),
+        onLogHide: () => dispatch({type: actionTypes.HIDE}),
+
+    }
+};
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(ShowEvent));

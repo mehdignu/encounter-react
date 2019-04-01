@@ -107,17 +107,19 @@ const footers = [
 function Footer(props) {
     const { classes } = props;
 
+    let key = 0;
+    let key2 = 0;
     return (
 
             <footer className={classNames(classes.footer, classes.layout)}>
                 <Grid container spacing={32} justify="space-evenly">
                     {footers.map(footer => (
-                        <Grid item xs key={footer.title}>
+                        <Grid item xs key={key++}>
                             <Typography variant="h6" color="textPrimary" gutterBottom>
                                 {footer.title}
                             </Typography>
                             {footer.description.map(item => (
-                                <Typography key={item} variant="subtitle1" color="textSecondary">
+                                <Typography key={key2++} variant="subtitle1" color="textSecondary">
                                     {item}
                                 </Typography>
                             ))}
