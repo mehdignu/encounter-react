@@ -11,8 +11,9 @@ const googleAuth = require('./googleAuth.js');
 const tokenizer = require('./tokenizer.js');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const privateKEY = fs.readFileSync('./keys/private.key', 'utf8');
+const privateKEY = fs.readFileSync('keys/private.key', 'utf8');
 const session_check = require("./middleware");
+const path = require('path');
 
 const multer = require("multer");
 const cloudinary = require("cloudinary");
