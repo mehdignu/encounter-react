@@ -44,8 +44,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="87" column="14" selection-start-line="87" selection-start-column="14" selection-end-line="87" selection-end-column="14" />
+            <state relative-caret-position="148">
+              <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -53,7 +53,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="432">
+            <state relative-caret-position="468">
               <caret line="650" lean-forward="true" selection-start-line="650" selection-end-line="650" />
             </state>
           </provider>
@@ -221,6 +221,11 @@
               <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
               <item name="encounter" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="encounter" type="462c0819:PsiDirectoryNode" />
+              <item name="server" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
@@ -360,12 +365,12 @@
       <workItem from="1554038309446" duration="16727000" />
       <workItem from="1554061190153" duration="13150000" />
       <workItem from="1554080800814" duration="3465000" />
-      <workItem from="1554108323011" duration="6600000" />
+      <workItem from="1554108323011" duration="7052000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="303357000" />
+    <option name="totallyTimeSpent" value="303809000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -828,15 +833,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="432">
+        <state relative-caret-position="468">
           <caret line="650" lean-forward="true" selection-start-line="650" selection-end-line="650" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="87" column="14" selection-start-line="87" selection-start-column="14" selection-end-line="87" selection-end-column="14" />
+        <state relative-caret-position="148">
+          <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
         </state>
       </provider>
     </entry>
