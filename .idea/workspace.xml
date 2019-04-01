@@ -45,7 +45,7 @@
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="148">
-              <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+              <caret line="89" column="13" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -53,8 +53,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="468">
-              <caret line="650" lean-forward="true" selection-start-line="650" selection-end-line="650" />
+            <state relative-caret-position="178">
+              <caret line="103" column="5" selection-start-line="103" selection-start-column="2" selection-end-line="103" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -95,7 +95,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>this.props.match.params.id</find>
       <find>name: 1</find>
       <find>reques</find>
       <find>notii</find>
@@ -125,6 +124,7 @@
       <find>keys</find>
       <find>listen</find>
       <find>liste</find>
+      <find>get</find>
     </findStrings>
     <replaceStrings>
       <replace>msg</replace>
@@ -365,12 +365,12 @@
       <workItem from="1554038309446" duration="16727000" />
       <workItem from="1554061190153" duration="13150000" />
       <workItem from="1554080800814" duration="3465000" />
-      <workItem from="1554108323011" duration="7052000" />
+      <workItem from="1554108323011" duration="7212000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="303809000" />
+    <option name="totallyTimeSpent" value="303969000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -833,15 +833,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/server/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="650" lean-forward="true" selection-start-line="650" selection-end-line="650" />
+        <state relative-caret-position="178">
+          <caret line="103" column="5" selection-start-line="103" selection-start-column="2" selection-end-line="103" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="148">
-          <caret line="89" column="38" selection-start-line="89" selection-start-column="38" selection-end-line="89" selection-end-column="38" />
+          <caret line="89" column="13" selection-start-line="89" selection-start-column="13" selection-end-line="89" selection-end-column="13" />
         </state>
       </provider>
     </entry>
