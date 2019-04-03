@@ -154,7 +154,7 @@ class Feed extends Component {
 
                             <Grid item xs>
 
-                                main page ads
+                                {/*main page ads*/}
 
                             </Grid>
                         </Hidden>

@@ -307,7 +307,7 @@ class Notifications extends Component {
 
                     <Grid item xs>
 
-                        create new ads
+                        {/*create new ads*/}
 
                     </Grid>
                 </Hidden>

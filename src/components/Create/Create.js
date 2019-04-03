@@ -44,7 +44,7 @@ const Feed = (props) => {
 
                     <Grid item xs>
 
-                        create new ads
+                        {/*create new ads*/}
 
                     </Grid>
                 </Hidden>

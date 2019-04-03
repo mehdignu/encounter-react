@@ -161,7 +161,7 @@ class ShowProfile extends React.Component {
 
                     <Grid item xs>
 
-                        show profile new ads
+                        {/*show profile new ads*/}
 
                     </Grid>
                 </Hidden>
