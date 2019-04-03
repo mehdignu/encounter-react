@@ -91,11 +91,12 @@ componentWillUnmount() {
         let loggedIn = false;
         let requested = false;
 
-        if (this.props.currentUser.user !== null) {
+        if (this.props.currentUser.user !== null && this.state.eventData.participants !== undefined) {
+
 
             //verify id plz
-            allowed = this.state.eventData.participants.includes(this.props.currentUser.user.user.id);
-            loggedIn = this.props.currentUser.isLoggedIn;
+            this.allowed = this.state.eventData.participants.includes(this.props.currentUser.user.user.id);
+            this.loggedIn = this.props.currentUser.isLoggedIn;
 
             for (var i = 0; i < this.state.eventData.requester.length; i++) {
                 if (this.state.eventData.requester[i].userID === this.props.currentUser.user.user.id) {
@@ -103,6 +104,8 @@ componentWillUnmount() {
                     break;
                 }
             }
+
+
         }
 
 

@@ -452,6 +452,27 @@ class Navigation extends Component {
 
     }
 
+
+
+
+    // componentDidUpdate(nextProps, nextContext) {
+    //     if(this.props.currentUser.events !== nextProps.currentUser.events){
+    //
+    //         console.log(nextProps);
+    //         console.log(this);
+    //         channeLoaded = false;
+    //
+    //
+    //     }
+    //
+    //
+    // }
+
+
+    componentWillMount() {
+        channeLoaded = false;
+    }
+
     render() {
 
         const {anchorEl, anchorN, anchorR, mobileMoreAnchorEl} = this.state;

@@ -63,7 +63,16 @@ class Feed extends Component {
 
             eventsFeed = this.props.currentUser.feed
 
+
                 .filter(x => moment({locale: "de"}).diff(x.date, 'hours') < 0)
+                //
+                // //sort the result
+                .sort(function (a, b) {
+                    if (a.date < b.date) return -1;
+                    if (a.date > b.date) return 1;
+                    return 0;
+                })
+
                 .map(
                     x => {
 

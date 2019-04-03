@@ -32,6 +32,7 @@ class Layout extends Component {
 
                     a.props.resetFeed();
                     a.props.getFeed(response.data.data);
+
                 }
 
             })

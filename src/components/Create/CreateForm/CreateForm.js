@@ -17,6 +17,8 @@ import * as actionTypes from "../../../store/actions";
 import {ClipLoader} from 'react-spinners';
 import {css} from '@emotion/core';
 import cls from "../../Event/EventBox/EventBox.scss";
+import * as params from '../../../client_params';
+
 
 const styles = theme => ({
     container: {
@@ -305,9 +307,9 @@ class CreateForm extends Component {
         if (this.props.currentUser.user !== null && !channeLoaded) {
 
             chatManager = new ChatManager({
-                instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
+                instanceLocator: params.instanceLocator,
                 userId: this.props.currentUser.user.user.id,
-                tokenProvider: new TokenProvider({url: 'https://us1.pusherplatform.io/services/chatkit_token_provider/v1/0bbd0f2e-db34-4853-b276-095eb3ef4762/token'})
+                tokenProvider: new TokenProvider({url: params.tokenProvider})
             });
         }
 

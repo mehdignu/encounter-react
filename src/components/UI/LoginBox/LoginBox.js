@@ -9,6 +9,7 @@ import axios from "axios";
 import {connect} from 'react-redux'
 import * as actionTypes from '../../../store/actions';
 import {default as Chatkit} from "@pusher/chatkit-server";
+import * as params from '../../../client_params';
 import Typography from "@material-ui/core/Typography";
 import MenuItem from "@material-ui/core/MenuItem";
 /* global gapi */
@@ -45,10 +46,9 @@ const styles = theme => ({
         marginTop: theme.spacing.unit * 3,
     },
 });
-
 const chatkit = new Chatkit({
-    instanceLocator: "v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762",
-    key: "898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g="
+    instanceLocator: params.instanceLocator,
+    key: params.key
 });
 
 class LoginBox extends Component {

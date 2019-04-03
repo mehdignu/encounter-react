@@ -7,25 +7,23 @@ const Event = require("./Model/Event");
 const Chatkit = require('@pusher/chatkit-server');
 const Pusher = require('pusher');
 const cors = require('cors');
-const googleAuth = require(__dirname+'/googleAuth.js');
-const tokenizer = require(__dirname+'/tokenizer.js');
+const googleAuth = require(__dirname + '/googleAuth.js');
+const tokenizer = require(__dirname + '/tokenizer.js');
 const fs = require('fs');
 const jwt = require('jsonwebtoken');
-const privateKEY = fs.readFileSync(__dirname+'/keys/private.key', 'utf8');
+const privateKEY = fs.readFileSync(__dirname + '/keys/private.key', 'utf8');
 const session_check = require("./middleware");
 const path = require('path');
-
 const multer = require("multer");
 const cloudinary = require("cloudinary");
-const fileUploadMiddleware = require(__dirname+"/fileUploadMiddleware");
-
-
+const fileUploadMiddleware = require(__dirname + "/fileUploadMiddleware");
+const constants = require('./server_params');
 
 /* ************************** */
 /* App Configurations */
 /* ************************** */
 
-const API_PORT = process.env.PORT || 3000;
+const API_PORT = process.env.PORT || 5000;
 const app = express();
 const router = express.Router();
 
@@ -40,15 +38,15 @@ mongoose.connect(
 
 //chat manager
 const chatkit = new Chatkit.default({
-    instanceLocator: 'v1:us1:0bbd0f2e-db34-4853-b276-095eb3ef4762',
-    key: '898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g=',
+    instanceLocator: constants.instanceLocator,
+    key: constants.key,
 });
 
 //pusher notifications instance
 var pusher = new Pusher({
-    appId: '741209',
-    key: 'b3c4b499cc2b3ff03699',
-    secret: 'eda0320d9a352b5470b7',
+    appId: constants.appId,
+    key: constants.keyPusher,
+    secret: constants.secret,
     cluster: 'eu',
     encrypted: true
 });
@@ -72,6 +70,7 @@ app.use(logger("dev"));
 /* ************************** */
 /* User database api endpoint */
 /* ************************** */
+
 
 router.post('/token', (req, res) => {
     try {
@@ -238,7 +237,8 @@ router.get("/getEventToShow", (req, res) => {
 
     Event.findOne({
             "_id": eventID
-        },{participants: 0, requester : 0, pusherID: 0 },
+        }, { pusherID: 0},
+        // }, {participants: 0, requester: 0, pusherID: 0},
         (err, data) => {
 
 
@@ -246,9 +246,6 @@ router.get("/getEventToShow", (req, res) => {
             return res.json({success: true, data: data});
         });
 });
-
-
-
 
 
 //get all user Events
@@ -442,7 +439,7 @@ router.post("/sendRequest", session_check, (req, res) => {
 
                 //send the notification to the user to update his butt
                 pusher.trigger('general-channel', userID, {
-                    "deleted" : true
+                    "deleted": true
                 });
                 return res.json({success: true});
 
@@ -504,7 +501,7 @@ router.post("/deleteRequest", session_check, (req, res) => {
 
                 //send the notification to the user to update his butt
                 pusher.trigger('general-channel', userID, {
-                    "deleted" : true
+                    "deleted": true
                 });
 
                 return res.json({success: true});
@@ -615,9 +612,9 @@ router.post("/allowUserRequest", session_check, (req, res) => {
 /* your servrer init and express code here */
 
 cloudinary.config({
-    cloud_name: 'drtbzzsis',
-    api_key: '839589289496339',
-    api_secret: 'vn8Yl0z3k9_o74lm3avOEWBBc4s'
+    cloud_name: constants.cloud_name,
+    api_key: constants.api_key,
+    api_secret: constants.api_secret
 });
 
 /**
@@ -625,7 +622,7 @@ cloudinary.config({
  */
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage });
+const upload = multer({storage});
 router.post('/files', upload.single('file'), fileUploadMiddleware, (req, res) => {
 
     return res.json({success: true, data: res});

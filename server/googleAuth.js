@@ -7,6 +7,7 @@ var client = new OAuth2Client(GOOGLE_CLIENT_ID, '', '');
 module.exports.getGoogleUser = (code) => {
     //verify the token using google client
 
+
     return client.verifyIdToken({idToken: code, audience: GOOGLE_CLIENT_ID})
         .then(login => {
             //if verification is ok, google returns a jwt

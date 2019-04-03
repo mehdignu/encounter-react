@@ -105,7 +105,7 @@ class NavMenu extends Component {
         const {classes, theme} = this.props;
 
         let key = 0;
-        let userEvents = <p>loading events</p>;
+        let userEvents = null;
         let userArchivedEvents = <p>loading archived events</p>;
 
         if (this.props.currentUser.user !== null && !channeLoaded) {
