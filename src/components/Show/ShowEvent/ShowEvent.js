@@ -17,6 +17,12 @@ import {withRouter} from "react-router-dom";
 
 class ShowEvent extends React.Component {
 
+    state = {
+        requested: this.props.requested,
+        allowed: this.props.allowed,
+        loggedIn: this.props.loggedIn,
+    };
+
     handleEventJoin = () => {
         this.props.history.push('/event/' + this.props.eventID);
     };
@@ -36,6 +42,7 @@ class ShowEvent extends React.Component {
 
         this.setState({requested: false});
 
+        var a = this;
         const userID = this.props.currentUser.user.user.id;
         const token = this.props.currentUser.user.token;
         const eventID = this.props.eventID;
@@ -55,6 +62,8 @@ class ShowEvent extends React.Component {
             })
             .then(function (response) {
 
+                if (response.status === 200)
+                    a.setState({requested: false});
                 // a.this.props.onRequest();
 
             })
@@ -92,7 +101,8 @@ class ShowEvent extends React.Component {
                 }
             })
             .then(function (response) {
-
+                if (response.status === 200)
+                    a.setState({requested: true});
                 // a.this.props.onRequest();
 
             })
@@ -104,7 +114,6 @@ class ShowEvent extends React.Component {
 
 
     render() {
-
 
         return (
 
@@ -165,7 +174,7 @@ class ShowEvent extends React.Component {
 
                 {(this.props.loggedIn) ?
 
-                    (this.props.allowed) ?
+                    (this.state.allowed) ?
 
                         <Button onClick={this.handleEventJoin} variant="contained" color="primary"
                                 className={cls.joinButt}>
@@ -173,7 +182,7 @@ class ShowEvent extends React.Component {
                         </Button>
 
                         :
-                        (this.props.requested) ?
+                        (this.state.requested) ?
 
                             <Button onClick={this.handleDeleteRequest} variant="contained" color="secondary"
                                     className={cls.joinButt}>
@@ -201,7 +210,6 @@ class ShowEvent extends React.Component {
         )
     }
 }
-
 
 
 //redux store values

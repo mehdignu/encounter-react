@@ -101,7 +101,7 @@ componentWillUnmount() {
 
             for (var i = 0; i < this.state.eventData.requester.length; i++) {
                 if (this.state.eventData.requester[i].userID === this.props.currentUser.user.user.id) {
-                    requested = true;
+                    this.requested = true;
                     break;
                 }
             }
@@ -135,6 +135,7 @@ componentWillUnmount() {
                             loggedIn={this.loggedIn}
                             requested={this.requested}
                             eventID={this.props.match.params.id}
+                            admin={this.state.eventData.admin}
 
                         />
 
