@@ -29,9 +29,7 @@ store.dispatch({ type: RESET_STATE });
 
 const app = (
     <BrowserRouter>
-
         <App/>
-
     </BrowserRouter>
 );
 
