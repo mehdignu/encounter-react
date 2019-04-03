@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="88a076d0-aee9-4761-a273-ef0ce5591b51" name="Default Changelist" comment="" />
+    <list default="true" id="88a076d0-aee9-4761-a273-ef0ce5591b51" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,20 +19,38 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/client_params.js">
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/public/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
+            <state relative-caret-position="890">
+              <caret line="72" selection-start-line="72" selection-end-line="72" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/public/manifest.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="15" selection-start-line="15" selection-end-line="15" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
+            <state relative-caret-position="170">
+              <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="true" current-in-tab="false">
+        <entry file="remoteDeploymentFS://&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter_old/public/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="221">
+              <caret line="13" column="15" selection-start-line="13" selection-start-column="15" selection-end-line="13" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -90,9 +111,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/src/components/Profile/ShowProfile/ShowProfile.js" />
-        <option value="$PROJECT_DIR$/src/components/Show/ShowEvent/ShowEvent.scss" />
-        <option value="$PROJECT_DIR$/src/components/Layout/Footer/Footer.js" />
         <option value="$PROJECT_DIR$/src/components/Show/ShowEvent/ShowEvent.js" />
         <option value="$PROJECT_DIR$/.env.development" />
         <option value="$PROJECT_DIR$/src/axios.js" />
@@ -135,12 +153,15 @@
         <option value="$PROJECT_DIR$/server_params.js" />
         <option value="$PROJECT_DIR$/server/server.js" />
         <option value="$PROJECT_DIR$/src/components/UI/LoginBox/LoginBox.js" />
-        <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/src/client_params.js" />
-        <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/server/server_params.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/.gitignore" />
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/src/client_params.js" />
+        <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/src/client_params.js" />
+        <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/server/server_params.js" />
+        <option value="$PROJECT_DIR$/src/index.js" />
+        <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/public/index.html" />
+        <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/public/manifest.json" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -164,6 +185,11 @@
             <path>
               <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
               <item name="encounter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="encounter" type="462c0819:PsiDirectoryNode" />
+              <item name="public" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
@@ -323,12 +349,12 @@
       <workItem from="1554162375060" duration="613000" />
       <workItem from="1554199271466" duration="198000" />
       <workItem from="1554217448821" duration="16803000" />
-      <workItem from="1554282760080" duration="2547000" />
+      <workItem from="1554282760080" duration="3065000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="329534000" />
+    <option name="totallyTimeSpent" value="330052000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -343,11 +369,11 @@
     <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4990099" visible="true" weight="0.25825346" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4990099" weight="0.25825346" />
       <window_info id="Structure" order="1" sideWeight="0.5009901" side_tool="true" weight="0.3312034" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info id="Remote Host" order="4" weight="0.17092651" />
+      <window_info active="true" id="Remote Host" order="4" visible="true" weight="0.17092651" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32970297" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.40792078" />
@@ -359,7 +385,7 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.5029703" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32871288" />
-      <window_info anchor="bottom" id="Terminal" order="11" visible="true" weight="0.3960396" />
+      <window_info anchor="bottom" id="Terminal" order="11" weight="0.3960396" />
       <window_info anchor="bottom" id="Command Line Tools Console" order="12" weight="0.32970297" />
       <window_info anchor="bottom" id="TypeScript" order="13" />
       <window_info anchor="bottom" id="File Transfer" order="14" weight="0.32970297" />
@@ -558,13 +584,6 @@
         <state relative-caret-position="-1112" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/axios.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/server/credentials.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -646,16 +665,6 @@
           <caret line="35" selection-start-line="35" selection-end-line="35" />
           <folding>
             <element signature="e#0#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="20" column="17" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -781,17 +790,34 @@
     <entry file="file://$PROJECT_DIR$/src/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="1" selection-start-line="7" selection-start-column="1" selection-end-line="7" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/client_params.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="153">
-          <caret line="9" column="3" selection-start-line="9" selection-start-column="3" selection-end-line="9" selection-end-column="3" />
+          <caret line="9" selection-start-line="9" selection-end-line="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/axios.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="272">
+          <caret line="31" column="14" selection-start-line="31" selection-start-column="14" selection-end-line="31" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="19" selection-start-line="10" selection-start-column="19" selection-end-line="10" selection-end-column="19" />
         </state>
       </provider>
     </entry>

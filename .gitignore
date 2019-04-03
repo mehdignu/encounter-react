@@ -4,8 +4,11 @@
 /node_modules
 /.pnp
 .pnp.js
+
 /src/client_params.js
 /server/server_params.js
+/public/index.html
+/public/favicon.ico
 
 # testing
 /coverage
