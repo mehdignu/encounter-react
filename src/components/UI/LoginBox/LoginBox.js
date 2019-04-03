@@ -148,6 +148,7 @@ class LoginBox extends Component {
                                             .then(function (response) {
                                                 a.props.onLoginIn();
 
+                                                a.props.onLogHide();
 
                                                 a.props.onFetchUser(payload);
 

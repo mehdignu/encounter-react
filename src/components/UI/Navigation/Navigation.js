@@ -187,6 +187,17 @@ class Navigation extends Component {
         this.setState({mobileMoreAnchorEl: null});
     };
 
+    //mobile requests
+    handleMobileRequets = () => {
+        this.props.history.push('/requests');
+        this.setState({mobileMoreAnchorEl: null});
+    };
+
+    //mobile notification
+    handleMobileNotifications = () => {
+        this.props.history.push('/notifications');
+        this.setState({mobileMoreAnchorEl: null});
+    };
 
     handleOpenProfile = () => {
         this.props.history.push('/edit_profile');
@@ -777,18 +788,18 @@ class Navigation extends Component {
                 onClose={this.handleMenuClose}
             >
 
-                <MenuItem onClick={this.handleMobileMenuClose}>
+                <MenuItem onClick={this.handleMobileRequets}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={0} color="secondary">
+                        <Badge badgeContent={this.props.currentUser.requests.length} color="secondary">
                             <PersonAddIcon/>
                         </Badge>
                     </IconButton>
                     <p>Requests</p>
                 </MenuItem>
 
-                <MenuItem onClick={this.handleMobileMenuClose}>
+                <MenuItem onClick={this.handleMobileNotifications}>
                     <IconButton color="inherit">
-                        <Badge badgeContent={11} color="secondary">
+                        <Badge badgeContent={this.props.currentUser.infos.length} color="secondary">
                             <NotificationsIcon/>
                         </Badge>
                     </IconButton>

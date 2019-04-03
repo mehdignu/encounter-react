@@ -26,6 +26,28 @@
 
 }
 
+
+/* A link that has not been visited */
+.link {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* A link that has been visited */
+.link a:visited {
+  color: black;
+}
+
+/* A link that is hovered on */
+.link a:hover {
+  color: black;
+}
+
+/* A link that is selected */
+.link a:active {
+  color: black;
+}
+
 .notifs p {
   padding-left: 4px;
   display: flex;
