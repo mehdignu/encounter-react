@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="88a076d0-aee9-4761-a273-ef0ce5591b51" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/client_params.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/client_params.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,11 +18,20 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.gitignore">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+            <state relative-caret-position="187">
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/client_params.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="153">
+              <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
             </state>
           </provider>
         </entry>
@@ -127,13 +136,13 @@
         <option value="$PROJECT_DIR$/src/components/UI/LoginBox/LoginBox.js" />
         <option value="$PROJECT_DIR$/src/App.js" />
         <option value="$PROJECT_DIR$/src/.gitignore" />
-        <option value="$PROJECT_DIR$/src/client_params.js" />
         <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/src/client_params.js" />
         <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/server/server_params.js" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/public/index.html" />
         <option value="&lt;b513a71e-2a6d-4142-b204-0fb41fa405cd&gt;/encounter-react/public/manifest.json" />
         <option value="$PROJECT_DIR$/.gitignore" />
+        <option value="$PROJECT_DIR$/src/client_params.js" />
       </list>
     </option>
   </component>
@@ -157,6 +166,11 @@
             <path>
               <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
               <item name="encounter" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="encounter" type="b2602c69:ProjectViewProjectNode" />
+              <item name="encounter" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -311,12 +325,12 @@
       <workItem from="1554162375060" duration="613000" />
       <workItem from="1554199271466" duration="198000" />
       <workItem from="1554217448821" duration="16803000" />
-      <workItem from="1554282760080" duration="3165000" />
+      <workItem from="1554282760080" duration="3299000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="330152000" />
+    <option name="totallyTimeSpent" value="330286000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -752,13 +766,6 @@
     <entry file="file://$PROJECT_DIR$/src/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/client_params.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="153">
-          <caret line="9" selection-start-line="9" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/axios.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
@@ -778,8 +785,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="1" selection-start-line="10" selection-start-column="1" selection-end-line="10" selection-end-column="1" />
+        <state relative-caret-position="187">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/client_params.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="4" selection-start-line="9" selection-start-column="4" selection-end-line="9" selection-end-column="4" />
         </state>
       </provider>
     </entry>
