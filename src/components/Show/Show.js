@@ -44,6 +44,7 @@ class Show extends React.Component {
 
                 if (response.status === 200) {
 
+
                     a.setState({eventData: response.data.data});
 
                 }
@@ -85,7 +86,7 @@ componentWillUnmount() {
 
         const eventDate = new MomentUtils({locale: "de"}).date(this.state.eventData.date).format("dddd, MMMM Do YYYY");
         const eventTime = new MomentUtils({locale: "de"}).date(this.state.eventData.time).format("H:mm a");
-        const imgDefault = this.state.eventData.eventImg ? this.state.eventData.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
+        const imgDefault = this.state.eventData.eventImg ? this.state.eventData.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/q_auto:low/v1553716807/michael-discenza-199756-unsplash.jpg";
 
         let allowed = false;
         let loggedIn = false;
@@ -133,6 +134,7 @@ componentWillUnmount() {
                             allowed={this.allowed}
                             loggedIn={this.loggedIn}
                             requested={this.requested}
+                            eventID={this.props.match.params.id}
 
                         />
 
@@ -141,7 +143,7 @@ componentWillUnmount() {
 
                         <Grid item xs={2}>
 
-                            show new ads
+                            {/*show new ads*/}
 
                         </Grid>
                     </Hidden>

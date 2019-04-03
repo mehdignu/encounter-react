@@ -187,7 +187,7 @@ class CardEvent extends Component {
             return null;
 
 
-        const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/v1553716807/michael-discenza-199756-unsplash.jpg";
+        const imgDefault = this.props.eventImg ? this.props.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/q_auto:low/v1553716807/michael-discenza-199756-unsplash.jpg";
 
         const allowed = this.props.allowed;
         const requested = this.props.requested;
