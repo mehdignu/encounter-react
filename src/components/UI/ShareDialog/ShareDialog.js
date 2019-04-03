@@ -64,7 +64,7 @@ class ShareDialog extends React.Component {
                                 id="name"
                                 label="Event Link"
                                 type="email"
-                                value={"/showEvent/" + this.props.dialog.eventID}
+                                value={"https://encounter.social/show/" + this.props.dialog.eventID}
                                 fullWidth
                             />
                         </DialogContent>

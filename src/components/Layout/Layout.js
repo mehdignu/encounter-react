@@ -203,7 +203,7 @@ class Layout extends Component {
 
             not = this.state.notifications.map(function (x) {
 
-                return <Snackbar msg={x.message} key={key2++}/>
+                return <Snackbar msg={x.message} variant={x.variant} key={key2++} />
             });
         }
 

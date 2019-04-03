@@ -165,7 +165,7 @@ router.post("/updateUser", session_check, (req, res) => {
         if (err) return res.json({success: false, error: err});
 
         pusher.trigger('general-channel', userID, {
-            "message": "user about is updated"
+            "message": "user about is updated", "variant": "info"
         });
 
         return res.json({success: true});
@@ -434,7 +434,8 @@ router.post("/sendRequest", session_check, (req, res) => {
 
                 //send the notification to the admin of the event
                 pusher.trigger('general-channel', admin, {
-                    "message": userName + " want to join " + eventName
+                    "message": userName + " want to join " + eventName,
+                    "variant": "info"
                 });
 
                 //send the notification to the user to update his butt
@@ -590,7 +591,7 @@ router.post("/allowUserRequest", session_check, (req, res) => {
 
                                 //send the notification to the admin of the event
                                 pusher.trigger('general-channel', userID, {
-                                    "message": msg
+                                    "message": msg, "variant": "success"
                                 });
                                 return res.json({success: true});
 
