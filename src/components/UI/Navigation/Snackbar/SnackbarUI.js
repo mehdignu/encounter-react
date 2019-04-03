@@ -131,7 +131,7 @@ class SnackbarUI extends React.Component {
                         <MySnackbarContentWrapper
                             onClose={this.handleClose}
                             variant="success"
-                            message="This is a success message!"
+                            message={this.props.msg}
                         />
                     </Snackbar>
                     :
@@ -148,7 +148,7 @@ class SnackbarUI extends React.Component {
                             variant="info"
                             onClose={this.handleClose}
                             className={classes.margin}
-                            message="This is an information message!"
+                            message={this.props.msg}
                         />
                     </Snackbar>
 
