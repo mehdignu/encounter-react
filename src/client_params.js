@@ -6,5 +6,3 @@ export const tokenProvider = 'https://us1.pusherplatform.io/services/chatkit_tok
 // chatkit
 export const key = '898c19ad-e17b-4e2a-9dfb-ecd215327d50:aJRKgR09pI+cPc+hGsT58d0fTEXxmVnoVk50Fs52Y4g=';
 
-
-dede
