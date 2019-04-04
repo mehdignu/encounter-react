@@ -113,7 +113,7 @@ class Show extends React.Component {
 
             }
                 .bind(this),
-            1000
+            500
         );
 
 
