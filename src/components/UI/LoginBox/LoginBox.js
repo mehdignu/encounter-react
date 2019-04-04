@@ -35,7 +35,7 @@ const styles = theme => ({
     },
     avatar: {
         margin: theme.spacing.unit,
-        backgroundColor: theme.palette.secondary.main,
+        backgroundColor: "#3D78CC",
     },
     form: {
         width: '100%', // Fix IE 11 issue.
@@ -246,17 +246,18 @@ class LoginBox extends Component {
             <div className={showLoginodal}>
                 <main ref={this.setWrapperRef} className={classes.main}>
                     <Paper className={classes.paper}>
+
                         <Avatar className={classes.avatar}>
                             <LockOutlinedIcon/>
                         </Avatar>
-
 
                         <form className={cls.form}>
 
                             <div className={cls.g}>
 
-                                <div className="g-signin2" onClick={this.onSignIn} data-width="230" data-height="50"
-                                     data-onsuccess="onSignIn"/>
+                                <div id="my-signin2" onClick={this.onSignIn} />
+
+
                             </div>
                         </form>
                     </Paper>
