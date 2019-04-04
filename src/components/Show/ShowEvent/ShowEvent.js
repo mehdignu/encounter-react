@@ -18,9 +18,9 @@ import {withRouter} from "react-router-dom";
 class ShowEvent extends React.Component {
 
     state = {
-        requested: this.props.requested,
-        allowed: this.props.allowed,
-        loggedIn: this.props.loggedIn,
+        requested: null,
+        allowed: null,
+        loggedIn: null,
     };
 
     handleEventJoin = () => {
@@ -112,8 +112,15 @@ class ShowEvent extends React.Component {
 
     };
 
+    componentWillMount() {
+
+        this.setState({requested: this.props.requested});
+        this.setState({allowed: this.props.allowed});
+        this.setState({loggedIn: this.props.loggedIn});
+    }
 
     render() {
+
 
         return (
 

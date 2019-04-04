@@ -22,7 +22,8 @@ class Show extends React.Component {
 
     state = {
 
-        eventData: null
+        eventData: null,
+        isLoggedIn: null
 
     };
 
@@ -30,8 +31,6 @@ class Show extends React.Component {
 
         var a = this;
         const eventId = this.props.match.params.id;
-        console.log(eventId);
-
 
         //get the events data from the database
         axios.get('/api/getEventToShow', {
@@ -50,6 +49,7 @@ class Show extends React.Component {
                 }
 
             })
+            .then(console.log(a.props.currentUser.isLoggedIn))
             .catch(function (error) {
                 console.log(error);
             });
@@ -57,9 +57,10 @@ class Show extends React.Component {
 
     };
 
-componentWillUnmount() {
-    lock = false;
-}
+
+    componentWillUnmount() {
+        lock = false;
+    }
 
     componentWillUpdate(nextProps, nextState, nextContext) {
 
@@ -88,26 +89,37 @@ componentWillUnmount() {
         const eventTime = new MomentUtils({locale: "de"}).date(this.state.eventData.time).format("H:mm a");
         const imgDefault = this.state.eventData.eventImg ? this.state.eventData.eventImg : "https://res.cloudinary.com/drtbzzsis/image/upload/q_auto:low/v1553716807/michael-discenza-199756-unsplash.jpg";
 
-        let allowed = false;
-        let loggedIn = false;
-        let requested = false;
+        let allowed = null;
+
+        let requested = null;
 
         if (this.props.currentUser.user !== null && this.state.eventData.participants !== undefined) {
 
+            allowed = this.state.eventData.participants.includes(this.props.currentUser.user.user.id);
 
-            //verify id plz
-            this.allowed = this.state.eventData.participants.includes(this.props.currentUser.user.user.id);
-            this.loggedIn = this.props.currentUser.isLoggedIn;
 
+            requested = false;
             for (var i = 0; i < this.state.eventData.requester.length; i++) {
                 if (this.state.eventData.requester[i].userID === this.props.currentUser.user.user.id) {
-                    this.requested = true;
+                    requested = true;
                     break;
                 }
             }
-
-
         }
+
+        setTimeout(
+            function() {
+                this.setState({isLoggedIn: this.props.currentUser.isLoggedIn})
+
+            }
+                .bind(this),
+            1000
+        );
+
+
+        if(this.state.isLoggedIn === null)
+            return null;
+
 
 
         return (
@@ -131,9 +143,9 @@ componentWillUnmount() {
                             time={eventTime}
                             date={eventDate}
                             loc={this.state.eventData.location}
-                            allowed={this.allowed}
-                            loggedIn={this.loggedIn}
-                            requested={this.requested}
+                            allowed={allowed}
+                            loggedIn={this.state.isLoggedIn}
+                            requested={requested}
                             eventID={this.props.match.params.id}
                             admin={this.state.eventData.admin}
 
@@ -163,6 +175,7 @@ componentWillUnmount() {
 const mapStateToProps = state => {
     return {
         currentUser: state.user,
+        lockerCurrent: state.locker,
 
     };
 };
