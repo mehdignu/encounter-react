@@ -8,6 +8,8 @@ import {connect} from "react-redux";
 import {withRouter} from "react-router-dom";
 import axios from "axios";
 import MomentUtils from "@date-io/moment";
+import Footer from "../Layout/Footer/Footer";
+import Aux from "../../hoc/Aux";
 
 let lock = false;
 const styles = theme => ({
@@ -108,7 +110,7 @@ class Show extends React.Component {
         }
 
         setTimeout(
-            function() {
+            function () {
                 this.setState({isLoggedIn: this.props.currentUser.isLoggedIn})
 
             }
@@ -117,52 +119,55 @@ class Show extends React.Component {
         );
 
 
-        if(this.state.isLoggedIn === null)
+        if (this.state.isLoggedIn === null)
             return null;
 
 
-
         return (
+            <Aux>
 
-            <div className={classes.root}>
-                <Grid container spacing={24}>
-                    <Hidden smDown>
+                <div className={classes.root}>
+                    <Grid container spacing={24}>
+                        <Hidden smDown>
 
-                        <Grid item xs={2}>
+                            <Grid item xs={2}>
 
+
+                            </Grid>
+                        </Hidden>
+                        <Grid item xs>
+
+                            <ShowEvent
+
+                                title={this.state.eventData.title}
+                                description={this.state.eventData.description}
+                                image={imgDefault}
+                                time={eventTime}
+                                date={eventDate}
+                                loc={this.state.eventData.location}
+                                allowed={allowed}
+                                loggedIn={this.state.isLoggedIn}
+                                requested={requested}
+                                eventID={this.props.match.params.id}
+                                admin={this.state.eventData.admin}
+
+                            />
 
                         </Grid>
-                    </Hidden>
-                    <Grid item xs>
+                        <Hidden smDown>
 
-                        <ShowEvent
+                            <Grid item xs={2}>
 
-                            title={this.state.eventData.title}
-                            description={this.state.eventData.description}
-                            image={imgDefault}
-                            time={eventTime}
-                            date={eventDate}
-                            loc={this.state.eventData.location}
-                            allowed={allowed}
-                            loggedIn={this.state.isLoggedIn}
-                            requested={requested}
-                            eventID={this.props.match.params.id}
-                            admin={this.state.eventData.admin}
+                                {/*show new ads*/}
 
-                        />
-
+                            </Grid>
+                        </Hidden>
                     </Grid>
-                    <Hidden smDown>
+                </div>
 
-                        <Grid item xs={2}>
+                <Footer/>
 
-                            {/*show new ads*/}
-
-                        </Grid>
-                    </Hidden>
-                </Grid>
-            </div>
-
+            </Aux>
 
         );
 
