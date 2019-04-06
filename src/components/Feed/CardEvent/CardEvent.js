@@ -304,7 +304,7 @@ class CardEvent extends Component {
 
                                 <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
                                         className={classes.Requestbutton}>
-                                    request to join event chat room
+                                    request to join
                                 </Button>
 
 
@@ -312,7 +312,7 @@ class CardEvent extends Component {
 
                         <Button onClick={this.handleVisitor} variant="contained" color="primary"
                                 className={classes.Visitorbutton}>
-                            request to join event chat room
+                            Request to join
                         </Button>
                     }
 

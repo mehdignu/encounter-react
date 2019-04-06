@@ -200,7 +200,7 @@ class ShowEvent extends React.Component {
 
                             <Button onClick={this.handleJoinRequest} variant="contained" color="primary"
                                     className={cls.joinButt}>
-                                request to join event chat room
+                                request to join
                             </Button>
 
 
@@ -208,7 +208,7 @@ class ShowEvent extends React.Component {
 
                     <Button onClick={this.handleVisitor} variant="contained" color="primary"
                             className={cls.joinButt}>
-                        request to join event chat room
+                        Request to join
                     </Button>
                 }
 
