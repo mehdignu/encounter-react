@@ -49,7 +49,7 @@ const About = (props) => (
 
                     <Typography className={cls.description}>
 
-                        If you are in a new city or you want to find people to have meet up with, encounter is the right place for you !
+                        If you are in a new city or you want to find people to meet up with, encounter is the right place for you !
 
                     </Typography>
 
