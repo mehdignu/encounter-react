@@ -132,7 +132,7 @@ function Footer(props) {
 
                     <Typography className={classNames(classes.footer2)} variant="subtitle1" color="textSecondary">
 
-                        copyright Encounter
+                        &copy; 2019 Encounter
 
                     </Typography>
 

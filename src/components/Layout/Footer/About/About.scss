@@ -1,7 +1,7 @@
 .content {
   display: block;
   flex-wrap: wrap;
-  height: 83vh;
+  height: auto;
   padding: 18px;
   position: relative;
 
@@ -10,10 +10,52 @@
 
 .title {
 
-  display: flex;
-  text-align: center;
-  padding-top: 0.5em;
+  //display: flex;
+  //text-align: left;
+  //padding-top: 11px;
+  //font-size: 0.975rem;
+
+  font-family: Open Sans,-apple-system,sans-serif;
+  font-weight: 400;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
 }
+
+.im{
+  display: block;
+  width: 100%;
+  margin: 2rem auto;
+}
+
+.link {
+  text-decoration: none;
+  padding-right: 3px;
+  color: #3F51B5;
+
+}
+
+/* A link that has not been visited */
+.link a {
+  color: #3F51B5;
+}
+
+/* A link that has been visited */
+.link a:visited {
+  color: #3F51B5;
+}
+
+/* A link that is hovered on */
+.link a:hover {
+  color: #3F51B5;
+}
+
+/* A link that is selected */
+.link a:active {
+  color: #3F51B5;
+}
+
 
 
 .mainInfo {
@@ -57,10 +99,6 @@
     height: 40px;
   }
 
-  .content .title {
-    font-size: 37px;
-  }
-
   .mainInfo {
     display: inline-grid;
   }
@@ -70,7 +108,7 @@
 .description {
   padding-top: 11px;
   font-size: 0.975rem;
-  text-align: center;
+  text-align: left;
 }
 
 .intro {
