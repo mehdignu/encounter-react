@@ -88,7 +88,7 @@ const tiers = [
 const footers = [
     {
         title: 'Encounter',
-        description: [<NavLink exact to={{pathname: '/about'}} className={cls.link}> about</NavLink>, <NavLink exact to={{pathname: '/contact'}}  className={cls.link}> contact</NavLink>],
+        description: [<NavLink exact to={{pathname: '/about'}} className={cls.link}> about</NavLink>],
     },
     {
         title: 'Features',
@@ -100,7 +100,7 @@ const footers = [
     // },
     {
         title: 'Legal',
-        description: [ <NavLink exact to={{pathname: '/privacy'}} className={cls.link} > Privacy policy</NavLink>, <NavLink exact to={{pathname: '/legal'}} className={cls.link} > Terms of use</NavLink>],
+        description: [ <NavLink exact to={{pathname: '/privacy'}} className={cls.link} > Privacy policy</NavLink>, <NavLink exact to={{pathname: '/legal'}} className={cls.link} > Terms of use</NavLink>, <NavLink exact to={{pathname: '/contact'}}  className={cls.link}> contact us</NavLink>],
     },
 ];
 
