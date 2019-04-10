@@ -41,6 +41,11 @@
   text-align: center;
 }
 
+.description {
+  padding-bottom: 11px;
+  text-align: center;
+}
+
 @media (max-width: 600px) {
 
   .content {
@@ -70,12 +75,14 @@
     display: inline-grid;
   }
 
+  .description {
+    padding-bottom: 11px;
+    text-align: left;
+  }
+
 }
 
-.description {
-  padding-bottom: 11px;
-  text-align: center;
-}
+
 
 .intro {
   padding: 5px;
