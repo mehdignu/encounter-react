@@ -37,6 +37,10 @@
   display: flex;
 }
 
+.inf p{
+  text-align: center;
+}
+
 @media (max-width: 600px) {
 
   .content {
@@ -70,6 +74,7 @@
 
 .description {
   padding-bottom: 11px;
+  text-align: center;
 }
 
 .intro {
